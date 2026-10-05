@@ -368,6 +368,10 @@ button:disabled {
   margin-top: 0;
 }
 
+.camera-actions .link-button {
+  grid-column: 1 / -1;
+}
+
 .leaderboard {
   padding-left: 24px;
 }
