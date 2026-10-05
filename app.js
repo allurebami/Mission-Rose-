@@ -132,7 +132,6 @@ const els = {
   rankMessage: document.getElementById("rank-message"),
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
-  donationWhatsapp: document.getElementById("donation-whatsapp"),
   chariowDonationWidget: document.getElementById("chariow-donation-widget"),
   chariowWidget: document.getElementById("chariow-widget"),
   chariowWidgetLabel: document.getElementById("chariow-widget-label"),
@@ -525,10 +524,9 @@ const chariowProducts = {
   "ambassadeur-rose": { id: "prd_hp8bw4xy", label: "Ambassadeur Rose" },
 };
 
-function openDonation(amount = 2000, category = "") {
+function openDonation(category = "") {
   const product = chariowProducts[category];
   els.chariowDonationWidget.hidden = !product;
-  els.donationWhatsapp.hidden = Boolean(product);
 
   if (product) {
     els.chariowWidget.dataset.productId = product.id;
@@ -548,17 +546,12 @@ function openDonation(amount = 2000, category = "") {
     chariowLoaded = true;
   }
 
-  const text = `Bonjour ElleGagne, je veux faire un don de ${Number(amount).toLocaleString(
-    "fr-FR"
-  )} FCFA pour soutenir les 5 femmes dans le besoin avec Mission Rose.`;
-  els.donationWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
   els.modal.hidden = false;
 }
 
 function closeDonation() {
   els.modal.hidden = true;
   els.chariowDonationWidget.hidden = true;
-  els.donationWhatsapp.hidden = false;
 }
 
 function restart() {
@@ -572,7 +565,7 @@ els.cameraBtn.addEventListener("click", enableCamera);
 els.captureBtn.addEventListener("click", capturePhoto);
 
 document.addEventListener("click", (event) => {
-  const target = event.target.closest("[data-action], [data-amount]");
+  const target = event.target.closest("[data-action], [data-category]");
   if (!target) return;
 
   const action = target.dataset.action;
@@ -580,8 +573,8 @@ document.addEventListener("click", (event) => {
   if (action === "donate") openDonation();
   if (action === "close-donation") closeDonation();
 
-  const amount = target.dataset.amount;
-  if (amount) openDonation(amount, target.dataset.category || "");
+  const category = target.dataset.category;
+  if (category) openDonation(category);
 });
 
 drawBadge();
