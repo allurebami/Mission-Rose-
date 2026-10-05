@@ -348,6 +348,10 @@ button:disabled {
   background: rgba(36, 19, 26, 0.45);
 }
 
+.modal[hidden] {
+  display: none;
+}
+
 .modal-content {
   position: relative;
   width: min(560px, 100%);
