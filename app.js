@@ -429,6 +429,16 @@ function drawBadge(videoFrame = null) {
   ctx.font = "700 34px Arial";
   ctx.fillText("Je soutiens Octobre Rose", 112, 282);
 
+  ctx.fillStyle = "#e83e7c";
+  roundRect(ctx, 72, 344, width - 144, 92, 46);
+  ctx.fill();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "800 44px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("#NONAUCANCERDUSEINS", width / 2, 404);
+  ctx.textAlign = "left";
+
   ctx.fillStyle = "#ffffff";
   ctx.font = "800 46px Arial";
   wrapText(ctx, "Elle gagne quand elle sait. Elle gagne quand elle se protège.", 72, 960, width - 144, 58);
