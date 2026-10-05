@@ -133,6 +133,9 @@ const els = {
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
   donationWhatsapp: document.getElementById("donation-whatsapp"),
+  levelMessageModal: document.getElementById("level-message-modal"),
+  levelMessageText: document.getElementById("level-message-text"),
+  levelMessageBtn: document.getElementById("level-message-btn"),
   camera: document.getElementById("camera"),
   canvas: document.getElementById("photo-canvas"),
   cameraBtn: document.getElementById("camera-btn"),
@@ -300,17 +303,30 @@ function nextRound() {
 
   if (state.roundIndex >= config.rounds) {
     state.score += Math.round(500 * config.multiplier);
-    alert(currentLevel().message);
-    state.levelIndex += 1;
-    state.roundIndex = 0;
-  }
+    showLevelMessage(currentLevel().message, () => {
+      state.levelIndex += 1;
+      state.roundIndex = 0;
 
-  if (state.levelIndex >= levels.length) {
-    finishGame();
+      if (state.levelIndex >= levels.length) {
+        finishGame();
+        return;
+      }
+
+      renderRound();
+    });
     return;
   }
 
   renderRound();
+}
+
+function showLevelMessage(message, onContinue) {
+  els.levelMessageText.textContent = message;
+  els.levelMessageModal.hidden = false;
+  els.levelMessageBtn.onclick = () => {
+    els.levelMessageModal.hidden = true;
+    onContinue();
+  };
 }
 
 function finishGame() {
@@ -461,7 +477,10 @@ async function enableCamera() {
     els.captureBtn.disabled = false;
   } catch (error) {
     els.captureBtn.disabled = true;
-    alert("La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.");
+    showLevelMessage(
+      "La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.",
+      () => {}
+    );
   }
 }
 
