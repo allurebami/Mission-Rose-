@@ -55,6 +55,47 @@ const initialLeaders = [
   { name: "Carine T.", score: 10200 },
 ];
 
+const explanations = {
+  "Parole": "Parler permet de demander de l'aide au bon moment.",
+  "Confiance": "La confiance aide à sortir de la peur et à agir.",
+  "Écoute": "Être écoutée peut encourager une femme à consulter.",
+  "Soutien": "Le soutien rend la démarche de santé moins lourde.",
+  "Silence": "Le silence peut retarder une consultation importante.",
+  "Honte": "La honte ne doit jamais passer avant la santé.",
+  "Tabou": "Un sujet tabou empêche souvent de chercher de l'aide.",
+  "Cache ça": "Cacher un signe inhabituel peut faire perdre du temps.",
+  "Je vérifie": "Vérifier tôt permet d'être rassurée ou prise en charge.",
+  "Je consulte": "Consulter reste le bon réflexe face à un signe inhabituel.",
+  "Je m'informe": "Une information fiable aide à prendre une bonne décision.",
+  "Je demande conseil": "Demander conseil peut ouvrir la porte à une solution.",
+  "Je vais attendre": "Attendre peut laisser évoluer un problème évitable.",
+  "Je préfère ignorer": "Ignorer un signe ne le fait pas disparaître.",
+  "Ça va passer": "Penser que tout va passer peut retarder l'action.",
+  "Je ne veux pas savoir": "Savoir tôt peut sauver et rassurer.",
+  "Information": "L'information fiable protège contre les mauvaises décisions.",
+  "Médecin": "Un professionnel de santé peut orienter correctement.",
+  "Dépistage": "Le dépistage précoce augmente les chances d'agir à temps.",
+  "Source fiable": "Une source fiable vaut mieux qu'une rumeur.",
+  "Rumeur": "Une rumeur peut éloigner d'une vraie solution médicale.",
+  "On dit que": "Les approximations peuvent créer de la peur inutile.",
+  "Remède miracle": "Un remède miracle peut retarder une prise en charge sérieuse.",
+  "Malédiction": "La maladie doit être comprise avec des faits, pas avec la peur.",
+  "Observer": "Observer son corps aide à remarquer un changement.",
+  "Vérifier": "Vérifier rapidement permet de ne pas rester dans le doute.",
+  "Signaler": "Signaler un changement aide à être accompagnée.",
+  "Consulter": "Consulter permet d'avoir un avis médical clair.",
+  "Ignorer": "Ignorer un signal peut empêcher une action rapide.",
+  "Cacher": "Cacher un problème isole et retarde l'aide.",
+  "Reporter": "Reporter une consultation peut faire perdre un temps précieux.",
+  "Minimiser": "Minimiser un signal peut empêcher de se protéger.",
+  "Vie": "La vie mérite d'être protégée par des gestes simples.",
+  "Santé": "La santé doit rester prioritaire face à la peur.",
+  "Action": "Agir tôt peut changer l'issue d'une situation.",
+  "Seule": "Personne ne devrait affronter cette peur seule.",
+  "Retard": "Le retard est dangereux quand un signe apparaît.",
+  "Découragement": "Le découragement bloque l'action et l'espoir.",
+};
+
 const state = {
   player: "",
   difficulty: "easy",
@@ -81,6 +122,7 @@ const els = {
   levelInstruction: document.getElementById("level-instruction"),
   choices: document.getElementById("choices"),
   feedback: document.getElementById("feedback"),
+  levelCard: document.querySelector(".level-card"),
   next: document.getElementById("next-btn"),
   score: document.getElementById("score"),
   progress: document.getElementById("progress-bar"),
@@ -132,8 +174,8 @@ function renderRound() {
   const goodWord = level.good[state.roundIndex % level.good.length];
   const badWord = level.bad[state.roundIndex % level.bad.length];
   const choices = shuffle([
-    { text: goodWord, type: "good" },
-    { text: badWord, type: "bad" },
+    { text: goodWord, type: "good", explanation: explanations[goodWord] },
+    { text: badWord, type: "bad", explanation: explanations[badWord] },
   ]);
 
   els.levelTitle.textContent = level.title;
@@ -154,14 +196,15 @@ function renderRound() {
     button.type = "button";
     button.className = "choice";
     button.textContent = choice.text;
-    button.addEventListener("click", () => selectChoice(button, choice.type));
+    button.addEventListener("click", () => selectChoice(button, choice));
     els.choices.appendChild(button);
   });
 }
 
-function selectChoice(button, type) {
+function selectChoice(button, choice) {
   if (state.selected) return;
   state.selected = true;
+  const type = choice.type;
   const config = currentConfig();
   const points = type === "good" ? 250 : -120;
   state.score = Math.max(0, state.score + Math.round(points * config.multiplier));
@@ -173,11 +216,33 @@ function selectChoice(button, type) {
   });
 
   els.score.textContent = state.score.toLocaleString("fr-FR");
+  triggerAnswerEffect(type, Math.round(points * config.multiplier));
   els.feedback.textContent =
     type === "good"
-      ? `+${Math.round(250 * config.multiplier)} points. C'est un mot qui peut sauver.`
-      : "Ce mot bloque l'action. Choisis un mot qui protège la santé.";
+      ? `Bonne réponse : +${Math.round(250 * config.multiplier)} points. ${choice.explanation}`
+      : `Mauvaise réponse : ce mot bloque l'action. ${choice.explanation}`;
   els.next.disabled = false;
+}
+
+function triggerAnswerEffect(type, points) {
+  const effectClass = type === "good" ? "answer-good" : "answer-bad";
+  const bubble = document.createElement("span");
+  bubble.className = `answer-bubble ${effectClass}`;
+  bubble.textContent = type === "good" ? `+${points}` : `${points}`;
+
+  els.levelCard.classList.remove("answer-good", "answer-bad");
+  els.score.parentElement.classList.remove("score-pop");
+  void els.levelCard.offsetWidth;
+
+  els.levelCard.classList.add(effectClass);
+  els.score.parentElement.classList.add("score-pop");
+  els.levelCard.appendChild(bubble);
+
+  window.setTimeout(() => {
+    els.levelCard.classList.remove(effectClass);
+    els.score.parentElement.classList.remove("score-pop");
+    bubble.remove();
+  }, 850);
 }
 
 function nextRound() {
