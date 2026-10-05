@@ -133,6 +133,7 @@ const els = {
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
   donationWhatsapp: document.getElementById("donation-whatsapp"),
+  gesteRoseWidget: document.getElementById("geste-rose-widget"),
   levelMessageModal: document.getElementById("level-message-modal"),
   levelMessageText: document.getElementById("level-message-text"),
   levelMessageBtn: document.getElementById("level-message-btn"),
@@ -514,7 +515,26 @@ function shareScore() {
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
-function openDonation(amount = 2000) {
+let chariowLoaded = false;
+
+function openDonation(amount = 2000, category = "") {
+  const isGesteRose = category === "geste-rose";
+  els.gesteRoseWidget.hidden = !isGesteRose;
+  els.donationWhatsapp.hidden = isGesteRose;
+
+  if (isGesteRose && !chariowLoaded) {
+    const stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = "https://js.chariowcdn.com/v1/widget.min.css";
+    document.head.appendChild(stylesheet);
+
+    const script = document.createElement("script");
+    script.src = "https://js.chariowcdn.com/v1/widget.min.js";
+    script.async = true;
+    document.head.appendChild(script);
+    chariowLoaded = true;
+  }
+
   const text = `Bonjour ElleGagne, je veux faire un don de ${Number(amount).toLocaleString(
     "fr-FR"
   )} FCFA pour soutenir les 5 femmes dans le besoin avec Mission Rose.`;
@@ -524,6 +544,8 @@ function openDonation(amount = 2000) {
 
 function closeDonation() {
   els.modal.hidden = true;
+  els.gesteRoseWidget.hidden = true;
+  els.donationWhatsapp.hidden = false;
 }
 
 function restart() {
@@ -537,13 +559,16 @@ els.cameraBtn.addEventListener("click", enableCamera);
 els.captureBtn.addEventListener("click", capturePhoto);
 
 document.addEventListener("click", (event) => {
-  const action = event.target.dataset.action;
+  const target = event.target.closest("[data-action], [data-amount]");
+  if (!target) return;
+
+  const action = target.dataset.action;
   if (action === "share") shareScore();
   if (action === "donate") openDonation();
   if (action === "close-donation") closeDonation();
 
-  const amount = event.target.dataset.amount;
-  if (amount) openDonation(amount);
+  const amount = target.dataset.amount;
+  if (amount) openDonation(amount, target.dataset.category || "");
 });
 
 drawBadge();
