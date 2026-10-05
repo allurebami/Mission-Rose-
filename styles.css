@@ -150,6 +150,11 @@ h3 {
   margin-bottom: 18px;
 }
 
+.level-card {
+  position: relative;
+  overflow: hidden;
+}
+
 label {
   display: block;
   margin: 14px 0 7px;
@@ -258,25 +263,23 @@ button:disabled {
 }
 
 .choice {
-  width: 100%;
   min-height: 76px;
-  padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 18px;
   color: var(--ink);
-  line-height: 1.25;
-  text-align: center;
   background: white;
 }
 
 .choice.good {
   border-color: rgba(13, 143, 103, 0.45);
   background: #ecfff7;
+  animation: good-choice 520ms ease;
 }
 
 .choice.bad {
   border-color: rgba(232, 62, 124, 0.45);
   background: #fff2f7;
+  animation: bad-choice 420ms ease;
 }
 
 .feedback {
@@ -288,6 +291,39 @@ button:disabled {
 .actions {
   display: grid;
   gap: 10px;
+}
+
+.answer-good {
+  animation: good-card 680ms ease;
+}
+
+.answer-bad {
+  animation: bad-card 520ms ease;
+}
+
+.score-pop {
+  animation: score-pop 460ms ease;
+}
+
+.answer-bubble {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  z-index: 2;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 900;
+  pointer-events: none;
+  animation: bubble-rise 850ms ease forwards;
+}
+
+.answer-bubble.answer-good {
+  background: var(--green-600);
+}
+
+.answer-bubble.answer-bad {
+  background: var(--rose-700);
 }
 
 .badge {
@@ -392,6 +428,102 @@ button:disabled {
   margin-top: 14px;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+@keyframes good-choice {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bad-choice {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-7px);
+  }
+
+  50% {
+    transform: translateX(7px);
+  }
+
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes good-card {
+  0% {
+    box-shadow: var(--shadow);
+  }
+
+  45% {
+    box-shadow: 0 0 0 5px rgba(13, 143, 103, 0.16), var(--shadow);
+  }
+
+  100% {
+    box-shadow: var(--shadow);
+  }
+}
+
+@keyframes bad-card {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes score-pop {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bubble-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scale(1.06);
+  }
 }
 
 @media (max-width: 620px) {
