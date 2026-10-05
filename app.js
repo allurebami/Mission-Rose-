@@ -105,6 +105,7 @@ const state = {
   selected: false,
   stream: null,
   photoUrl: "",
+  audioContext: null,
 };
 
 const screens = {
@@ -216,12 +217,60 @@ function selectChoice(button, choice) {
   });
 
   els.score.textContent = state.score.toLocaleString("fr-FR");
+  playAnswerSound(type);
   triggerAnswerEffect(type, Math.round(points * config.multiplier));
   els.feedback.textContent =
     type === "good"
       ? `Bonne réponse : +${Math.round(250 * config.multiplier)} points. ${choice.explanation}`
       : `Mauvaise réponse : ce mot bloque l'action. ${choice.explanation}`;
   els.next.disabled = false;
+}
+
+function getAudioContext() {
+  if (!state.audioContext) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return null;
+    state.audioContext = new AudioContext();
+  }
+
+  if (state.audioContext.state === "suspended") {
+    state.audioContext.resume();
+  }
+
+  return state.audioContext;
+}
+
+function playTone(context, frequency, startTime, duration, type = "sine", volume = 0.08) {
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startTime);
+  gain.gain.setValueAtTime(0.0001, startTime);
+  gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration + 0.02);
+}
+
+function playAnswerSound(type) {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const now = context.currentTime;
+
+  if (type === "good") {
+    playTone(context, 660, now, 0.11, "sine", 0.08);
+    playTone(context, 880, now + 0.09, 0.13, "sine", 0.07);
+    playTone(context, 1175, now + 0.18, 0.16, "triangle", 0.055);
+    return;
+  }
+
+  playTone(context, 220, now, 0.15, "sawtooth", 0.055);
+  playTone(context, 150, now + 0.12, 0.22, "sawtooth", 0.045);
 }
 
 function triggerAnswerEffect(type, points) {
