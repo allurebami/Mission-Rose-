@@ -414,37 +414,44 @@ function drawBadge(videoFrame = null) {
   ctx.fillRect(0, 0, width, height);
 
   ctx.fillStyle = "#ffffff";
-  roundRect(ctx, 72, 72, width - 144, 260, 36);
+  roundRect(ctx, 72, 72, width - 144, 210, 36);
   ctx.fill();
 
   ctx.fillStyle = "#0d8f67";
   ctx.font = "700 38px Arial";
   ctx.fillText("Mission Rose", 112, 140);
 
-  ctx.fillStyle = "#a5144f";
-  ctx.font = "800 64px Arial";
-  ctx.fillText(`${state.score.toLocaleString("fr-FR")} pts`, 112, 220);
-
   ctx.fillStyle = "#24131a";
   ctx.font = "700 34px Arial";
-  ctx.fillText("Je soutiens Octobre Rose", 112, 282);
+  ctx.fillText("Je soutiens Octobre Rose", 112, 220);
 
   ctx.fillStyle = "#e83e7c";
-  roundRect(ctx, 72, 344, width - 144, 92, 46);
+  roundRect(ctx, 72, 320, width - 144, 92, 46);
   ctx.fill();
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "800 44px Arial";
   ctx.textAlign = "center";
-  ctx.fillText("#NONAUCANCERDUSEINS", width / 2, 404);
+  ctx.fillText("#NONAUCANCERDUSEINS", width / 2, 380);
   ctx.textAlign = "left";
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "800 46px Arial";
-  wrapText(ctx, "Elle gagne quand elle sait. Elle gagne quand elle se protège.", 72, 960, width - 144, 58);
+  wrapText(ctx, "Elle gagne quand elle sait. Elle gagne quand elle se protège.", 72, 850, width - 144, 58);
+
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, 72, 988, width - 144, 92, 46);
+  ctx.fill();
+
+  ctx.fillStyle = "#a5144f";
+  ctx.font = "800 54px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(`${state.score.toLocaleString("fr-FR")} pts`, width / 2, 1048);
+  ctx.textAlign = "left";
 
   ctx.font = "700 30px Arial";
-  ctx.fillText("ellegagne.com", 72, 1120);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText("ellegagne.com", 72, 1130);
 
   state.photoUrl = els.canvas.toDataURL("image/png");
   els.downloadPhoto.href = state.photoUrl;
