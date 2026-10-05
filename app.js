@@ -517,12 +517,25 @@ function shareScore() {
 }
 
 let chariowLoaded = false;
+let chariowButtonObserver = null;
 const chariowProducts = {
   "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
   "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
   "cercle-rose": { id: "prd_0ub0fd3d", label: "Cercle Rose" },
   "ambassadeur-rose": { id: "prd_hp8bw4xy", label: "Ambassadeur Rose" },
 };
+
+function updateChariowButtonLabel() {
+  const controls = document.querySelectorAll(
+    "#chariow-widget button, #chariow-widget a, #chariow-widget [role='button']"
+  );
+
+  controls.forEach((control) => {
+    if (control.textContent.trim().toLocaleLowerCase("fr") !== "acheter maintenant") return;
+    control.textContent = "Soutenir cette action";
+    control.setAttribute("aria-label", "Soutenir cette action");
+  });
+}
 
 function openDonation(category = "") {
   const product = chariowProducts[category];
@@ -538,6 +551,9 @@ function openDonation(category = "") {
     stylesheet.rel = "stylesheet";
     stylesheet.href = "https://js.chariowcdn.com/v1/widget.min.css";
     document.head.appendChild(stylesheet);
+
+    chariowButtonObserver = new MutationObserver(updateChariowButtonLabel);
+    chariowButtonObserver.observe(document.body, { childList: true, subtree: true });
 
     const script = document.createElement("script");
     script.src = "https://js.chariowcdn.com/v1/widget.min.js";
