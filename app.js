@@ -518,6 +518,7 @@ function shareScore() {
 
 let chariowLoaded = false;
 let chariowButtonObserver = null;
+let donationRefreshTimer = null;
 const chariowProducts = {
   "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
   "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
@@ -563,11 +564,38 @@ function openDonation(category = "") {
   }
 
   els.modal.hidden = false;
+  loadDonationTotal();
+  if (donationRefreshTimer) window.clearInterval(donationRefreshTimer);
+  donationRefreshTimer = window.setInterval(() => {
+    if (!els.modal.hidden) loadDonationTotal();
+  }, 60000);
 }
 
 function closeDonation() {
   els.modal.hidden = true;
   els.chariowDonationWidget.hidden = true;
+  if (donationRefreshTimer) window.clearInterval(donationRefreshTimer);
+  donationRefreshTimer = null;
+}
+
+async function loadDonationTotal() {
+  const amount = document.getElementById("donation-total-amount");
+  const note = document.getElementById("donation-total-note");
+  try {
+    const response = await fetch("/api/donations", { cache: "no-store" });
+    if (!response.ok) throw new Error("Total indisponible");
+    const result = await response.json();
+    const formatted = new Intl.NumberFormat("fr-FR", {
+      style: "currency",
+      currency: result.currency || "XAF",
+      maximumFractionDigits: 0,
+    }).format(result.total || 0);
+    amount.textContent = formatted;
+    note.textContent = "Total des dons confirmés via Chariow · Actualisé automatiquement.";
+  } catch (error) {
+    amount.textContent = "Indisponible";
+    note.textContent = "Le total des dons sera affiché dès que la connexion Chariow sera active.";
+  }
 }
 
 function restart() {

@@ -416,6 +416,62 @@ button:disabled {
   background: var(--rose-100);
 }
 
+.donation-total {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #f5d2df;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fff7fa, #fff);
+}
+
+.donation-total-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.donation-total-heading .small,
+.donation-total-heading h3 {
+  margin: 0;
+}
+
+.donation-total-heading h3 {
+  font-size: 1rem;
+}
+
+.donation-total-heading strong {
+  color: var(--rose-700);
+  font-size: clamp(1.1rem, 4vw, 1.45rem);
+  text-align: right;
+}
+
+.donation-progress {
+  height: 10px;
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f8dce6;
+}
+
+.donation-progress span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0d8f67, #e83e7c);
+  animation: donation-flow 2.4s ease-in-out infinite alternate;
+}
+
+.donation-total > .small {
+  margin-bottom: 0;
+}
+
+@keyframes donation-flow {
+  from { transform: translateX(0); }
+  to { transform: translateX(135%); }
+}
+
 .donation-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
