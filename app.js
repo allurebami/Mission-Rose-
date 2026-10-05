@@ -522,6 +522,7 @@ const chariowProducts = {
   "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
   "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
   "cercle-rose": { id: "prd_0ub0fd3d", label: "Cercle Rose" },
+  "ambassadeur-rose": { id: "prd_hp8bw4xy", label: "Ambassadeur Rose" },
 };
 
 function openDonation(amount = 2000, category = "") {
