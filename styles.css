@@ -258,10 +258,14 @@ button:disabled {
 }
 
 .choice {
+  width: 100%;
   min-height: 76px;
+  padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 18px;
   color: var(--ink);
+  line-height: 1.25;
+  text-align: center;
   background: white;
 }
 
