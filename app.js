@@ -133,7 +133,9 @@ const els = {
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
   donationWhatsapp: document.getElementById("donation-whatsapp"),
-  gesteRoseWidget: document.getElementById("geste-rose-widget"),
+  chariowDonationWidget: document.getElementById("chariow-donation-widget"),
+  chariowWidget: document.getElementById("chariow-widget"),
+  chariowWidgetLabel: document.getElementById("chariow-widget-label"),
   levelMessageModal: document.getElementById("level-message-modal"),
   levelMessageText: document.getElementById("level-message-text"),
   levelMessageBtn: document.getElementById("level-message-btn"),
@@ -516,13 +518,22 @@ function shareScore() {
 }
 
 let chariowLoaded = false;
+const chariowProducts = {
+  "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
+  "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
+};
 
 function openDonation(amount = 2000, category = "") {
-  const isGesteRose = category === "geste-rose";
-  els.gesteRoseWidget.hidden = !isGesteRose;
-  els.donationWhatsapp.hidden = isGesteRose;
+  const product = chariowProducts[category];
+  els.chariowDonationWidget.hidden = !product;
+  els.donationWhatsapp.hidden = Boolean(product);
 
-  if (isGesteRose && !chariowLoaded) {
+  if (product) {
+    els.chariowWidget.dataset.productId = product.id;
+    els.chariowWidgetLabel.textContent = `Finalise ton don ${product.label} avec Chariow.`;
+  }
+
+  if (product && !chariowLoaded) {
     const stylesheet = document.createElement("link");
     stylesheet.rel = "stylesheet";
     stylesheet.href = "https://js.chariowcdn.com/v1/widget.min.css";
@@ -544,7 +555,7 @@ function openDonation(amount = 2000, category = "") {
 
 function closeDonation() {
   els.modal.hidden = true;
-  els.gesteRoseWidget.hidden = true;
+  els.chariowDonationWidget.hidden = true;
   els.donationWhatsapp.hidden = false;
 }
 
