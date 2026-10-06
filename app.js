@@ -96,6 +96,141 @@ const explanations = {
   "Découragement": "Le découragement bloque l'action et l'espoir.",
 };
 
+const browserLanguage = (navigator.languages || [navigator.language || "fr"])
+  .map((value) => value.toLowerCase().split("-")[0])
+  .find((value) => ["fr", "en"].includes(value));
+const language = browserLanguage || "fr";
+const numberLocale = language === "en" ? "en-US" : "fr-FR";
+
+const copy = {
+  fr: {
+    homeEyebrow: "Octobre Rose", sponsor: "Soutenu par ellegagne.com",
+    heroTitle: "Transforme les mots qui bloquent en mots qui sauvent.",
+    heroDescription: "Choisis les bons mots, évite les phrases dangereuses, réponds aux questions et tente d'entrer dans le Top 5.",
+    playerLabel: "Ton nom ou pseudo", playerPlaceholder: "Ex : Grâce M.",
+    difficultyLabel: "Difficulté", easy: "Facile", medium: "Moyen", hard: "Dur",
+    start: "Commencer le jeu", homeDonate: "Faire un don pour soutenir 5 femmes",
+    score: "Score", next: "Continuer", resultEyebrow: "Résultat final",
+    resultTitle: "Bravo, tu as terminé Mission Rose.", badge: "Badge",
+    badgeTitle: "Je soutiens Octobre Rose", filterTitle: "Ton filtre Mission Rose",
+    filterDescription: "Prends une photo avec le filtre <strong>#NONAUCANCERDUSEINS</strong>. Elle affichera ton score et le message de sensibilisation.",
+    camera: "Activer la caméra", capture: "Prendre la photo", download: "Télécharger la photo",
+    leaderboard: "Top 5 Mission Rose", share: "Partager mon score", donate: "Faire un don maintenant",
+    restart: "Rejouer", sponsorLink: "Découvrir ellegagne.com", donationEyebrow: "Action solidaire",
+    donationTitle: "Soutenir 5 femmes dans le besoin",
+    donationDescription: "Les dons de Mission Rose serviront à accompagner 5 femmes dans le cadre d'Octobre Rose : consultation, dépistage, transport ou besoin urgent.",
+    progressLabel: "Collecte en cours", totalTitle: "Ensemble, chaque geste compte",
+    totalLoading: "Chargement…", totalNote: "Total des dons confirmés via Chariow.",
+    totalUpdated: "Total des dons confirmés via Chariow · Actualisé automatiquement.",
+    totalUnavailable: "Indisponible", totalError: "Le total des dons sera affiché dès que la connexion Chariow sera active.",
+    progressAria: "Collecte solidaire en cours, sans objectif fixé",
+    levelProgressAria: "Progression des niveaux", close: "Fermer",
+    transparency: "Transparence : un résumé des fonds collectés et de leur répartition devra être publié à la fin de la campagne.",
+    widgetLabel: (name) => `Finalise ton don ${name} avec Chariow.`,
+    answerGood: (points, explanation) => `Bonne réponse : +${points} points. ${explanation}`,
+    answerBad: (explanation) => `Mauvaise réponse : ce mot bloque l'action. ${explanation}`,
+    summary: (name, score) => `${name}, ton score est de ${score} points. Tu as transformé les mots qui bloquent en mots qui sauvent.`,
+    rankTop: (rank) => `Tu es dans le Top 5 à la position ${rank}.`,
+    rankOther: (rank) => `Tu es actuellement ${rank}e. Rejoue en mode plus difficile pour viser le Top 5.`,
+    points: "pts", levelComplete: "Niveau terminé", cameraError: "La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.",
+    shareText: (score) => `Je viens de terminer Mission Rose, soutenu par ellegagne.com. Mon score : ${score} points. Et toi, peux-tu entrer dans le Top 5 ?`,
+    badgeMessage: "Je soutiens Octobre Rose", badgeSentence: "Elle gagne quand elle sait. Elle gagne quand elle se protège.",
+  },
+  en: {
+    homeEyebrow: "Breast Cancer Awareness Month", sponsor: "Supported by ellegagne.com",
+    heroTitle: "Turn words that hold us back into words that save lives.",
+    heroDescription: "Choose helpful words, avoid harmful phrases, answer the questions and try to make the Top 5.",
+    playerLabel: "Your name or nickname", playerPlaceholder: "E.g. Grace M.",
+    difficultyLabel: "Difficulty", easy: "Easy", medium: "Medium", hard: "Hard",
+    start: "Start the game", homeDonate: "Donate to support 5 women",
+    score: "Score", next: "Continue", resultEyebrow: "Final result",
+    resultTitle: "Well done! You completed Mission Rose.", badge: "Badge",
+    badgeTitle: "I support Breast Cancer Awareness Month", filterTitle: "Your Mission Rose filter",
+    filterDescription: "Take a photo with the <strong>#NONAUCANCERDUSEINS</strong> filter. It will show your score and an awareness message.",
+    camera: "Turn on camera", capture: "Take photo", download: "Download photo",
+    leaderboard: "Mission Rose Top 5", share: "Share my score", donate: "Donate now",
+    restart: "Play again", sponsorLink: "Visit ellegagne.com", donationEyebrow: "Solidarity campaign",
+    donationTitle: "Support 5 women in need",
+    donationDescription: "Mission Rose donations will support 5 women during Breast Cancer Awareness Month with consultations, screening, transport or urgent needs.",
+    progressLabel: "Campaign in progress", totalTitle: "Every contribution matters",
+    totalLoading: "Loading…", totalNote: "Confirmed donations through Chariow.",
+    totalUpdated: "Confirmed donations through Chariow · Updated automatically.",
+    totalUnavailable: "Unavailable", totalError: "The donation total will appear once the Chariow connection is active.",
+    progressAria: "Solidarity campaign in progress, no fixed target",
+    levelProgressAria: "Level progress", close: "Close",
+    transparency: "Transparency: a summary of the funds collected and how they are distributed will be published at the end of the campaign.",
+    widgetLabel: (name) => `Complete your ${name} contribution with Chariow.`,
+    answerGood: (points, explanation) => `Correct answer: +${points} points. ${explanation}`,
+    answerBad: (explanation) => `Not quite: this word can delay action. ${explanation}`,
+    summary: (name, score) => `${name}, your score is ${score} points. You turned words that hold us back into words that save lives.`,
+    rankTop: (rank) => `You are in the Top 5 at position ${rank}.`,
+    rankOther: (rank) => {
+      const remainder = rank % 100;
+      const suffix = remainder >= 11 && remainder <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[rank % 10] || "th");
+      return `You are currently in ${rank}${suffix} place. Try a harder level to reach the Top 5.`;
+    },
+    points: "pts", levelComplete: "Level complete", cameraError: "The camera is unavailable. You can still download your badge without a photo.",
+    shareText: (score) => `I just completed Mission Rose, supported by ellegagne.com. My score: ${score} points. Can you make the Top 5?`,
+    badgeMessage: "I support Breast Cancer Awareness", badgeSentence: "She wins when she knows. She wins when she protects herself.",
+  },
+};
+
+const englishLevels = [
+  { title: "Level 1: Breaking the silence", theme: "Learning to speak up", instruction: "Choose words that help a woman talk about her health.", good: ["Speak up", "Trust", "Listen", "Support"], bad: ["Silence", "Shame", "Taboo", "Hide it"], message: "Talking about an unusual change can be the first step toward getting help.", goodExplanations: ["Speaking up helps someone ask for help at the right time.", "Trust helps replace fear with action.", "Being listened to can encourage someone to seek care.", "Support can make the healthcare journey easier."], badExplanations: ["Silence can delay an important consultation.", "Shame should never come before health.", "Taboo can stop people from seeking help.", "Hiding an unusual sign can waste valuable time."] },
+  { title: "Level 2: Facing fear", theme: "Turning fear into action", instruction: "Replace phrases that hold us back with words that encourage action.", good: ["I will check", "I will see a clinician", "I will get informed", "I will ask for advice"], bad: ["I will wait", "I would rather ignore it", "It will go away", "I don't want to know"], message: "Fear should not stop action. Seeking advice early can help.", goodExplanations: ["Checking early can bring reassurance or timely care.", "A clinician can advise you about an unusual sign.", "Reliable information helps people make informed decisions.", "Asking for advice can open the door to support."], badExplanations: ["Waiting can allow a problem to worsen.", "Ignoring a sign does not make it disappear.", "Assuming it will pass can delay action.", "Finding out early can help and reassure you."] },
+  { title: "Level 3: Challenging myths", theme: "Countering misinformation", instruction: "Keep reliable information and avoid ideas that delay care.", good: ["Information", "Clinician", "Screening", "Trusted source"], bad: ["Rumour", "People say", "Miracle cure", "Curse"], message: "Reliable information is safer than a rumour that delays care.", goodExplanations: ["Reliable information helps people make safer decisions.", "A health professional can guide you.", "Screening can help detect a problem early.", "A trusted source is better than a rumour."], badExplanations: ["Rumours can keep people from finding real help.", "Unverified claims can create unnecessary fear.", "A miracle cure claim can delay proper care.", "Health conditions need facts and support, not fear."] },
+  { title: "Level 4: Listen to your body", theme: "Recognising changes", instruction: "Choose the right steps when your body shows an unusual change.", good: ["Notice", "Check", "Speak up", "Seek care"], bad: ["Ignore", "Hide", "Postpone", "Minimise"], message: "An unusual change deserves attention. Knowing your body is a way to care for yourself.", goodExplanations: ["Noticing changes helps you respond sooner.", "Getting checked can help resolve uncertainty.", "Talking about a change helps you find support.", "Seeking care can provide clear medical advice."], badExplanations: ["Ignoring a sign can delay action.", "Hiding a concern can leave you without support.", "Postponing a consultation can waste valuable time.", "Minimising a sign can stop you from protecting your health."] },
+  { title: "Level 5: Take action", theme: "Taking the next step", instruction: "Choose words that empower and help protect life.", good: ["Life", "Health", "Action", "Screening"], bad: ["Alone", "Delay", "Discouragement", "Silence"], message: "She wins when she knows. She wins when she speaks up. She wins when she protects herself.", goodExplanations: ["Life is worth protecting through timely care.", "Health deserves attention, even when we feel afraid.", "Taking action early can change what happens next.", "Screening can help identify a problem early."], badExplanations: ["No one should face this fear alone.", "Delays can matter when an unusual sign appears.", "Discouragement can make it harder to act.", "Silence can prevent someone from getting support."] },
+];
+
+function text(key) {
+  return copy[language][key] ?? copy.fr[key];
+}
+
+function formatNumber(value) {
+  return Number(value).toLocaleString(numberLocale);
+}
+
+function applyLanguage() {
+  document.documentElement.lang = language;
+  document.title = "Mission Rose";
+  const english = language === "en";
+  const description = english
+    ? "Mission Rose is an awareness game supported by ellegagne.com. Learn about breast health, share your score and support five women in need."
+    : "Mission Rose, un mini-jeu Octobre Rose soutenu par ellegagne.com pour apprendre les mots qui sauvent, partager son score et soutenir 5 femmes dans le besoin.";
+  document.getElementById("meta-description").content = description;
+  document.getElementById("og-description").content = description;
+  document.getElementById("twitter-description").content = description;
+  const nodes = {
+    "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
+    "hero-description": "heroDescription", "player-label": "playerLabel", "difficulty-label": "difficultyLabel",
+    "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
+    "start-button": "start", "home-donate-button": "homeDonate", "score-label": "score",
+    "next-btn": "next", "result-eyebrow": "resultEyebrow", "result-title": "resultTitle",
+    "badge-label": "badge", "badge-title": "badgeTitle", "filter-title": "filterTitle",
+    "camera-btn": "camera", "capture-btn": "capture", "download-photo": "download",
+    "leaderboard-title": "leaderboard", "share-button": "share", "result-donate-button": "donate",
+    "restart-btn": "restart", "sponsor-link": "sponsorLink", "donation-eyebrow": "donationEyebrow",
+    "donation-title": "donationTitle", "donation-description": "donationDescription",
+    "donation-progress-label": "progressLabel", "donation-total-title": "totalTitle",
+    "donation-total-amount": "totalLoading", "donation-total-note": "totalNote", "transparency-note": "transparency",
+    "level-message-title": "levelComplete", "level-message-btn": "next",
+    "close-donation": "close",
+  };
+  Object.entries(nodes).forEach(([id, key]) => {
+    const node = document.getElementById(id);
+    if (node) node.textContent = text(key);
+  });
+  document.getElementById("player-name").placeholder = text("playerPlaceholder");
+  document.getElementById("filter-description").innerHTML = text("filterDescription");
+  document.querySelector(".donation-progress").setAttribute("aria-label", text("progressAria"));
+  document.getElementById("level-progress-wrap").setAttribute("aria-label", text("levelProgressAria"));
+  document.getElementById("close-donation").setAttribute("aria-label", text("close"));
+  document.getElementById("chariow-widget").dataset.locale = language;
+}
+
+applyLanguage();
+
 const state = {
   player: "",
   difficulty: "easy",
@@ -159,12 +294,12 @@ function currentConfig() {
 }
 
 function currentLevel() {
-  return levels[state.levelIndex];
+  return language === "en" ? englishLevels[state.levelIndex] : levels[state.levelIndex];
 }
 
 function startGame(event) {
   event.preventDefault();
-  state.player = els.playerName.value.trim() || "Joueuse Rose";
+  state.player = els.playerName.value.trim() || (language === "en" ? "Rose Player" : "Joueuse Rose");
   state.difficulty = els.difficulty.value;
   state.levelIndex = 0;
   state.roundIndex = 0;
@@ -177,17 +312,18 @@ function startGame(event) {
 function renderRound() {
   const level = currentLevel();
   const config = currentConfig();
-  const goodWord = level.good[state.roundIndex % level.good.length];
-  const badWord = level.bad[state.roundIndex % level.bad.length];
+  const wordIndex = state.roundIndex % level.good.length;
+  const goodWord = level.good[wordIndex];
+  const badWord = level.bad[wordIndex];
   const choices = shuffle([
-    { text: goodWord, type: "good", explanation: explanations[goodWord] },
-    { text: badWord, type: "bad", explanation: explanations[badWord] },
+    { text: goodWord, type: "good", explanation: language === "en" ? level.goodExplanations[wordIndex] : explanations[goodWord] },
+    { text: badWord, type: "bad", explanation: language === "en" ? level.badExplanations[wordIndex] : explanations[badWord] },
   ]);
 
   els.levelTitle.textContent = level.title;
-  els.levelTheme.textContent = `${level.theme} · ${config.label}`;
+  els.levelTheme.textContent = `${level.theme} · ${text(state.difficulty)}`;
   els.levelInstruction.textContent = level.instruction;
-  els.score.textContent = state.score.toLocaleString("fr-FR");
+  els.score.textContent = formatNumber(state.score);
   els.feedback.textContent = "";
   els.next.disabled = true;
   state.selected = false;
@@ -221,13 +357,12 @@ function selectChoice(button, choice) {
     if (isClicked) child.classList.add(type);
   });
 
-  els.score.textContent = state.score.toLocaleString("fr-FR");
+  els.score.textContent = formatNumber(state.score);
   playAnswerSound(type);
   triggerAnswerEffect(type, Math.round(points * config.multiplier));
-  els.feedback.textContent =
-    type === "good"
-      ? `Bonne réponse : +${Math.round(250 * config.multiplier)} points. ${choice.explanation}`
-      : `Mauvaise réponse : ce mot bloque l'action. ${choice.explanation}`;
+  els.feedback.textContent = type === "good"
+    ? text("answerGood")(formatNumber(Math.round(250 * config.multiplier)), choice.explanation)
+    : text("answerBad")(choice.explanation);
   els.next.disabled = false;
 }
 
@@ -362,21 +497,16 @@ function renderResult() {
     (item) => item.name === state.player && item.score === state.score
   ) + 1;
 
-  els.summary.textContent = `${state.player}, ton score est de ${state.score.toLocaleString(
-    "fr-FR"
-  )} points. Tu as transformé les mots qui bloquent en mots qui sauvent.`;
+  els.summary.textContent = text("summary")(state.player, formatNumber(state.score));
 
   els.leaderboard.innerHTML = "";
   leaders.slice(0, 5).forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = `${item.name} — ${item.score.toLocaleString("fr-FR")} pts`;
+    li.textContent = `${item.name} — ${formatNumber(item.score)} ${text("points")}`;
     els.leaderboard.appendChild(li);
   });
 
-  els.rankMessage.textContent =
-    rank <= 5
-      ? `Tu es dans le Top 5 à la position ${rank}.`
-      : `Tu es actuellement ${rank}e. Rejoue en mode plus difficile pour viser le Top 5.`;
+  els.rankMessage.textContent = rank <= 5 ? text("rankTop")(rank) : text("rankOther")(rank);
 }
 
 function drawBadge(videoFrame = null) {
@@ -425,7 +555,7 @@ function drawBadge(videoFrame = null) {
 
   ctx.fillStyle = "#24131a";
   ctx.font = "700 34px Arial";
-  ctx.fillText("Je soutiens Octobre Rose", 112, 220);
+  ctx.fillText(text("badgeMessage"), 112, 220);
 
   ctx.fillStyle = "#e83e7c";
   roundRect(ctx, 72, 320, width - 144, 92, 46);
@@ -439,7 +569,7 @@ function drawBadge(videoFrame = null) {
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "800 46px Arial";
-  wrapText(ctx, "Elle gagne quand elle sait. Elle gagne quand elle se protège.", 72, 850, width - 144, 58);
+  wrapText(ctx, text("badgeSentence"), 72, 850, width - 144, 58);
 
   ctx.fillStyle = "#ffffff";
   roundRect(ctx, 72, 988, width - 144, 92, 46);
@@ -448,7 +578,7 @@ function drawBadge(videoFrame = null) {
   ctx.fillStyle = "#a5144f";
   ctx.font = "800 54px Arial";
   ctx.textAlign = "center";
-  ctx.fillText(`${state.score.toLocaleString("fr-FR")} pts`, width / 2, 1048);
+  ctx.fillText(`${formatNumber(state.score)} ${text("points")}`, width / 2, 1048);
   ctx.textAlign = "left";
 
   ctx.font = "700 30px Arial";
@@ -496,10 +626,7 @@ async function enableCamera() {
     els.captureBtn.disabled = false;
   } catch (error) {
     els.captureBtn.disabled = true;
-    showLevelMessage(
-      "La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.",
-      () => {}
-    );
+    showLevelMessage(text("cameraError"), () => {});
   }
 }
 
@@ -509,10 +636,8 @@ function capturePhoto() {
 }
 
 function shareScore() {
-  const text = `Je viens de terminer Mission Rose, soutenu par ellegagne.com. Mon score : ${state.score.toLocaleString(
-    "fr-FR"
-  )} points. Et toi, peux-tu entrer dans le Top 5 ?`;
-  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  const message = text("shareText")(formatNumber(state.score));
+  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
@@ -544,7 +669,8 @@ function openDonation(category = "") {
 
   if (product) {
     els.chariowWidget.dataset.productId = product.id;
-    els.chariowWidgetLabel.textContent = `Finalise ton don ${product.label} avec Chariow.`;
+    els.chariowWidgetLabel.textContent = text("widgetLabel")(product.label);
+    els.chariowWidget.dataset.locale = language;
   }
 
   if (product && !chariowLoaded) {
@@ -585,16 +711,16 @@ async function loadDonationTotal() {
     const response = await fetch("/api/donations", { cache: "no-store" });
     if (!response.ok) throw new Error("Total indisponible");
     const result = await response.json();
-    const formatted = new Intl.NumberFormat("fr-FR", {
+    const formatted = new Intl.NumberFormat(numberLocale, {
       style: "currency",
       currency: result.currency || "XAF",
       maximumFractionDigits: 0,
     }).format(result.total || 0);
     amount.textContent = formatted;
-    note.textContent = "Total des dons confirmés via Chariow · Actualisé automatiquement.";
+    note.textContent = text("totalUpdated");
   } catch (error) {
-    amount.textContent = "Indisponible";
-    note.textContent = "Le total des dons sera affiché dès que la connexion Chariow sera active.";
+    amount.textContent = text("totalUnavailable");
+    note.textContent = text("totalError");
   }
 }
 

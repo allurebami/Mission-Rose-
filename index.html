@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
+    <meta id="meta-description"
       name="description"
       content="Mission Rose, un mini-jeu Octobre Rose soutenu par ellegagne.com pour apprendre les mots qui sauvent, partager son score et soutenir 5 femmes dans le besoin."
     />
     <meta name="theme-color" content="#e83e7c" />
     <meta property="og:title" content="Mission Rose" />
-    <meta
+    <meta id="og-description"
       property="og:description"
       content="Un mini-jeu Octobre Rose soutenu par ellegagne.com pour apprendre les mots qui sauvent, partager son score et soutenir 5 femmes dans le besoin."
     />
@@ -17,7 +17,7 @@
     <meta property="og:site_name" content="Mission Rose" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Mission Rose" />
-    <meta
+    <meta id="twitter-description"
       name="twitter:description"
       content="Apprends les mots qui sauvent, partage ton score et soutiens 5 femmes dans le besoin."
     />
@@ -31,23 +31,23 @@
         <div class="brand">
           <span class="brand-mark">MR</span>
           <div>
-            <p class="eyebrow">Octobre Rose</p>
+            <p class="eyebrow" id="home-eyebrow">Octobre Rose</p>
             <h1>Mission Rose</h1>
-            <p class="sponsor">Soutenu par ellegagne.com</p>
+            <p class="sponsor" id="sponsor-label">Soutenu par ellegagne.com</p>
           </div>
         </div>
 
         <div class="hero">
           <div class="ribbon" aria-hidden="true"></div>
-          <h2>Transforme les mots qui bloquent en mots qui sauvent.</h2>
-          <p>
+          <h2 id="hero-title">Transforme les mots qui bloquent en mots qui sauvent.</h2>
+          <p id="hero-description">
             Choisis les bons mots, évite les phrases dangereuses, réponds aux
             questions et tente d'entrer dans le Top 5.
           </p>
         </div>
 
         <form id="player-form" class="panel">
-          <label for="player-name">Ton nom ou pseudo</label>
+          <label id="player-label" for="player-name">Ton nom ou pseudo</label>
           <input
             id="player-name"
             type="text"
@@ -56,15 +56,15 @@
             required
           />
 
-          <label for="difficulty">Difficulté</label>
+          <label id="difficulty-label" for="difficulty">Difficulté</label>
           <select id="difficulty">
-            <option value="easy">Facile</option>
-            <option value="medium">Moyen</option>
-            <option value="hard">Dur</option>
+            <option value="easy" id="difficulty-easy">Facile</option>
+            <option value="medium" id="difficulty-medium">Moyen</option>
+            <option value="hard" id="difficulty-hard">Dur</option>
           </select>
 
-          <button type="submit" class="primary">Commencer le jeu</button>
-          <button type="button" class="secondary" data-action="donate">
+          <button id="start-button" type="submit" class="primary">Commencer le jeu</button>
+          <button id="home-donate-button" type="button" class="secondary" data-action="donate">
             Faire un don pour soutenir 5 femmes
           </button>
         </form>
@@ -73,16 +73,16 @@
       <section id="screen-game" class="screen">
         <header class="game-header">
           <div>
-            <p class="eyebrow">Mission Rose</p>
+            <p class="eyebrow" id="game-eyebrow">Mission Rose</p>
             <h2 id="level-title">Niveau 1</h2>
           </div>
           <div class="score-box">
-            <span>Score</span>
+            <span id="score-label">Score</span>
             <strong id="score">0</strong>
           </div>
         </header>
 
-        <div class="progress-wrap" aria-label="Progression des niveaux">
+        <div id="level-progress-wrap" class="progress-wrap" aria-label="Progression des niveaux">
           <div id="progress-bar" class="progress-bar"></div>
         </div>
 
@@ -102,22 +102,18 @@
 
       <section id="screen-result" class="screen">
         <div class="result-card">
-          <p class="eyebrow">Résultat final</p>
-          <h2>Bravo, tu as terminé Mission Rose.</h2>
+          <p class="eyebrow" id="result-eyebrow">Résultat final</p>
+          <h2 id="result-title">Bravo, tu as terminé Mission Rose.</h2>
           <p id="result-summary"></p>
           <div class="badge">
-            <span>Badge</span>
-            <strong>Je soutiens Octobre Rose</strong>
+            <span id="badge-label">Badge</span>
+            <strong id="badge-title">Je soutiens Octobre Rose</strong>
           </div>
         </div>
 
         <div class="panel">
-          <h3>Ton filtre Mission Rose</h3>
-          <p>
-            Prends une photo avec le filtre
-            <strong>#NONAUCANCERDUSEINS</strong>. Elle affichera ton score et le
-            message de sensibilisation.
-          </p>
+          <h3 id="filter-title">Ton filtre Mission Rose</h3>
+          <p id="filter-description">Prends une photo avec le filtre <strong>#NONAUCANCERDUSEINS</strong>. Elle affichera ton score et le message de sensibilisation.</p>
           <div class="actions grid-actions camera-actions">
             <button id="camera-btn" class="secondary" type="button">
               Activer la caméra
@@ -134,22 +130,22 @@
         </div>
 
         <div class="panel">
-          <h3>Top 5 Mission Rose</h3>
+          <h3 id="leaderboard-title">Top 5 Mission Rose</h3>
           <ol id="leaderboard" class="leaderboard"></ol>
           <p id="rank-message" class="feedback"></p>
         </div>
 
         <div class="actions final-actions">
-          <button class="primary" type="button" data-action="share">
+          <button id="share-button" class="primary" type="button" data-action="share">
             Partager mon score
           </button>
-          <button class="secondary" type="button" data-action="donate">
+          <button id="result-donate-button" class="secondary" type="button" data-action="donate">
             Faire un don maintenant
           </button>
           <button id="restart-btn" class="secondary" type="button">
             Rejouer
           </button>
-          <a class="text-link" href="https://ellegagne.com" target="_blank" rel="noreferrer">
+          <a id="sponsor-link" class="text-link" href="https://ellegagne.com" target="_blank" rel="noreferrer">
             Découvrir ellegagne.com
           </a>
         </div>
@@ -158,12 +154,12 @@
 
     <div id="donation-modal" class="modal" hidden>
       <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="donation-title">
-        <button class="close" type="button" data-action="close-donation" aria-label="Fermer">
+        <button id="close-donation" class="close" type="button" data-action="close-donation" aria-label="Fermer">
           ×
         </button>
-        <p class="eyebrow">Action solidaire</p>
+        <p class="eyebrow" id="donation-eyebrow">Action solidaire</p>
         <h2 id="donation-title">Soutenir 5 femmes dans le besoin</h2>
-        <p>
+        <p id="donation-description">
           Les dons de Mission Rose serviront à accompagner 5 femmes
           dans le cadre d'Octobre Rose : consultation, dépistage, transport ou
           besoin urgent.
@@ -171,7 +167,7 @@
         <section class="donation-total" aria-labelledby="donation-total-title">
           <div class="donation-total-heading">
             <div>
-              <p class="small">Collecte en cours</p>
+              <p class="small" id="donation-progress-label">Collecte en cours</p>
               <h3 id="donation-total-title">Ensemble, chaque geste compte</h3>
             </div>
             <strong id="donation-total-amount" aria-live="polite">Chargement…</strong>
@@ -199,7 +195,7 @@
             data-locale="fr"
             data-primary-color="#ffcc00"></div>
         </div>
-        <p class="small">
+        <p id="transparency-note" class="small">
           Transparence : un résumé des fonds collectés et de leur répartition
           devra être publié à la fin de la campagne.
         </p>
@@ -208,7 +204,7 @@
 
     <div id="level-message-modal" class="modal" hidden>
       <div class="modal-content level-message-content" role="dialog" aria-modal="true" aria-labelledby="level-message-title">
-        <p class="eyebrow">Mission Rose</p>
+        <p class="eyebrow" id="level-message-eyebrow">Mission Rose</p>
         <h2 id="level-message-title">Niveau terminé</h2>
         <p id="level-message-text"></p>
         <button id="level-message-btn" class="primary" type="button">
