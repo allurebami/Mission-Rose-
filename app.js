@@ -127,8 +127,8 @@ const copy = {
     levelProgressAria: "Progression des niveaux", close: "Fermer",
     transparency: "Transparence : un résumé des fonds collectés et de leur répartition devra être publié à la fin de la campagne.",
     widgetLabel: (name) => `Finalise ton don ${name} avec Chariow.`,
-    donationBonusAdded: "+375 points ajoutés à ton score pour ce clic, même sans finaliser le don.",
-    donationBonusQueued: "+375 points enregistrés pour ta prochaine partie, même sans finaliser le don.",
+    donationBonusAdded: (points) => `+${points} points ajoutés à ton score pour ce clic, même sans finaliser le don.`,
+    donationBonusQueued: (points) => `+${points} points enregistrés pour ta prochaine partie, même sans finaliser le don.`,
     answerGood: (points, explanation) => `Bonne réponse : +${points} points. ${explanation}`,
     answerBad: (explanation) => `Mauvaise réponse : ce mot bloque l'action. ${explanation}`,
     summary: (name, score) => `${name}, ton score est de ${score} points. Tu as transformé les mots qui bloquent en mots qui sauvent.`,
@@ -163,8 +163,8 @@ const copy = {
     levelProgressAria: "Level progress", close: "Close",
     transparency: "Transparency: a summary of the funds collected and how they are distributed will be published at the end of the campaign.",
     widgetLabel: (name) => `Complete your ${name} contribution with Chariow.`,
-    donationBonusAdded: "+375 points added to your score for this click, even if you don't complete the donation.",
-    donationBonusQueued: "+375 points saved for your next game, even if you don't complete the donation.",
+    donationBonusAdded: (points) => `+${points} points added to your score for this click, even if you don't complete the donation.`,
+    donationBonusQueued: (points) => `+${points} points saved for your next game, even if you don't complete the donation.`,
     answerGood: (points, explanation) => `Correct answer: +${points} points. ${explanation}`,
     answerBad: (explanation) => `Not quite: this word can delay action. ${explanation}`,
     summary: (name, score) => `${name}, your score is ${score} points. You turned words that hold us back into words that save lives.`,
@@ -199,8 +199,8 @@ const copy = {
     progressAria: "Colecta solidaria en curso, sin objetivo fijado", levelProgressAria: "Progreso de niveles", close: "Cerrar",
     transparency: "Transparencia: al final de la campaña se publicará un resumen de los fondos recaudados y su distribución.",
     widgetLabel: (name) => `Completa tu aportación ${name} con Chariow.`,
-    donationBonusAdded: "+375 puntos añadidos por este clic, aunque no completes la donación.",
-    donationBonusQueued: "+375 puntos guardados para tu próxima partida, aunque no completes la donación.",
+    donationBonusAdded: (points) => `+${points} puntos añadidos por este clic, aunque no completes la donación.`,
+    donationBonusQueued: (points) => `+${points} puntos guardados para tu próxima partida, aunque no completes la donación.`,
     answerGood: (points, explanation) => `Respuesta correcta: +${points} puntos. ${explanation}`,
     answerBad: (explanation) => `Respuesta incorrecta: esta palabra puede retrasar la acción. ${explanation}`,
     summary: (name, score) => `${name}, tu puntuación es de ${score} puntos. Convertiste palabras que frenan en palabras que salvan.`,
@@ -230,8 +230,8 @@ const copy = {
     progressAria: "Campanha solidária em andamento, sem meta definida", levelProgressAria: "Progresso dos níveis", close: "Fechar",
     transparency: "Transparência: um resumo dos valores arrecadados e da sua distribuição será publicado ao final da campanha.",
     widgetLabel: (name) => `Finalize sua contribuição ${name} com Chariow.`,
-    donationBonusAdded: "+375 pontos adicionados por este clique, mesmo sem concluir a doação.",
-    donationBonusQueued: "+375 pontos reservados para sua próxima partida, mesmo sem concluir a doação.",
+    donationBonusAdded: (points) => `+${points} pontos adicionados por este clique, mesmo sem concluir a doação.`,
+    donationBonusQueued: (points) => `+${points} pontos reservados para sua próxima partida, mesmo sem concluir a doação.`,
     answerGood: (points, explanation) => `Resposta correta: +${points} pontos. ${explanation}`,
     answerBad: (explanation) => `Resposta incorreta: esta palavra pode atrasar a ação. ${explanation}`,
     summary: (name, score) => `${name}, sua pontuação é de ${score} pontos. Você transformou palavras que bloqueiam em palavras que salvam.`,
@@ -261,8 +261,8 @@ const copy = {
     progressAria: "Solidaritätsaktion läuft, ohne festes Spendenziel", levelProgressAria: "Spielfortschritt", close: "Schließen",
     transparency: "Transparenz: Eine Übersicht der gesammelten Mittel und ihrer Verteilung wird am Ende der Kampagne veröffentlicht.",
     widgetLabel: (name) => `Schließe deine ${name}-Unterstützung mit Chariow ab.`,
-    donationBonusAdded: "+375 Punkte für diesen Klick hinzugefügt, auch ohne abgeschlossene Spende.",
-    donationBonusQueued: "+375 Punkte für dein nächstes Spiel vorgemerkt, auch ohne abgeschlossene Spende.",
+    donationBonusAdded: (points) => `+${points} Punkte für diesen Klick hinzugefügt, auch ohne abgeschlossene Spende.`,
+    donationBonusQueued: (points) => `+${points} Punkte für dein nächstes Spiel vorgemerkt, auch ohne abgeschlossene Spende.`,
     answerGood: (points, explanation) => `Richtige Antwort: +${points} Punkte. ${explanation}`,
     answerBad: (explanation) => `Nicht ganz: Dieses Wort kann zum Aufschieben führen. ${explanation}`,
     summary: (name, score) => `${name}, du hast ${score} Punkte erreicht. Du hast bremsende Worte in stärkende Worte verwandelt.`,
@@ -292,8 +292,8 @@ const copy = {
     progressAria: "爱心募捐进行中，未设定固定目标", levelProgressAria: "关卡进度", close: "关闭",
     transparency: "透明说明：活动结束后将公布筹集资金及其分配情况。",
     widgetLabel: (name) => `通过 Chariow 完成 ${name} 支持。`,
-    donationBonusAdded: "本次点击已加 375 分，即使没有完成捐赠也有效。",
-    donationBonusQueued: "已为你的下一局记下 375 分，即使没有完成捐赠也有效。",
+    donationBonusAdded: (points) => `本次点击已加 ${points} 分，即使没有完成捐赠也有效。`,
+    donationBonusQueued: (points) => `已为你的下一局记下 ${points} 分，即使没有完成捐赠也有效。`,
     answerGood: (points, explanation) => `回答正确：+${points} 分。${explanation}`,
     answerBad: (explanation) => `回答不正确：这类说法可能延误行动。${explanation}`,
     summary: (name, score) => `${name}，你的分数是 ${score} 分。你把阻碍行动的话语变成了守护生命的话语。`,
@@ -323,8 +323,8 @@ const copy = {
     progressAria: "حملة تضامنية مستمرة دون هدف مالي محدد", levelProgressAria: "التقدم في المراحل", close: "إغلاق",
     transparency: "الشفافية: سيُنشر في نهاية الحملة ملخص للأموال المجموعة وكيفية توزيعها.",
     widgetLabel: (name) => `أكملي مساهمة ${name} عبر Chariow.`,
-    donationBonusAdded: "أُضيفت 375 نقطة مقابل هذه النقرة، حتى دون إتمام التبرع.",
-    donationBonusQueued: "سُجلت 375 نقطة للجولة القادمة، حتى دون إتمام التبرع.",
+    donationBonusAdded: (points) => `أُضيفت ${points} نقطة مقابل هذه النقرة، حتى دون إتمام التبرع.`,
+    donationBonusQueued: (points) => `سُجلت ${points} نقطة للجولة القادمة، حتى دون إتمام التبرع.`,
     answerGood: (points, explanation) => `إجابة صحيحة: +${points} نقطة. ${explanation}`,
     answerBad: (explanation) => `إجابة غير صحيحة: قد تؤخر هذه العبارة طلب المساعدة. ${explanation}`,
     summary: (name, score) => `${name}، نتيجتك ${score} نقطة. حوّلتِ الكلمات التي تعيقك إلى كلمات تدعم الحياة.`,
@@ -354,8 +354,8 @@ const copy = {
     progressAria: "Kampeni ya msaada inaendelea, bila lengo maalum", levelProgressAria: "Maendeleo ya viwango", close: "Funga",
     transparency: "Uwazi: muhtasari wa fedha zilizokusanywa na matumizi yake utachapishwa kampeni itakapokamilika.",
     widgetLabel: (name) => `Kamilisha mchango wako wa ${name} kupitia Chariow.`,
-    donationBonusAdded: "+375 alama zimeongezwa kwa kubofya huku, hata bila kukamilisha mchango.",
-    donationBonusQueued: "+375 alama zimehifadhiwa kwa mchezo wako ujao, hata bila kukamilisha mchango.",
+    donationBonusAdded: (points) => `+${points} alama zimeongezwa kwa kubofya huku, hata bila kukamilisha mchango.`,
+    donationBonusQueued: (points) => `+${points} alama zimehifadhiwa kwa mchezo wako ujao, hata bila kukamilisha mchango.`,
     answerGood: (points, explanation) => `Jibu sahihi: +${points} alama. ${explanation}`,
     answerBad: (explanation) => `Jibu lisilo sahihi: kauli hii inaweza kuchelewesha hatua. ${explanation}`,
     summary: (name, score) => `${name}, umepata alama ${score}. Umebadilisha maneno yanayokwamisha kuwa maneno yanayookoa.`,
@@ -474,7 +474,7 @@ const state = {
   stream: null,
   photoUrl: "",
   audioContext: null,
-  pendingDonationClicks: 0,
+  pendingDonationPoints: 0,
   gameStarted: false,
   gameFinished: false,
   savedScoreId: null,
@@ -541,8 +541,8 @@ function startGame(event) {
   state.difficulty = els.difficulty.value;
   state.levelIndex = 0;
   state.roundIndex = 0;
-  state.score = state.pendingDonationClicks * 375;
-  state.pendingDonationClicks = 0;
+  state.score = state.pendingDonationPoints;
+  state.pendingDonationPoints = 0;
   state.selected = false;
   state.gameStarted = true;
   state.gameFinished = false;
@@ -917,10 +917,10 @@ function shareScore() {
 let chariowLoaded = false;
 let chariowButtonObserver = null;
 const chariowProducts = {
-  "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
-  "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
-  "cercle-rose": { id: "prd_0ub0fd3d", label: "Cercle Rose" },
-  "ambassadeur-rose": { id: "prd_hp8bw4xy", label: "Ambassadeur Rose" },
+  "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose", points: 50 },
+  "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose", points: 100 },
+  "cercle-rose": { id: "prd_0ub0fd3d", label: "Cercle Rose", points: 200 },
+  "ambassadeur-rose": { id: "prd_hp8bw4xy", label: "Ambassadeur Rose", points: 300 },
 };
 
 function updateChariowButtonLabel() {
@@ -964,17 +964,19 @@ function openDonation(category = "") {
   els.modal.hidden = false;
 }
 
-function awardDonationClick() {
+function awardDonationClick(category) {
+  const points = chariowProducts[category]?.points || 0;
+  if (!points) return;
   const notice = document.getElementById("donation-bonus-note");
 
   if (!state.gameStarted && !state.gameFinished) {
-    state.pendingDonationClicks += 1;
-    notice.textContent = text("donationBonusQueued");
+    state.pendingDonationPoints += points;
+    notice.textContent = text("donationBonusQueued")(points);
     return;
   }
 
-  state.score += 375;
-  notice.textContent = text("donationBonusAdded");
+  state.score += points;
+  notice.textContent = text("donationBonusAdded")(points);
 
   if (state.gameFinished) {
     const saved = JSON.parse(localStorage.getItem("missionRoseLeaders") || "[]");
@@ -1025,7 +1027,7 @@ document.addEventListener("click", (event) => {
 
   const category = target.dataset.category;
   if (category) {
-    awardDonationClick();
+    awardDonationClick(category);
     openDonation(category);
   }
 });

@@ -428,6 +428,13 @@ button:disabled {
   background: var(--rose-100);
 }
 
+.donation-grid button span {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.82em;
+  font-weight: 700;
+}
+
 .small {
   margin-top: 14px;
   color: var(--muted);
