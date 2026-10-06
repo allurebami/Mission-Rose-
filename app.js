@@ -431,8 +431,7 @@ function applyLanguage() {
     "leaderboard-title": "leaderboard", "share-button": "share", "result-donate-button": "donate",
     "restart-btn": "restart", "sponsor-link": "sponsorLink", "donation-eyebrow": "donationEyebrow",
     "donation-title": "donationTitle", "donation-description": "donationDescription",
-    "donation-progress-label": "progressLabel", "donation-total-title": "totalTitle",
-    "donation-total-amount": "totalLoading", "donation-total-note": "totalNote", "transparency-note": "transparency",
+    "transparency-note": "transparency",
     "level-message-title": "levelComplete", "level-message-btn": "next",
     "close-donation": "close",
   };
@@ -442,7 +441,6 @@ function applyLanguage() {
   });
   document.getElementById("player-name").placeholder = text("playerPlaceholder");
   document.getElementById("filter-description").innerHTML = text("filterDescription");
-  document.querySelector(".donation-progress").setAttribute("aria-label", text("progressAria"));
   document.getElementById("level-progress-wrap").setAttribute("aria-label", text("levelProgressAria"));
   document.getElementById("close-donation").setAttribute("aria-label", text("close"));
   document.getElementById("chariow-widget").dataset.locale = language === "en" ? "en" : "fr";
@@ -863,7 +861,6 @@ function shareScore() {
 
 let chariowLoaded = false;
 let chariowButtonObserver = null;
-let donationRefreshTimer = null;
 const chariowProducts = {
   "geste-rose": { id: "prd_gz0nbtei", label: "Geste Rose" },
   "elan-rose": { id: "prd_3lo0zuwp", label: "Élan Rose" },
@@ -910,38 +907,11 @@ function openDonation(category = "") {
   }
 
   els.modal.hidden = false;
-  loadDonationTotal();
-  if (donationRefreshTimer) window.clearInterval(donationRefreshTimer);
-  donationRefreshTimer = window.setInterval(() => {
-    if (!els.modal.hidden) loadDonationTotal();
-  }, 60000);
 }
 
 function closeDonation() {
   els.modal.hidden = true;
   els.chariowDonationWidget.hidden = true;
-  if (donationRefreshTimer) window.clearInterval(donationRefreshTimer);
-  donationRefreshTimer = null;
-}
-
-async function loadDonationTotal() {
-  const amount = document.getElementById("donation-total-amount");
-  const note = document.getElementById("donation-total-note");
-  try {
-    const response = await fetch("/api/donations", { cache: "no-store" });
-    if (!response.ok) throw new Error("Total indisponible");
-    const result = await response.json();
-    const formatted = new Intl.NumberFormat(numberLocale, {
-      style: "currency",
-      currency: result.currency || "XAF",
-      maximumFractionDigits: 0,
-    }).format(result.total || 0);
-    amount.textContent = formatted;
-    note.textContent = text("totalUpdated");
-  } catch (error) {
-    amount.textContent = text("totalUnavailable");
-    note.textContent = text("totalError");
-  }
 }
 
 function restart() {
