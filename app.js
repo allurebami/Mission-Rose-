@@ -47,14 +47,6 @@ const difficultyConfig = {
   hard: { label: "Dur", multiplier: 2, rounds: 6 },
 };
 
-const initialLeaders = [
-  { name: "Grâce M.", score: 12400 },
-  { name: "Sandra K.", score: 11950 },
-  { name: "Aïcha B.", score: 11600 },
-  { name: "Mireille N.", score: 10850 },
-  { name: "Carine T.", score: 10200 },
-];
-
 const explanations = {
   "Parole": "Parler permet de demander de l'aide au bon moment.",
   "Confiance": "La confiance aide à sortir de la peur et à agir.",
@@ -115,7 +107,7 @@ const copy = {
     badgeTitle: "Je soutiens Octobre Rose", filterTitle: "Ton filtre Mission Rose",
     filterDescription: "Prends une photo avec le filtre <strong>#NONAUCANCERDUSEINS</strong>. Elle affichera ton score et le message de sensibilisation.",
     camera: "Activer la caméra", capture: "Prendre la photo", download: "Télécharger la photo",
-    leaderboard: "Top 5 Mission Rose", share: "Partager mon score", donate: "Faire un don maintenant",
+    leaderboard: "Top 5 mondial Mission Rose", share: "Partager mon score", donate: "Faire un don maintenant",
     restart: "Rejouer", sponsorLink: "Découvrir ellegagne.com", donationEyebrow: "Action solidaire",
     donationTitle: "Soutenir 5 femmes dans le besoin",
     donationDescription: "Les dons de Mission Rose serviront à accompagner 5 femmes dans le cadre d'Octobre Rose : consultation, dépistage, transport ou besoin urgent.",
@@ -133,7 +125,9 @@ const copy = {
     answerBad: (explanation) => `Mauvaise réponse : ce mot bloque l'action. ${explanation}`,
     summary: (name, score) => `${name}, ton score est de ${score} points. Tu as transformé les mots qui bloquent en mots qui sauvent.`,
     rankTop: (rank) => `Tu es dans le Top 5 à la position ${rank}.`,
-    rankOther: (rank) => `Tu es actuellement ${rank}e. Rejoue en mode plus difficile pour viser le Top 5.`,
+    rankOther: () => "Ton score ne figure pas encore dans le Top 5 mondial. Rejoue pour améliorer ton classement.",
+    leaderboardLoading: "Chargement du classement mondial…", leaderboardUnavailable: "Classement mondial indisponible pour le moment. Ton score reste conservé sur cet appareil.",
+    leaderboardEmpty: "Aucun score mondial pour le moment. Sois la première à jouer !",
     points: "pts", levelComplete: "Niveau terminé", cameraError: "La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.",
     shareText: (score) => `Je viens de terminer Mission Rose, soutenu par ellegagne.com. Mon score : ${score} points. Et toi, peux-tu entrer dans le Top 5 ?`,
     badgeMessage: "Je soutiens Octobre Rose", badgeSentence: "Elle gagne quand elle sait. Elle gagne quand elle se protège.",
@@ -151,7 +145,7 @@ const copy = {
     badgeTitle: "I support Breast Cancer Awareness Month", filterTitle: "Your Mission Rose filter",
     filterDescription: "Take a photo with the <strong>#NONAUCANCERDUSEINS</strong> filter. It will show your score and an awareness message.",
     camera: "Turn on camera", capture: "Take photo", download: "Download photo",
-    leaderboard: "Mission Rose Top 5", share: "Share my score", donate: "Donate now",
+    leaderboard: "Mission Rose Global Top 5", share: "Share my score", donate: "Donate now",
     restart: "Play again", sponsorLink: "Visit ellegagne.com", donationEyebrow: "Solidarity campaign",
     donationTitle: "Support 5 women in need",
     donationDescription: "Mission Rose donations will support 5 women during Breast Cancer Awareness Month with consultations, screening, transport or urgent needs.",
@@ -169,11 +163,9 @@ const copy = {
     answerBad: (explanation) => `Not quite: this word can delay action. ${explanation}`,
     summary: (name, score) => `${name}, your score is ${score} points. You turned words that hold us back into words that save lives.`,
     rankTop: (rank) => `You are in the Top 5 at position ${rank}.`,
-    rankOther: (rank) => {
-      const remainder = rank % 100;
-      const suffix = remainder >= 11 && remainder <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[rank % 10] || "th");
-      return `You are currently in ${rank}${suffix} place. Try a harder level to reach the Top 5.`;
-    },
+    rankOther: () => "Your score is not in the global Top 5 yet. Play again to improve your ranking.",
+    leaderboardLoading: "Loading the global leaderboard…", leaderboardUnavailable: "The global leaderboard is unavailable right now. Your score is still saved on this device.",
+    leaderboardEmpty: "No global scores yet. Be the first to play!",
     points: "pts", levelComplete: "Level complete", cameraError: "The camera is unavailable. You can still download your badge without a photo.",
     shareText: (score) => `I just completed Mission Rose, supported by ellegagne.com. My score: ${score} points. Can you make the Top 5?`,
     badgeMessage: "I support Breast Cancer Awareness", badgeSentence: "She wins when she knows. She wins when she protects herself.",
@@ -189,7 +181,7 @@ const copy = {
     resultEyebrow: "Resultado final", resultTitle: "¡Enhorabuena! Has terminado Mission Rose.", badge: "Insignia",
     badgeTitle: "Apoyo Octubre Rosa", filterTitle: "Tu filtro Mission Rose",
     filterDescription: "Hazte una foto con el filtro <strong>#NONAUCANCERDUSEINS</strong>. Mostrará tu puntuación y un mensaje de sensibilización.",
-    camera: "Activar cámara", capture: "Hacer foto", download: "Descargar foto", leaderboard: "Top 5 Mission Rose",
+    camera: "Activar cámara", capture: "Hacer foto", download: "Descargar foto", leaderboard: "Top 5 mundial Mission Rose",
     share: "Compartir mi puntuación", donate: "Donar ahora", restart: "Volver a jugar", sponsorLink: "Visitar ellegagne.com",
     donationEyebrow: "Acción solidaria", donationTitle: "Apoya a 5 mujeres que lo necesitan",
     donationDescription: "Las donaciones de Mission Rose ayudarán a 5 mujeres durante Octubre Rosa con consultas, pruebas de detección, transporte o necesidades urgentes.",
@@ -204,7 +196,8 @@ const copy = {
     answerGood: (points, explanation) => `Respuesta correcta: +${points} puntos. ${explanation}`,
     answerBad: (explanation) => `Respuesta incorrecta: esta palabra puede retrasar la acción. ${explanation}`,
     summary: (name, score) => `${name}, tu puntuación es de ${score} puntos. Convertiste palabras que frenan en palabras que salvan.`,
-    rankTop: (rank) => `Estás en el Top 5, en la posición ${rank}.`, rankOther: (rank) => `Ahora ocupas el puesto ${rank}. Vuelve a jugar en una dificultad mayor para entrar en el Top 5.`,
+    rankTop: (rank) => `Estás en el Top 5 mundial, en la posición ${rank}.`, rankOther: () => "Tu puntuación aún no está en el Top 5 mundial. Vuelve a jugar para mejorar tu posición.",
+    leaderboardLoading: "Cargando el ranking mundial…", leaderboardUnavailable: "El ranking mundial no está disponible ahora. Tu puntuación sigue guardada en este dispositivo.", leaderboardEmpty: "Aún no hay puntuaciones mundiales. ¡Sé la primera en jugar!",
     points: "pts", levelComplete: "Nivel terminado", cameraError: "La cámara no está disponible. Puedes descargar la insignia sin foto.",
     shareText: (score) => `Acabo de terminar Mission Rose, con el apoyo de ellegagne.com. Mi puntuación: ${score} puntos. ¿Puedes entrar en el Top 5?`,
     badgeMessage: "Apoyo la prevención del cáncer de mama", badgeSentence: "Ella gana cuando sabe. Ella gana cuando se cuida.",
@@ -220,7 +213,7 @@ const copy = {
     resultEyebrow: "Resultado final", resultTitle: "Parabéns! Você concluiu o Mission Rose.", badge: "Emblema",
     badgeTitle: "Apoio o Outubro Rosa", filterTitle: "Seu filtro Mission Rose",
     filterDescription: "Tire uma foto com o filtro <strong>#NONAUCANCERDUSEINS</strong>. Ela mostrará sua pontuação e uma mensagem de conscientização.",
-    camera: "Ativar câmera", capture: "Tirar foto", download: "Baixar foto", leaderboard: "Top 5 Mission Rose",
+    camera: "Ativar câmera", capture: "Tirar foto", download: "Baixar foto", leaderboard: "Top 5 mundial Mission Rose",
     share: "Compartilhar minha pontuação", donate: "Doar agora", restart: "Jogar novamente", sponsorLink: "Visitar ellegagne.com",
     donationEyebrow: "Ação solidária", donationTitle: "Apoie 5 mulheres que precisam",
     donationDescription: "As doações do Mission Rose ajudarão 5 mulheres durante o Outubro Rosa com consultas, exames, transporte ou necessidades urgentes.",
@@ -235,7 +228,8 @@ const copy = {
     answerGood: (points, explanation) => `Resposta correta: +${points} pontos. ${explanation}`,
     answerBad: (explanation) => `Resposta incorreta: esta palavra pode atrasar a ação. ${explanation}`,
     summary: (name, score) => `${name}, sua pontuação é de ${score} pontos. Você transformou palavras que bloqueiam em palavras que salvam.`,
-    rankTop: (rank) => `Você está no Top 5, na posição ${rank}.`, rankOther: (rank) => `Você está na posição ${rank}. Jogue novamente em uma dificuldade maior para chegar ao Top 5.`,
+    rankTop: (rank) => `Você está no Top 5 mundial, na posição ${rank}.`, rankOther: () => "Sua pontuação ainda não está no Top 5 mundial. Jogue novamente para melhorar sua posição.",
+    leaderboardLoading: "Carregando o ranking mundial…", leaderboardUnavailable: "O ranking mundial está indisponível. Sua pontuação continua salva neste dispositivo.", leaderboardEmpty: "Ainda não há pontuações mundiais. Seja a primeira pessoa a jogar!",
     points: "pts", levelComplete: "Nível concluído", cameraError: "A câmera não está disponível. Você ainda pode baixar o emblema sem foto.",
     shareText: (score) => `Acabei de concluir o Mission Rose, apoiado por ellegagne.com. Minha pontuação: ${score} pontos. Você consegue entrar no Top 5?`,
     badgeMessage: "Apoio a conscientização sobre o câncer de mama", badgeSentence: "Ela vence quando sabe. Ela vence quando se cuida.",
@@ -251,7 +245,7 @@ const copy = {
     resultEyebrow: "Endergebnis", resultTitle: "Glückwunsch! Du hast Mission Rose abgeschlossen.", badge: "Abzeichen",
     badgeTitle: "Ich unterstütze die Brustkrebs-Aufklärung", filterTitle: "Dein Mission-Rose-Filter",
     filterDescription: "Mach ein Foto mit dem Filter <strong>#NONAUCANCERDUSEINS</strong>. Es zeigt deine Punktzahl und eine Botschaft zur Aufklärung.",
-    camera: "Kamera einschalten", capture: "Foto aufnehmen", download: "Foto herunterladen", leaderboard: "Mission Rose: Top 5",
+    camera: "Kamera einschalten", capture: "Foto aufnehmen", download: "Foto herunterladen", leaderboard: "Mission Rose: Globale Top 5",
     share: "Punktzahl teilen", donate: "Jetzt spenden", restart: "Noch einmal spielen", sponsorLink: "ellegagne.com besuchen",
     donationEyebrow: "Solidaritätsaktion", donationTitle: "Unterstütze 5 Frauen in Not",
     donationDescription: "Spenden aus Mission Rose unterstützen 5 Frauen im Brustkrebsmonat, etwa bei Beratung, Früherkennung, Transport oder dringendem Bedarf.",
@@ -266,7 +260,8 @@ const copy = {
     answerGood: (points, explanation) => `Richtige Antwort: +${points} Punkte. ${explanation}`,
     answerBad: (explanation) => `Nicht ganz: Dieses Wort kann zum Aufschieben führen. ${explanation}`,
     summary: (name, score) => `${name}, du hast ${score} Punkte erreicht. Du hast bremsende Worte in stärkende Worte verwandelt.`,
-    rankTop: (rank) => `Du bist auf Platz ${rank} in den Top 5.`, rankOther: (rank) => `Du bist derzeit auf Platz ${rank}. Spiele schwieriger, um die Top 5 zu erreichen.`,
+    rankTop: (rank) => `Du bist auf Platz ${rank} in den globalen Top 5.`, rankOther: () => "Deine Punktzahl ist noch nicht in den globalen Top 5. Spiele erneut, um deinen Rang zu verbessern.",
+    leaderboardLoading: "Globale Rangliste wird geladen…", leaderboardUnavailable: "Die globale Rangliste ist gerade nicht verfügbar. Deine Punktzahl bleibt auf diesem Gerät gespeichert.", leaderboardEmpty: "Noch keine globalen Punktzahlen. Sei die erste Person, die spielt!",
     points: "Pkt.", levelComplete: "Level abgeschlossen", cameraError: "Die Kamera ist nicht verfügbar. Du kannst dein Abzeichen auch ohne Foto herunterladen.",
     shareText: (score) => `Ich habe gerade Mission Rose abgeschlossen, unterstützt von ellegagne.com. Meine Punktzahl: ${score}. Schaffst du es in die Top 5?`,
     badgeMessage: "Ich unterstütze die Brustkrebs-Aufklärung", badgeSentence: "Sie gewinnt, wenn sie Bescheid weiß und auf sich achtet.",
@@ -282,7 +277,7 @@ const copy = {
     resultEyebrow: "最终结果", resultTitle: "恭喜你完成了 Mission Rose。", badge: "徽章",
     badgeTitle: "我支持乳腺健康宣传", filterTitle: "你的 Mission Rose 滤镜",
     filterDescription: "使用 <strong>#NONAUCANCERDUSEINS</strong> 滤镜拍照，照片将显示你的分数和健康宣传信息。",
-    camera: "开启相机", capture: "拍照", download: "下载照片", leaderboard: "Mission Rose 前五名",
+    camera: "开启相机", capture: "拍照", download: "下载照片", leaderboard: "Mission Rose 全球前五名",
     share: "分享分数", donate: "立即捐赠", restart: "再玩一次", sponsorLink: "访问 ellegagne.com",
     donationEyebrow: "爱心行动", donationTitle: "帮助五位有需要的女性",
     donationDescription: "Mission Rose 的捐款将在粉红十月期间帮助五位女性支付咨询、筛查、交通或紧急需求。",
@@ -297,7 +292,8 @@ const copy = {
     answerGood: (points, explanation) => `回答正确：+${points} 分。${explanation}`,
     answerBad: (explanation) => `回答不正确：这类说法可能延误行动。${explanation}`,
     summary: (name, score) => `${name}，你的分数是 ${score} 分。你把阻碍行动的话语变成了守护生命的话语。`,
-    rankTop: (rank) => `你进入了前五名，目前排名第 ${rank}。`, rankOther: (rank) => `你目前排名第 ${rank}。尝试更高难度，争取进入前五名。`,
+    rankTop: (rank) => `你进入了全球前五名，目前排名第 ${rank}。`, rankOther: () => "你的分数暂未进入全球前五名。再玩一次，争取提升排名。",
+    leaderboardLoading: "正在加载全球排行榜…", leaderboardUnavailable: "全球排行榜暂时无法使用。你的分数仍保存在此设备上。", leaderboardEmpty: "目前还没有全球分数。来成为第一个玩家吧！",
     points: "分", levelComplete: "关卡完成", cameraError: "相机无法使用。你仍可下载不含照片的徽章。",
     shareText: (score) => `我刚刚完成了由 ellegagne.com 支持的 Mission Rose，获得 ${score} 分。你能进入前五名吗？`,
     badgeMessage: "我支持乳腺健康宣传", badgeSentence: "了解健康知识，及时行动，守护自己。",
@@ -313,7 +309,7 @@ const copy = {
     resultEyebrow: "النتيجة النهائية", resultTitle: "أحسنتِ! لقد أكملتِ Mission Rose.", badge: "شارة",
     badgeTitle: "أدعم التوعية بسرطان الثدي", filterTitle: "مرشح Mission Rose الخاص بك",
     filterDescription: "التقطي صورة باستخدام مرشح <strong>#NONAUCANCERDUSEINS</strong>. ستُظهر نقاطك ورسالة توعوية.",
-    camera: "تشغيل الكاميرا", capture: "التقاط الصورة", download: "تنزيل الصورة", leaderboard: "أفضل خمسة في Mission Rose",
+    camera: "تشغيل الكاميرا", capture: "التقاط الصورة", download: "تنزيل الصورة", leaderboard: "أفضل خمسة عالمياً في Mission Rose",
     share: "مشاركة نتيجتي", donate: "تبرعي الآن", restart: "العبِي مجدداً", sponsorLink: "زيارة ellegagne.com",
     donationEyebrow: "مبادرة تضامنية", donationTitle: "ادعمي خمس نساء بحاجة إلى المساعدة",
     donationDescription: "تساهم تبرعات Mission Rose في دعم خمس نساء خلال شهر التوعية، من خلال الاستشارات والفحوصات والنقل والاحتياجات العاجلة.",
@@ -328,7 +324,8 @@ const copy = {
     answerGood: (points, explanation) => `إجابة صحيحة: +${points} نقطة. ${explanation}`,
     answerBad: (explanation) => `إجابة غير صحيحة: قد تؤخر هذه العبارة طلب المساعدة. ${explanation}`,
     summary: (name, score) => `${name}، نتيجتك ${score} نقطة. حوّلتِ الكلمات التي تعيقك إلى كلمات تدعم الحياة.`,
-    rankTop: (rank) => `أنتِ ضمن أفضل خمسة، في المركز ${rank}.`, rankOther: (rank) => `ترتيبك الحالي ${rank}. جربي مستوى أصعب للوصول إلى أفضل خمسة.`,
+    rankTop: (rank) => `أنتِ ضمن أفضل خمسة عالمياً، في المركز ${rank}.`, rankOther: () => "نتيجتك ليست ضمن أفضل خمسة عالمياً بعد. أعيدي اللعب لتحسين ترتيبك.",
+    leaderboardLoading: "جارٍ تحميل الترتيب العالمي…", leaderboardUnavailable: "الترتيب العالمي غير متاح حالياً. ما زالت نتيجتك محفوظة على هذا الجهاز.", leaderboardEmpty: "لا توجد نتائج عالمية بعد. كوني أول من يلعب!",
     points: "نقطة", levelComplete: "اكتمل المستوى", cameraError: "الكاميرا غير متاحة. يمكنك تنزيل الشارة دون صورة.",
     shareText: (score) => `أنهيت للتو Mission Rose بدعم من ellegagne.com. نتيجتي: ${score} نقطة. هل يمكنك دخول أفضل خمسة؟`,
     badgeMessage: "أدعم التوعية بسرطان الثدي", badgeSentence: "تنتصر المرأة حين تعرف وحين تعتني بصحتها.",
@@ -344,7 +341,7 @@ const copy = {
     resultEyebrow: "Matokeo ya mwisho", resultTitle: "Hongera! Umemaliza Mission Rose.", badge: "Beji",
     badgeTitle: "Ninaunga mkono uhamasishaji wa afya ya matiti", filterTitle: "Kichujio chako cha Mission Rose",
     filterDescription: "Piga picha ukitumia kichujio cha <strong>#NONAUCANCERDUSEINS</strong>. Picha itaonyesha alama zako na ujumbe wa uhamasishaji.",
-    camera: "Washa kamera", capture: "Piga picha", download: "Pakua picha", leaderboard: "Wachezaji 5 bora wa Mission Rose",
+    camera: "Washa kamera", capture: "Piga picha", download: "Pakua picha", leaderboard: "Wachezaji 5 bora duniani wa Mission Rose",
     share: "Shiriki alama zangu", donate: "Changia sasa", restart: "Cheza tena", sponsorLink: "Tembelea ellegagne.com",
     donationEyebrow: "Msaada wa pamoja", donationTitle: "Saidia wanawake 5 wenye mahitaji",
     donationDescription: "Michango ya Mission Rose itasaidia wanawake 5 wakati wa Oktoba ya uhamasishaji kwa ushauri wa afya, uchunguzi, usafiri au mahitaji ya dharura.",
@@ -359,7 +356,8 @@ const copy = {
     answerGood: (points, explanation) => `Jibu sahihi: +${points} alama. ${explanation}`,
     answerBad: (explanation) => `Jibu lisilo sahihi: kauli hii inaweza kuchelewesha hatua. ${explanation}`,
     summary: (name, score) => `${name}, umepata alama ${score}. Umebadilisha maneno yanayokwamisha kuwa maneno yanayookoa.`,
-    rankTop: (rank) => `Uko kwenye nafasi ${rank} kati ya washindi 5 bora.`, rankOther: (rank) => `Uko kwenye nafasi ya ${rank}. Jaribu ugumu wa juu ili ufikie 5 bora.`,
+    rankTop: (rank) => `Uko nafasi ya ${rank} kati ya washindi 5 bora duniani.`, rankOther: () => "Alama zako bado hazijaingia kwenye 5 bora duniani. Cheza tena ili kuboresha nafasi yako.",
+    leaderboardLoading: "Inapakia orodha ya washindi duniani…", leaderboardUnavailable: "Orodha ya washindi duniani haipatikani kwa sasa. Alama zako bado zimehifadhiwa kwenye kifaa hiki.", leaderboardEmpty: "Bado hakuna alama za kimataifa. Kuwa wa kwanza kucheza!",
     points: "alama", levelComplete: "Kiwango kimekamilika", cameraError: "Kamera haipatikani. Bado unaweza kupakua beji bila picha.",
     shareText: (score) => `Nimemaliza Mission Rose inayoungwa mkono na ellegagne.com. Alama zangu: ${score}. Je, unaweza kuingia kwenye 5 bora?`,
     badgeMessage: "Ninaunga mkono uhamasishaji wa afya ya matiti", badgeSentence: "Anashinda anapojua na kuchukua hatua ya kujilinda.",
@@ -478,6 +476,8 @@ const state = {
   gameStarted: false,
   gameFinished: false,
   savedScoreId: null,
+  globalScoreId: null,
+  globalLeaders: [],
 };
 
 const screens = {
@@ -547,6 +547,8 @@ function startGame(event) {
   state.gameStarted = true;
   state.gameFinished = false;
   state.savedScoreId = null;
+  state.globalScoreId = null;
+  state.globalLeaders = [];
   showScreen("game");
   renderRound();
 }
@@ -741,14 +743,10 @@ function finishGame() {
   state.gameFinished = true;
   els.progress.style.width = "100%";
   saveScore();
-  renderResult();
+  renderResult([], "loading");
   drawBadge();
   showScreen("result");
-}
-
-function getLeaders() {
-  const saved = JSON.parse(localStorage.getItem("missionRoseLeaders") || "[]");
-  return [...initialLeaders, ...saved].sort((a, b) => b.score - a.score);
+  submitGlobalScore();
 }
 
 function saveScore() {
@@ -763,12 +761,7 @@ function saveScore() {
   localStorage.setItem("missionRoseLeaders", JSON.stringify(saved));
 }
 
-function renderResult() {
-  const leaders = getLeaders();
-  const rank = leaders.findIndex(
-    (item) => item.name === state.player && item.score === state.score
-  ) + 1;
-
+function renderResult(leaders = state.globalLeaders, status = "loaded") {
   els.summary.textContent = text("summary")(state.player, formatNumber(state.score));
 
   els.leaderboard.innerHTML = "";
@@ -778,7 +771,72 @@ function renderResult() {
     els.leaderboard.appendChild(li);
   });
 
-  els.rankMessage.textContent = rank <= 5 ? text("rankTop")(rank) : text("rankOther")(rank);
+  if (status === "loading") {
+    els.rankMessage.textContent = text("leaderboardLoading");
+    return;
+  }
+  if (status === "error") {
+    els.rankMessage.textContent = text("leaderboardUnavailable");
+    return;
+  }
+  if (!leaders.length) {
+    els.rankMessage.textContent = text("leaderboardEmpty");
+    return;
+  }
+
+  const rank = leaders.findIndex((item) => item.id === state.globalScoreId) + 1;
+  els.rankMessage.textContent = rank > 0
+    ? text("rankTop")(rank)
+    : text("rankOther")();
+}
+
+async function submitGlobalScore() {
+  const submittedRunId = state.savedScoreId;
+  const submittedScore = state.score;
+  const submittedName = state.player;
+  try {
+    const response = await fetch("/api/leaderboard", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: submittedName, score: submittedScore }),
+    });
+    if (!response.ok) throw new Error("Classement Supabase indisponible");
+    const result = await response.json();
+    if (state.savedScoreId !== submittedRunId) return;
+    state.globalScoreId = result.id;
+    state.globalLeaders = result.leaders || [];
+
+    if (state.score !== submittedScore) {
+      await updateGlobalScore();
+    } else {
+      renderResult(state.globalLeaders, "loaded");
+    }
+  } catch (error) {
+    console.error("Mission Rose global score could not be saved:", error.message);
+    if (state.savedScoreId !== submittedRunId) return;
+    renderResult([], "error");
+  }
+}
+
+async function updateGlobalScore() {
+  if (!state.globalScoreId) return;
+  const updatedRunId = state.savedScoreId;
+  try {
+    const response = await fetch("/api/leaderboard", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: state.globalScoreId, score: state.score }),
+    });
+    if (!response.ok) throw new Error("Mise à jour du score mondial impossible");
+    const result = await response.json();
+    if (state.savedScoreId !== updatedRunId) return;
+    state.globalLeaders = result.leaders || [];
+    renderResult(state.globalLeaders, "loaded");
+  } catch (error) {
+    console.error("Mission Rose global score could not be updated:", error.message);
+    if (state.savedScoreId !== updatedRunId) return;
+    renderResult(state.globalLeaders, "error");
+  }
 }
 
 function drawBadge(videoFrame = null) {
@@ -987,6 +1045,7 @@ function awardDonationClick(category) {
     }
     renderResult();
     drawBadge();
+    updateGlobalScore();
     return;
   }
 
@@ -1007,6 +1066,8 @@ function restart() {
   state.gameStarted = false;
   state.gameFinished = false;
   state.savedScoreId = null;
+  state.globalScoreId = null;
+  state.globalLeaders = [];
   showScreen("home");
 }
 
