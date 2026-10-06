@@ -631,6 +631,32 @@ function playAnswerSound(type) {
   playTone(context, 150, now + 0.12, 0.22, "sawtooth", 0.045);
 }
 
+function playCameraShutterSound() {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const duration = 0.09;
+  const buffer = context.createBuffer(1, Math.floor(context.sampleRate * duration), context.sampleRate);
+  const samples = buffer.getChannelData(0);
+  for (let index = 0; index < samples.length; index += 1) {
+    const fade = 1 - index / samples.length;
+    samples[index] = (Math.random() * 2 - 1) * fade;
+  }
+
+  const source = context.createBufferSource();
+  const filter = context.createBiquadFilter();
+  const gain = context.createGain();
+  filter.type = "bandpass";
+  filter.frequency.setValueAtTime(1450, context.currentTime);
+  gain.gain.setValueAtTime(0.11, context.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
+  source.buffer = buffer;
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(context.destination);
+  source.start(context.currentTime);
+}
+
 function triggerAnswerEffect(type, points) {
   const effectClass = type === "good" ? "answer-good" : "answer-bad";
   const bubble = document.createElement("span");
@@ -850,6 +876,7 @@ async function enableCamera() {
 
 function capturePhoto() {
   if (!state.stream) return;
+  playCameraShutterSound();
   drawBadge(els.camera);
 }
 
