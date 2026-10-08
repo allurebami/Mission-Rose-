@@ -447,7 +447,6 @@ function applyLanguage() {
     "donation-title": "donationTitle", "donation-description": "donationDescription",
     "transparency-note": "transparency",
     "level-message-title": "levelComplete", "level-message-btn": "next",
-    "close-donation": "close",
   };
   Object.entries(nodes).forEach(([id, key]) => {
     const node = document.getElementById(id);
