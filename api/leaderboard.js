@@ -26,7 +26,7 @@ function rowsUrl(config) {
 }
 
 async function readTopFive(config) {
-  const url = new URL(documentsUrl(config));
+  const url = new URL(rowsUrl(config));
   url.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
   url.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
 
