@@ -656,6 +656,16 @@ function playAnswerSound(type) {
   playTone(context, 150, now + 0.12, 0.22, "sawtooth", 0.045);
 }
 
+function playMainDonationSound() {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const now = context.currentTime;
+  playTone(context, 523, now, 0.12, "sine", 0.055);
+  playTone(context, 659, now + 0.1, 0.12, "triangle", 0.05);
+  playTone(context, 784, now + 0.2, 0.2, "sine", 0.045);
+}
+
 function playDonationSound(category) {
   const context = getAudioContext();
   if (!context) return;
@@ -1114,7 +1124,7 @@ document.addEventListener("click", (event) => {
 
   const action = target.dataset.action;
   if (action === "share") shareScore();
-  if (action === "donate") openDonation();
+  if (action === "donate") {\n    playMainDonationSound();\n    openDonation();\n  }
   if (action === "close-donation") closeDonation();
 
   const category = target.dataset.category;
