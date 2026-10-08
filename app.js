@@ -1062,10 +1062,10 @@ const homeShareMessages = {
   sw: "Gundua mchezo wa Mission Rose wa uhamasishaji. Cheza, shiriki alama zako na usaidie wanawake 5.",
 };
 
-function shareGame() {
-  const message = `${homeShareMessages[language]} ${window.location.href}`;
-  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+const homeShareLink = document.getElementById("home-share-button");
+if (homeShareLink) {
+  const message = `${homeShareMessages[language]} https://mission-rose-ten.vercel.app/`;
+  homeShareLink.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
 }
 
 function shareScore() {
