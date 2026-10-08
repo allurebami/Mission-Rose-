@@ -1,6 +1,6 @@
 const MAX_SCORE = 10000000;
 const DEFAULT_DATABASE_ID = "6ac7f21e0034b245f8d7";
-const DEFAULT_TABLE_ID = "scores";
+const DEFAULT_TABLE_ID = "6ac7f26c002d71db0449";
 
 function getAppwriteConfig() {
   const endpoint = (process.env.APPWRITE_ENDPOINT || "https://fra.cloud.appwrite.io/v1").replace(/\/$/, "");
