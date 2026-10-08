@@ -666,6 +666,16 @@ function playMainDonationSound() {
   playTone(context, 784, now + 0.2, 0.2, "sine", 0.045);
 }
 
+function playSupportActionSound() {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const now = context.currentTime;
+  playTone(context, 1047, now, 0.08, "sine", 0.05);
+  playTone(context, 784, now + 0.07, 0.1, "triangle", 0.045);
+  playTone(context, 1319, now + 0.16, 0.17, "sine", 0.04);
+}
+
 function playDonationSound(category) {
   const context = getAudioContext();
   if (!context) return;
@@ -1111,6 +1121,13 @@ function restart() {
   state.globalLeaders = [];
   showScreen("home");
 }
+
+document.addEventListener("click", (event) => {
+  const target = event.target.closest("#chariow-widget button, #chariow-widget a, #chariow-widget [role='button']");
+  if (target && target.textContent.trim() === "Soutenir cette action") {
+    playSupportActionSound();
+  }
+}, true);
 
 els.form.addEventListener("submit", startGame);
 els.next.addEventListener("click", nextRound);
