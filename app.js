@@ -1141,7 +1141,10 @@ document.addEventListener("click", (event) => {
 
   const action = target.dataset.action;
   if (action === "share") shareScore();
-  if (action === "donate") {\n    playMainDonationSound();\n    openDonation();\n  }
+  if (action === "donate") {
+    playMainDonationSound();
+    openDonation();
+  }
   if (action === "close-donation") closeDonation();
 
   const category = target.dataset.category;
