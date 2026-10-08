@@ -1,28 +1,42 @@
-const TABLE = "mission_rose_scores";
 const MAX_SCORE = 10000000;
 
-function getSupabaseConfig() {
-  const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
-  const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
-  return url && key ? { url, key } : null;
+function getAppwriteConfig() {
+  const endpoint = (process.env.APPWRITE_ENDPOINT || "https://fra.cloud.appwrite.io/v1").replace(/\/$/, "");
+  const projectId = process.env.APPWRITE_PROJECT_ID || "6ac7bb78000880bd15bf";
+  const apiKey = process.env.APPWRITE_API_KEY;
+  const databaseId = process.env.APPWRITE_DATABASE_ID;
+  const collectionId = process.env.APPWRITE_COLLECTION_ID;
+  return endpoint && projectId && apiKey && databaseId && collectionId
+    ? { endpoint, projectId, apiKey, databaseId, collectionId }
+    : null;
 }
 
-function supabaseHeaders(key, extra = {}) {
-  const headers = { apikey: key, "Content-Type": "application/json", ...extra };
-  // New sb_secret keys are API keys, not JWTs. Legacy service_role keys need a bearer header.
-  if (!key.startsWith("sb_secret_")) headers.Authorization = `Bearer ${key}`;
-  return headers;
+function appwriteHeaders(config) {
+  return {
+    "Content-Type": "application/json",
+    "X-Appwrite-Project": config.projectId,
+    "X-Appwrite-Key": config.apiKey,
+  };
+}
+
+function documentsUrl(config) {
+  return `${config.endpoint}/databases/${encodeURIComponent(config.databaseId)}/collections/${encodeURIComponent(config.collectionId)}/documents`;
 }
 
 async function readTopFive(config) {
-  const url = new URL(`${config.url}/rest/v1/${TABLE}`);
-  url.searchParams.set("select", "id,player_name,score");
-  url.searchParams.set("order", "score.desc,created_at.asc");
-  url.searchParams.set("limit", "5");
-  const response = await fetch(url, { headers: supabaseHeaders(config.key) });
-  if (!response.ok) throw new Error(`Supabase GET failed: ${response.status}`);
-  const rows = await response.json();
-  return rows.map((row) => ({ id: row.id, name: row.player_name, score: row.score }));
+  const url = new URL(documentsUrl(config));
+  url.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
+  url.searchParams.append("queries[]", JSON.stringify({ method: "orderAsc", attribute: "$createdAt" }));
+  url.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
+
+  const response = await fetch(url, { headers: appwriteHeaders(config) });
+  if (!response.ok) throw new Error(`Appwrite list failed: ${response.status}`);
+  const result = await response.json();
+  return (result.documents || []).map((document) => ({
+    id: document.$id,
+    name: document.pseudo,
+    score: document.score,
+  }));
 }
 
 function validScore(value) {
@@ -35,8 +49,8 @@ function parseBody(body) {
 }
 
 async function handler(req, res) {
-  const config = getSupabaseConfig();
-  if (!config) return res.status(503).json({ error: "Le classement mondial n'est pas encore configuré." });
+  const config = getAppwriteConfig();
+  if (!config) return res.status(503).json({ error: "Le classement Appwrite n'est pas encore configuré sur le serveur." });
 
   const origin = req.headers.origin;
   const host = req.headers.host;
@@ -72,37 +86,37 @@ async function handler(req, res) {
 
   if (!validScore(payload.score)) return res.status(400).json({ error: "Score invalide." });
 
-  const url = new URL(`${config.url}/rest/v1/${TABLE}`);
-  const headers = supabaseHeaders(config.key, { Prefer: "return=representation" });
+  const url = req.method === "PATCH"
+    ? `${documentsUrl(config)}/${encodeURIComponent(payload.id || "")}`
+    : documentsUrl(config);
   let method;
   let body;
 
   if (req.method === "POST") {
     const name = typeof payload.name === "string" ? payload.name.trim().replace(/\s+/g, " ") : "";
     if (!name || name.length > 24 || /[\u0000-\u001f\u007f]/.test(name)) {
-      return res.status(400).json({ error: "Nom invalide (1 à 24 caractères)." });
+      return res.status(400).json({ error: "Pseudo invalide (1 à 24 caractères)." });
     }
     method = "POST";
-    body = JSON.stringify({ player_name: name, score: payload.score });
+    body = JSON.stringify({
+      documentId: require("crypto").randomUUID(),
+      data: { pseudo: name, score: payload.score },
+    });
   } else {
-    if (typeof payload.id !== "string" || !/^[0-9a-f-]{36}$/i.test(payload.id)) {
+    if (typeof payload.id !== "string" || !/^[A-Za-z0-9._-]{1,36}$/.test(payload.id)) {
       return res.status(400).json({ error: "Identifiant de partie invalide." });
     }
-    url.searchParams.set("id", `eq.${payload.id}`);
     method = "PATCH";
-    body = JSON.stringify({ score: payload.score });
+    body = JSON.stringify({ data: { score: payload.score } });
   }
 
   try {
-    const response = await fetch(url, { method, headers, body });
-    if (!response.ok) throw new Error(`Supabase ${method} failed: ${response.status}`);
+    const response = await fetch(url, { method, headers: appwriteHeaders(config), body });
+    if (!response.ok) throw new Error(`Appwrite ${method} failed: ${response.status}`);
     const changed = await response.json();
-    if (req.method === "PATCH" && !changed.length) {
-      return res.status(404).json({ error: "Score introuvable." });
-    }
     const leaders = await readTopFive(config);
     return res.status(req.method === "POST" ? 201 : 200).json({
-      id: changed[0]?.id || payload.id,
+      id: changed.$id || payload.id,
       leaders,
     });
   } catch (error) {
