@@ -15,20 +15,19 @@ Mini-jeu web Octobre Rose soutenu par ellegagne.com.
 
 Le navigateur envoie les scores à `/api/leaderboard`. La clé Appwrite reste uniquement dans les variables d'environnement serveur de Vercel.
 
-Dans le projet Appwrite `6ac7bb78000880bd15bf` sur `https://fra.cloud.appwrite.io/v1` :
+La base **Mission Rose Classement** de type TablesDB et son ID `6ac7f21e0034b245f8d7` sont créés dans le projet `6ac7bb78000880bd15bf` (endpoint `https://fra.cloud.appwrite.io/v1`).
 
-1. Dans **Databases**, créer une base de type **DocumentsDB**.
-2. Dans cette base, créer une collection. DocumentsDB est schemaless : il n'est pas nécessaire de déclarer les champs à l'avance.
-3. Dans la collection, créer un index clé en ordre décroissant sur l'attribut `score`.
-4. Créer une clé API limitée aux autorisations `documentsdb.documents.read` et `documentsdb.documents.write`.
+Dans cette base, créer une table avec l'ID `scores` et le nom `Scores Mission Rose`, puis ajouter :
 
-Dans les variables d'environnement du projet Vercel, définir :
+- `pseudo` : colonne `varchar`, taille 24, obligatoire.
+- `score` : colonne `integer`, obligatoire.
+- Un index clé décroissant sur `score`.
+
+Dans la page **API Keys** du projet, créer une clé limitée aux scopes `rows.read` et `rows.write`. Dans les variables d'environnement du projet Vercel, définir :
 
 - `APPWRITE_API_KEY` : la clé API secrète, uniquement côté serveur.
-- `APPWRITE_DATABASE_ID` : l'identifiant de la base créée.
-- `APPWRITE_COLLECTION_ID` : l'identifiant de la collection créée.
 
-L'endpoint et l'ID du projet ont déjà leurs valeurs par défaut dans la fonction serveur. Ils peuvent aussi être définis explicitement avec `APPWRITE_ENDPOINT` et `APPWRITE_PROJECT_ID`.
+L'endpoint, l'ID projet, l'ID de la base et l'ID de la table sont préconfigurés par défaut dans la fonction serveur. Ils peuvent être remplacés avec `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, `APPWRITE_DATABASE_ID` et `APPWRITE_TABLE_ID`.
 
 Ne jamais placer `APPWRITE_API_KEY` dans `app.js`, `index.html` ou une variable publique `VITE_*`.
 
