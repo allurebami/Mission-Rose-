@@ -26,7 +26,6 @@ function documentsUrl(config) {
 async function readTopFive(config) {
   const url = new URL(documentsUrl(config));
   url.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
-  url.searchParams.append("queries[]", JSON.stringify({ method: "orderAsc", attribute: "$createdAt" }));
   url.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
 
   const response = await fetch(url, { headers: appwriteHeaders(config) });
