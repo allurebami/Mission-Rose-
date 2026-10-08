@@ -1,13 +1,15 @@
 const MAX_SCORE = 10000000;
+const DEFAULT_DATABASE_ID = "6ac7f21e0034b245f8d7";
+const DEFAULT_TABLE_ID = "scores";
 
 function getAppwriteConfig() {
   const endpoint = (process.env.APPWRITE_ENDPOINT || "https://fra.cloud.appwrite.io/v1").replace(/\/$/, "");
   const projectId = process.env.APPWRITE_PROJECT_ID || "6ac7bb78000880bd15bf";
   const apiKey = process.env.APPWRITE_API_KEY;
-  const databaseId = process.env.APPWRITE_DATABASE_ID;
-  const collectionId = process.env.APPWRITE_COLLECTION_ID;
-  return endpoint && projectId && apiKey && databaseId && collectionId
-    ? { endpoint, projectId, apiKey, databaseId, collectionId }
+  const databaseId = process.env.APPWRITE_DATABASE_ID || DEFAULT_DATABASE_ID;
+  const tableId = process.env.APPWRITE_TABLE_ID || DEFAULT_TABLE_ID;
+  return endpoint && projectId && apiKey && databaseId && tableId
+    ? { endpoint, projectId, apiKey, databaseId, tableId }
     : null;
 }
 
@@ -19,8 +21,8 @@ function appwriteHeaders(config) {
   };
 }
 
-function documentsUrl(config) {
-  return `${config.endpoint}/documentsdb/${encodeURIComponent(config.databaseId)}/collections/${encodeURIComponent(config.collectionId)}/documents`;
+function rowsUrl(config) {
+  return `${config.endpoint}/tablesdb/${encodeURIComponent(config.databaseId)}/tables/${encodeURIComponent(config.tableId)}/rows`;
 }
 
 async function readTopFive(config) {
@@ -31,10 +33,10 @@ async function readTopFive(config) {
   const response = await fetch(url, { headers: appwriteHeaders(config) });
   if (!response.ok) throw new Error(`Appwrite list failed: ${response.status}`);
   const result = await response.json();
-  return (result.documents || []).map((document) => ({
-    id: document.$id,
-    name: document.pseudo,
-    score: document.score,
+  return (result.rows || []).map((row) => ({
+    id: row.$id,
+    name: row.pseudo,
+    score: row.score,
   }));
 }
 
@@ -86,8 +88,8 @@ async function handler(req, res) {
   if (!validScore(payload.score)) return res.status(400).json({ error: "Score invalide." });
 
   const url = req.method === "PATCH"
-    ? `${documentsUrl(config)}/${encodeURIComponent(payload.id || "")}`
-    : documentsUrl(config);
+    ? `${rowsUrl(config)}/${encodeURIComponent(payload.id || "")}`
+    : rowsUrl(config);
   let method;
   let body;
 
@@ -98,7 +100,7 @@ async function handler(req, res) {
     }
     method = "POST";
     body = JSON.stringify({
-      documentId: require("crypto").randomUUID(),
+      rowId: require("crypto").randomUUID(),
       data: { pseudo: name, score: payload.score },
     });
   } else {
