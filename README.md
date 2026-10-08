@@ -17,12 +17,10 @@ Le navigateur envoie les scores à `/api/leaderboard`. La clé Appwrite reste un
 
 Dans le projet Appwrite `6ac7bb78000880bd15bf` sur `https://fra.cloud.appwrite.io/v1` :
 
-1. Créer une base de données.
-2. Créer une collection avec deux attributs obligatoires :
-   - `pseudo` : chaîne de caractères, longueur maximale 24.
-   - `score` : entier, minimum 0, maximum 10 000 000.
-3. Créer un index clé sur `score` en ordre décroissant.
-4. Créer une clé API avec les autorisations de lecture et d'écriture des documents.
+1. Dans **Databases**, créer une base de type **DocumentsDB**.
+2. Dans cette base, créer une collection. DocumentsDB est schemaless : il n'est pas nécessaire de déclarer les champs à l'avance.
+3. Dans la collection, créer un index clé en ordre décroissant sur l'attribut `score`.
+4. Créer une clé API limitée aux autorisations `documentsdb.documents.read` et `documentsdb.documents.write`.
 
 Dans les variables d'environnement du projet Vercel, définir :
 
