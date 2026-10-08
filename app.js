@@ -438,7 +438,7 @@ function applyLanguage() {
   document.getElementById("twitter-description").content = description;
   const nodes = {
     "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
-    "hero-description": "heroDescription", "player-label": "playerLabel", "difficulty-label": "difficultyLabel",
+    "hero-description": "heroDescription", "difficulty-label": "difficultyLabel",
     "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
     "start-button": "start", "home-donate-button": "homeDonate", "home-share-label": "shareGame", "home-leaderboard-title": "leaderboard", "score-label": "score",
     "next-btn": "next", "result-eyebrow": "resultEyebrow", "result-title": "resultTitle",
@@ -454,7 +454,6 @@ function applyLanguage() {
     const node = document.getElementById(id);
     if (node) node.textContent = text(key);
   });
-  document.getElementById("player-name").placeholder = text("playerPlaceholder");
   document.getElementById("filter-description").innerHTML = text("filterDescription");
   document.getElementById("level-progress-wrap").setAttribute("aria-label", text("levelProgressAria"));
   document.getElementById("close-donation").setAttribute("aria-label", text("close"));
@@ -490,7 +489,6 @@ const screens = {
 
 const els = {
   form: document.getElementById("player-form"),
-  playerName: document.getElementById("player-name"),
   difficulty: document.getElementById("difficulty"),
   levelTitle: document.getElementById("level-title"),
   levelTheme: document.getElementById("level-theme"),
@@ -543,7 +541,7 @@ function currentLevel() {
 
 function startGame(event) {
   event.preventDefault();
-  state.player = els.playerName.value.trim() || (language === "en" ? "Rose Player" : "Joueuse Rose");
+  state.player = `Rose-${getAnonymousPlayerId().slice(-6).toUpperCase()}`;
   state.difficulty = els.difficulty.value;
   state.levelIndex = 0;
   state.roundIndex = 0;
