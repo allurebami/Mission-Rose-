@@ -656,6 +656,17 @@ function playAnswerSound(type) {
   playTone(context, 150, now + 0.12, 0.22, "sawtooth", 0.045);
 }
 
+function playDonationCelebrationSound() {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const now = context.currentTime;
+  playTone(context, 784, now, 0.09, "sine", 0.06);
+  playTone(context, 988, now + 0.08, 0.09, "sine", 0.055);
+  playTone(context, 1175, now + 0.16, 0.11, "triangle", 0.05);
+  playTone(context, 1568, now + 0.25, 0.18, "triangle", 0.045);
+}
+
 function playCameraShutterSound() {
   const context = getAudioContext();
   if (!context) return;
@@ -1087,6 +1098,7 @@ document.addEventListener("click", (event) => {
 
   const category = target.dataset.category;
   if (category) {
+    playDonationCelebrationSound();
     awardDonationClick(category);
     openDonation(category);
   }
