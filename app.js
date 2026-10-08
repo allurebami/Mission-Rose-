@@ -506,6 +506,7 @@ const els = {
   leaderboard: document.getElementById("leaderboard"),
   rankMessage: document.getElementById("rank-message"),
   homeLeaderboard: document.getElementById("home-leaderboard"),
+  homeGamesCount: document.getElementById("home-games-count"),
   homeLeaderboardMessage: document.getElementById("home-leaderboard-message"),
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
@@ -827,6 +828,16 @@ function renderLeaderboardList(list, leaders) {
   });
 }
 
+function renderCompletedGamesCount(status = "loaded") {
+  if (status === "loading") {
+    els.homeGamesCount.textContent = text("completedGamesLoading");
+  } else if (status === "error" || !Number.isSafeInteger(state.totalCompletedGames)) {
+    els.homeGamesCount.textContent = text("completedGamesUnavailable");
+  } else {
+    els.homeGamesCount.textContent = text("completedGamesCount")(state.totalCompletedGames);
+  }
+}
+
 function renderHomeLeaderboard(leaders = [], status = "loaded") {
   renderLeaderboardList(els.homeLeaderboard, leaders);
   if (status === "loading") {
@@ -840,14 +851,17 @@ function renderHomeLeaderboard(leaders = [], status = "loaded") {
 
 async function loadHomeLeaderboard() {
   renderHomeLeaderboard([], "loading");
+  renderCompletedGamesCount("loading");
   try {
     const response = await fetch("/api/leaderboard", { headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error("Classement mondial indisponible");
     const result = await response.json();
     state.totalCompletedGames = result.totalCompletedGames;
+    renderCompletedGamesCount("loaded");
     renderHomeLeaderboard(result.leaders || [], "loaded");
   } catch (error) {
     console.error("Mission Rose home leaderboard could not be loaded:", error.message);
+    renderCompletedGamesCount("error");
     renderHomeLeaderboard([], "error");
   }
 }
@@ -899,6 +913,7 @@ async function submitGlobalScore() {
     state.globalScoreId = result.id;
     state.globalLeaders = result.leaders || [];
     state.totalCompletedGames = result.totalCompletedGames;
+    renderCompletedGamesCount("loaded");
     renderHomeLeaderboard(state.globalLeaders, "loaded");
 
     if (state.score !== submittedScore) {
