@@ -458,15 +458,22 @@ button:disabled {
 }
 
 .donation-grid button {
-  color: var(--rose-700);
-  background: var(--rose-100);
+  min-height: 68px;
+  padding: 12px 16px;
+  color: #fff;
+  background: linear-gradient(120deg, #ed4f89, #a5144f);
+  box-shadow: 0 8px 18px rgba(165, 20, 79, 0.24);
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.donation-grid button span {
-  display: block;
-  margin-top: 3px;
-  font-size: 0.82em;
-  font-weight: 700;
+.donation-grid button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(165, 20, 79, 0.32);
+}
+
+.donation-grid button:focus-visible {
+  outline: 3px solid var(--green-600);
+  outline-offset: 3px;
 }
 
 .small {
