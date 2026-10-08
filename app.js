@@ -656,15 +656,36 @@ function playAnswerSound(type) {
   playTone(context, 150, now + 0.12, 0.22, "sawtooth", 0.045);
 }
 
-function playDonationCelebrationSound() {
+function playDonationSound(category) {
   const context = getAudioContext();
   if (!context) return;
 
   const now = context.currentTime;
-  playTone(context, 784, now, 0.09, "sine", 0.06);
-  playTone(context, 988, now + 0.08, 0.09, "sine", 0.055);
-  playTone(context, 1175, now + 0.16, 0.11, "triangle", 0.05);
-  playTone(context, 1568, now + 0.25, 0.18, "triangle", 0.045);
+  const sounds = {
+    "geste-rose": () => {
+      playTone(context, 880, now, 0.1, "sine", 0.06);
+      playTone(context, 1175, now + 0.1, 0.16, "sine", 0.055);
+    },
+    "elan-rose": () => {
+      playTone(context, 659, now, 0.1, "triangle", 0.055);
+      playTone(context, 784, now + 0.09, 0.1, "triangle", 0.055);
+      playTone(context, 1047, now + 0.18, 0.17, "sine", 0.05);
+    },
+    "cercle-rose": () => {
+      playTone(context, 523, now, 0.12, "sine", 0.055);
+      playTone(context, 659, now + 0.07, 0.12, "sine", 0.05);
+      playTone(context, 784, now + 0.14, 0.12, "triangle", 0.05);
+      playTone(context, 1047, now + 0.21, 0.2, "triangle", 0.045);
+    },
+    "ambassadeur-rose": () => {
+      playTone(context, 784, now, 0.11, "triangle", 0.055);
+      playTone(context, 988, now + 0.08, 0.11, "sine", 0.05);
+      playTone(context, 1175, now + 0.16, 0.11, "triangle", 0.05);
+      playTone(context, 1568, now + 0.24, 0.24, "sine", 0.045);
+    },
+  };
+
+  sounds[category]?.();
 }
 
 function playCameraShutterSound() {
@@ -1098,7 +1119,7 @@ document.addEventListener("click", (event) => {
 
   const category = target.dataset.category;
   if (category) {
-    playDonationCelebrationSound();
+    playDonationSound(category);
     awardDonationClick(category);
     openDonation(category);
   }
