@@ -26,23 +26,31 @@ function rowsUrl(config) {
 }
 
 async function readLeaderboard(config) {
-  const url = new URL(rowsUrl(config));
-  url.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
-  url.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
+  const topUrl = new URL(rowsUrl(config));
+  topUrl.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
+  topUrl.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
 
-  const response = await fetch(url, { headers: appwriteHeaders(config) });
-  if (!response.ok) throw new Error(`Appwrite list failed: ${response.status}`);
-  const result = await response.json();
+  const playersUrl = new URL(rowsUrl(config));
+  playersUrl.searchParams.append("queries[]", JSON.stringify({ method: "startsWith", attribute: "$id", values: ["p_"] }));
+  playersUrl.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [1] }));
+
+  const [topResponse, playersResponse] = await Promise.all([
+    fetch(topUrl, { headers: appwriteHeaders(config) }),
+    fetch(playersUrl, { headers: appwriteHeaders(config) }),
+  ]);
+  if (!topResponse.ok) throw new Error(`Appwrite leaderboard list failed: ${topResponse.status}`);
+  if (!playersResponse.ok) throw new Error(`Appwrite player count failed: ${playersResponse.status}`);
+
+  const [topResult, playersResult] = await Promise.all([topResponse.json(), playersResponse.json()]);
   return {
-    leaders: (result.rows || []).map((row) => ({
+    leaders: (topResult.rows || []).map((row) => ({
       id: row.$id,
       name: row.pseudo,
       score: row.score,
     })),
-    totalCompletedGames: Number.isSafeInteger(result.total) ? result.total : null,
+    totalUniquePlayers: Number.isSafeInteger(playersResult.total) ? playersResult.total : null,
   };
 }
-
 function validScore(value) {
   return Number.isSafeInteger(value) && value >= 0 && value <= MAX_SCORE;
 }
@@ -90,26 +98,41 @@ async function handler(req, res) {
 
   if (!validScore(payload.score)) return res.status(400).json({ error: "Score invalide." });
 
-  const url = req.method === "PATCH"
-    ? `${rowsUrl(config)}/${encodeURIComponent(payload.id || "")}`
-    : rowsUrl(config);
+  let url;
   let method;
   let body;
 
   if (req.method === "POST") {
     const name = typeof payload.name === "string" ? payload.name.trim().replace(/\s+/g, " ") : "";
+    const playerId = typeof payload.playerId === "string" ? payload.playerId : "";
     if (!name || name.length > 24 || /[\u0000-\u001f\u007f]/.test(name)) {
       return res.status(400).json({ error: "Pseudo invalide (1 à 24 caractères)." });
     }
-    method = "POST";
+    if (!/^p_[a-f0-9]{32}$/.test(playerId)) {
+      return res.status(400).json({ error: "Identifiant anonyme invalide." });
+    }
+
+    url = `${rowsUrl(config)}/${encodeURIComponent(playerId)}`;
+    const existingResponse = await fetch(url, { headers: appwriteHeaders(config) });
+    let existing = null;
+    if (existingResponse.ok) {
+      existing = await existingResponse.json();
+    } else if (existingResponse.status !== 404) {
+      return res.status(502).json({ error: "Impossible de retrouver le joueur dans Appwrite." });
+    }
+
+    method = "PUT";
     body = JSON.stringify({
-      rowId: require("crypto").randomUUID(),
-      data: { pseudo: name, score: payload.score },
+      data: {
+        pseudo: name,
+        score: existing && validScore(existing.score) ? Math.max(existing.score, payload.score) : payload.score,
+      },
     });
   } else {
     if (typeof payload.id !== "string" || !/^[A-Za-z0-9._-]{1,36}$/.test(payload.id)) {
       return res.status(400).json({ error: "Identifiant de partie invalide." });
     }
+    url = `${rowsUrl(config)}/${encodeURIComponent(payload.id)}`;
     method = "PATCH";
     body = JSON.stringify({ data: { score: payload.score } });
   }
