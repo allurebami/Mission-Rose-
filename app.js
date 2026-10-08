@@ -101,7 +101,7 @@ const copy = {
     heroDescription: "Choisis les bons mots, évite les phrases dangereuses, réponds aux questions et tente d'entrer dans le Top 5.",
     playerLabel: "Ton nom ou pseudo", playerPlaceholder: "Ex : Grâce M.",
     difficultyLabel: "Difficulté", easy: "Facile", medium: "Moyen", hard: "Dur",
-    start: "Commencer le jeu", homeDonate: "Faire un don pour soutenir 5 femmes",
+    start: "Commencer le jeu", homeDonate: "Faire un don pour soutenir 5 femmes", shareGame: "Partager sur WhatsApp",
     score: "Score", next: "Continuer", resultEyebrow: "Résultat final",
     resultTitle: "Bravo, tu as terminé Mission Rose.", badge: "Badge",
     badgeTitle: "Je soutiens Octobre Rose", filterTitle: "Ton filtre Mission Rose",
@@ -139,7 +139,7 @@ const copy = {
     heroDescription: "Choose helpful words, avoid harmful phrases, answer the questions and try to make the Top 5.",
     playerLabel: "Your name or nickname", playerPlaceholder: "E.g. Grace M.",
     difficultyLabel: "Difficulty", easy: "Easy", medium: "Medium", hard: "Hard",
-    start: "Start the game", homeDonate: "Donate to support 5 women",
+    start: "Start the game", homeDonate: "Donate to support 5 women", shareGame: "Share on WhatsApp",
     score: "Score", next: "Continue", resultEyebrow: "Final result",
     resultTitle: "Well done! You completed Mission Rose.", badge: "Badge",
     badgeTitle: "I support Breast Cancer Awareness Month", filterTitle: "Your Mission Rose filter",
@@ -177,7 +177,7 @@ const copy = {
     heroDescription: "Elige palabras útiles, evita frases dañinas, responde las preguntas e intenta entrar en el Top 5.",
     playerLabel: "Tu nombre o apodo", playerPlaceholder: "Ej.: Grace M.", difficultyLabel: "Dificultad",
     easy: "Fácil", medium: "Media", hard: "Difícil", start: "Empezar el juego",
-    homeDonate: "Dona para apoyar a 5 mujeres", score: "Puntuación", next: "Continuar",
+    homeDonate: "Dona para apoyar a 5 mujeres", shareGame: "Compartir por WhatsApp", score: "Puntuación", next: "Continuar",
     resultEyebrow: "Resultado final", resultTitle: "¡Enhorabuena! Has terminado Mission Rose.", badge: "Insignia",
     badgeTitle: "Apoyo Octubre Rosa", filterTitle: "Tu filtro Mission Rose",
     filterDescription: "Hazte una foto con el filtro <strong>#NONAUCANCERDUSEINS</strong>. Mostrará tu puntuación y un mensaje de sensibilización.",
@@ -209,7 +209,7 @@ const copy = {
     heroDescription: "Escolha palavras que ajudam, evite frases prejudiciais, responda às perguntas e tente entrar no Top 5.",
     playerLabel: "Seu nome ou apelido", playerPlaceholder: "Ex.: Grace M.", difficultyLabel: "Dificuldade",
     easy: "Fácil", medium: "Média", hard: "Difícil", start: "Começar o jogo",
-    homeDonate: "Doe para apoiar 5 mulheres", score: "Pontuação", next: "Continuar",
+    homeDonate: "Doe para apoiar 5 mulheres", shareGame: "Compartilhar no WhatsApp", score: "Pontuação", next: "Continuar",
     resultEyebrow: "Resultado final", resultTitle: "Parabéns! Você concluiu o Mission Rose.", badge: "Emblema",
     badgeTitle: "Apoio o Outubro Rosa", filterTitle: "Seu filtro Mission Rose",
     filterDescription: "Tire uma foto com o filtro <strong>#NONAUCANCERDUSEINS</strong>. Ela mostrará sua pontuação e uma mensagem de conscientização.",
@@ -241,7 +241,7 @@ const copy = {
     heroDescription: "Wähle hilfreiche Worte, vermeide schädliche Aussagen, beantworte die Fragen und schaffe es vielleicht in die Top 5.",
     playerLabel: "Dein Name oder Spitzname", playerPlaceholder: "Z. B. Grace M.", difficultyLabel: "Schwierigkeit",
     easy: "Einfach", medium: "Mittel", hard: "Schwer", start: "Spiel starten",
-    homeDonate: "Spende und unterstütze 5 Frauen", score: "Punktzahl", next: "Weiter",
+    homeDonate: "Spende und unterstütze 5 Frauen", shareGame: "Auf WhatsApp teilen", score: "Punktzahl", next: "Weiter",
     resultEyebrow: "Endergebnis", resultTitle: "Glückwunsch! Du hast Mission Rose abgeschlossen.", badge: "Abzeichen",
     badgeTitle: "Ich unterstütze die Brustkrebs-Aufklärung", filterTitle: "Dein Mission-Rose-Filter",
     filterDescription: "Mach ein Foto mit dem Filter <strong>#NONAUCANCERDUSEINS</strong>. Es zeigt deine Punktzahl und eine Botschaft zur Aufklärung.",
@@ -273,7 +273,7 @@ const copy = {
     heroDescription: "选择有帮助的话语，避开有害表达，回答问题，争取进入前五名。",
     playerLabel: "姓名或昵称", playerPlaceholder: "例如：Grace M.", difficultyLabel: "难度",
     easy: "简单", medium: "中等", hard: "困难", start: "开始游戏",
-    homeDonate: "捐赠并帮助五位女性", score: "分数", next: "继续",
+    homeDonate: "捐赠并帮助五位女性", shareGame: "通过 WhatsApp 分享", score: "分数", next: "继续",
     resultEyebrow: "最终结果", resultTitle: "恭喜你完成了 Mission Rose。", badge: "徽章",
     badgeTitle: "我支持乳腺健康宣传", filterTitle: "你的 Mission Rose 滤镜",
     filterDescription: "使用 <strong>#NONAUCANCERDUSEINS</strong> 滤镜拍照，照片将显示你的分数和健康宣传信息。",
@@ -305,7 +305,7 @@ const copy = {
     heroDescription: "اختاري الكلمات المفيدة، وتجنبي العبارات الضارة، وأجيبي عن الأسئلة لمحاولة دخول أفضل خمسة.",
     playerLabel: "اسمك أو لقبك", playerPlaceholder: "مثال: Grace M.", difficultyLabel: "مستوى الصعوبة",
     easy: "سهل", medium: "متوسط", hard: "صعب", start: "ابدئي اللعبة",
-    homeDonate: "تبرعي لدعم خمس نساء", score: "النقاط", next: "متابعة",
+    homeDonate: "تبرعي لدعم خمس نساء", shareGame: "مشاركة عبر واتساب", score: "النقاط", next: "متابعة",
     resultEyebrow: "النتيجة النهائية", resultTitle: "أحسنتِ! لقد أكملتِ Mission Rose.", badge: "شارة",
     badgeTitle: "أدعم التوعية بسرطان الثدي", filterTitle: "مرشح Mission Rose الخاص بك",
     filterDescription: "التقطي صورة باستخدام مرشح <strong>#NONAUCANCERDUSEINS</strong>. ستُظهر نقاطك ورسالة توعوية.",
@@ -337,7 +337,7 @@ const copy = {
     heroDescription: "Chagua maneno yenye msaada, epuka kauli hatari, jibu maswali na ujaribu kuingia kwenye nafasi tano za juu.",
     playerLabel: "Jina lako au lakabu", playerPlaceholder: "Mfano: Grace M.", difficultyLabel: "Kiwango cha ugumu",
     easy: "Rahisi", medium: "Wastani", hard: "Ngumu", start: "Anza mchezo",
-    homeDonate: "Changia kusaidia wanawake 5", score: "Alama", next: "Endelea",
+    homeDonate: "Changia kusaidia wanawake 5", shareGame: "Shiriki kupitia WhatsApp", score: "Alama", next: "Endelea",
     resultEyebrow: "Matokeo ya mwisho", resultTitle: "Hongera! Umemaliza Mission Rose.", badge: "Beji",
     badgeTitle: "Ninaunga mkono uhamasishaji wa afya ya matiti", filterTitle: "Kichujio chako cha Mission Rose",
     filterDescription: "Piga picha ukitumia kichujio cha <strong>#NONAUCANCERDUSEINS</strong>. Picha itaonyesha alama zako na ujumbe wa uhamasishaji.",
@@ -438,7 +438,7 @@ function applyLanguage() {
     "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
     "hero-description": "heroDescription", "player-label": "playerLabel", "difficulty-label": "difficultyLabel",
     "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
-    "start-button": "start", "home-donate-button": "homeDonate", "home-leaderboard-title": "leaderboard", "score-label": "score",
+    "start-button": "start", "home-donate-button": "homeDonate", "home-share-label": "shareGame", "home-leaderboard-title": "leaderboard", "score-label": "score",
     "next-btn": "next", "result-eyebrow": "resultEyebrow", "result-title": "resultTitle",
     "badge-label": "badge", "badge-title": "badgeTitle", "filter-title": "filterTitle",
     "camera-btn": "camera", "capture-btn": "capture", "download-photo": "download",
@@ -1051,6 +1051,23 @@ function capturePhoto() {
   drawBadge(els.camera);
 }
 
+const homeShareMessages = {
+  fr: "Découvre Mission Rose, le mini-jeu d’Octobre Rose. Joue, partage ton score et soutiens 5 femmes dans le besoin.",
+  en: "Discover Mission Rose, a Breast Cancer Awareness Month game. Play, share your score and support five women in need.",
+  es: "Descubre Mission Rose, el minijuego de Octubre Rosa. Juega, comparte tu puntuación y apoya a 5 mujeres.",
+  pt: "Conheça Mission Rose, o minijogo do Outubro Rosa. Jogue, compartilhe sua pontuação e apoie 5 mulheres.",
+  de: "Entdecke Mission Rose, das Spiel zum Brustkrebsmonat. Spiele mit, teile deinen Punktestand und unterstütze 5 Frauen.",
+  zh: "来体验 Mission Rose 粉红十月小游戏，分享你的成绩并支持五位有需要的女性。",
+  ar: "اكتشفي لعبة Mission Rose لشهر التوعية، وشاركي نتيجتك وساهمي في دعم خمس نساء.",
+  sw: "Gundua mchezo wa Mission Rose wa uhamasishaji. Cheza, shiriki alama zako na usaidie wanawake 5.",
+};
+
+function shareGame() {
+  const message = `${homeShareMessages[language]} ${window.location.href}`;
+  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
 function shareScore() {
   const message = text("shareText")(formatNumber(state.score));
   const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -1174,7 +1191,7 @@ document.addEventListener("click", (event) => {
   if (!target) return;
 
   const action = target.dataset.action;
-  if (action === "share") shareScore();
+  if (action === "share") shareScore();\n  if (action === "share-game") shareGame();
   if (action === "donate") {
     playMainDonationSound();
     openDonation();
