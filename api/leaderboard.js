@@ -20,7 +20,7 @@ function appwriteHeaders(config) {
 }
 
 function documentsUrl(config) {
-  return `${config.endpoint}/databases/${encodeURIComponent(config.databaseId)}/collections/${encodeURIComponent(config.collectionId)}/documents`;
+  return `${config.endpoint}/documentsdb/${encodeURIComponent(config.databaseId)}/collections/${encodeURIComponent(config.collectionId)}/documents`;
 }
 
 async function readTopFive(config) {
