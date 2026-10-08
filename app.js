@@ -438,7 +438,7 @@ function applyLanguage() {
     "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
     "hero-description": "heroDescription", "player-label": "playerLabel", "difficulty-label": "difficultyLabel",
     "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
-    "start-button": "start", "home-donate-button": "homeDonate", "score-label": "score",
+    "start-button": "start", "home-donate-button": "homeDonate", "home-leaderboard-title": "leaderboard", "score-label": "score",
     "next-btn": "next", "result-eyebrow": "resultEyebrow", "result-title": "resultTitle",
     "badge-label": "badge", "badge-title": "badgeTitle", "filter-title": "filterTitle",
     "camera-btn": "camera", "capture-btn": "capture", "download-photo": "download",
@@ -501,6 +501,8 @@ const els = {
   summary: document.getElementById("result-summary"),
   leaderboard: document.getElementById("leaderboard"),
   rankMessage: document.getElementById("rank-message"),
+  homeLeaderboard: document.getElementById("home-leaderboard"),
+  homeLeaderboardMessage: document.getElementById("home-leaderboard-message"),
   restart: document.getElementById("restart-btn"),
   modal: document.getElementById("donation-modal"),
   chariowDonationWidget: document.getElementById("chariow-donation-widget"),
@@ -812,15 +814,43 @@ function saveScore() {
   localStorage.setItem("missionRoseLeaders", JSON.stringify(saved));
 }
 
-function renderResult(leaders = state.globalLeaders, status = "loaded") {
-  els.summary.textContent = text("summary")(state.player, formatNumber(state.score));
-
-  els.leaderboard.innerHTML = "";
+function renderLeaderboardList(list, leaders) {
+  list.innerHTML = "";
   leaders.slice(0, 5).forEach((item) => {
     const li = document.createElement("li");
     li.textContent = `${item.name} — ${formatNumber(item.score)} ${text("points")}`;
-    els.leaderboard.appendChild(li);
+    list.appendChild(li);
   });
+}
+
+function renderHomeLeaderboard(leaders = [], status = "loaded") {
+  renderLeaderboardList(els.homeLeaderboard, leaders);
+  if (status === "loading") {
+    els.homeLeaderboardMessage.textContent = text("leaderboardLoading");
+  } else if (status === "error") {
+    els.homeLeaderboardMessage.textContent = text("leaderboardUnavailable");
+  } else {
+    els.homeLeaderboardMessage.textContent = leaders.length ? "" : text("leaderboardEmpty");
+  }
+}
+
+async function loadHomeLeaderboard() {
+  renderHomeLeaderboard([], "loading");
+  try {
+    const response = await fetch("/api/leaderboard", { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("Classement mondial indisponible");
+    const result = await response.json();
+    renderHomeLeaderboard(result.leaders || [], "loaded");
+  } catch (error) {
+    console.error("Mission Rose home leaderboard could not be loaded:", error.message);
+    renderHomeLeaderboard([], "error");
+  }
+}
+
+function renderResult(leaders = state.globalLeaders, status = "loaded") {
+  els.summary.textContent = text("summary")(state.player, formatNumber(state.score));
+
+  renderLeaderboardList(els.leaderboard, leaders);
 
   if (status === "loading") {
     els.rankMessage.textContent = text("leaderboardLoading");
@@ -856,6 +886,7 @@ async function submitGlobalScore() {
     if (state.savedScoreId !== submittedRunId) return;
     state.globalScoreId = result.id;
     state.globalLeaders = result.leaders || [];
+    renderHomeLeaderboard(state.globalLeaders, "loaded");
 
     if (state.score !== submittedScore) {
       await updateGlobalScore();
@@ -866,6 +897,7 @@ async function submitGlobalScore() {
     console.error("Mission Rose global score could not be saved:", error.message);
     if (state.savedScoreId !== submittedRunId) return;
     renderResult([], "error");
+    renderHomeLeaderboard([], "error");
   }
 }
 
@@ -882,11 +914,13 @@ async function updateGlobalScore() {
     const result = await response.json();
     if (state.savedScoreId !== updatedRunId) return;
     state.globalLeaders = result.leaders || [];
+    renderHomeLeaderboard(state.globalLeaders, "loaded");
     renderResult(state.globalLeaders, "loaded");
   } catch (error) {
     console.error("Mission Rose global score could not be updated:", error.message);
     if (state.savedScoreId !== updatedRunId) return;
     renderResult(state.globalLeaders, "error");
+    renderHomeLeaderboard(state.globalLeaders, "error");
   }
 }
 
@@ -1155,4 +1189,5 @@ document.addEventListener("click", (event) => {
   }
 });
 
+loadHomeLeaderboard();
 drawBadge();
