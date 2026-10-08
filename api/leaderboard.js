@@ -25,7 +25,7 @@ function rowsUrl(config) {
   return `${config.endpoint}/tablesdb/${encodeURIComponent(config.databaseId)}/tables/${encodeURIComponent(config.tableId)}/rows`;
 }
 
-async function readTopFive(config) {
+async function readLeaderboard(config) {
   const url = new URL(rowsUrl(config));
   url.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
   url.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
@@ -33,11 +33,14 @@ async function readTopFive(config) {
   const response = await fetch(url, { headers: appwriteHeaders(config) });
   if (!response.ok) throw new Error(`Appwrite list failed: ${response.status}`);
   const result = await response.json();
-  return (result.rows || []).map((row) => ({
-    id: row.$id,
-    name: row.pseudo,
-    score: row.score,
-  }));
+  return {
+    leaders: (result.rows || []).map((row) => ({
+      id: row.$id,
+      name: row.pseudo,
+      score: row.score,
+    })),
+    totalCompletedGames: Number.isSafeInteger(result.total) ? result.total : null,
+  };
 }
 
 function validScore(value) {
@@ -66,7 +69,7 @@ async function handler(req, res) {
   if (req.method === "GET") {
     res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
     try {
-      return res.status(200).json({ leaders: await readTopFive(config) });
+      return res.status(200).json(await readLeaderboard(config));
     } catch (error) {
       console.error("Unable to read Mission Rose leaderboard:", error.message);
       return res.status(502).json({ error: "Impossible de charger le classement mondial." });
@@ -115,10 +118,10 @@ async function handler(req, res) {
     const response = await fetch(url, { method, headers: appwriteHeaders(config), body });
     if (!response.ok) throw new Error(`Appwrite ${method} failed: ${response.status}`);
     const changed = await response.json();
-    const leaders = await readTopFive(config);
+    const leaderboard = await readLeaderboard(config);
     return res.status(req.method === "POST" ? 201 : 200).json({
       id: changed.$id || payload.id,
-      leaders,
+      ...leaderboard,
     });
   } catch (error) {
     console.error("Unable to save Mission Rose leaderboard score:", error.message);
