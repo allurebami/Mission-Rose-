@@ -17,13 +17,13 @@ Le navigateur envoie les scores à `/api/leaderboard`. La clé Appwrite reste un
 
 La base **Mission Rose Classement** de type TablesDB et son ID `6ac7f21e0034b245f8d7` sont créés dans le projet `6ac7bb78000880bd15bf` (endpoint `https://fra.cloud.appwrite.io/v1`).
 
-Dans cette base, créer une table avec l'ID `scores` et le nom `Scores Mission Rose`, puis ajouter :
+La table **Scores Mission Rose** est créée avec l'ID `6ac7f26c002d71db0449`. Elle contient les colonnes suivantes :
 
-- `pseudo` : colonne `varchar`, taille 24, obligatoire.
-- `score` : colonne `integer`, obligatoire.
+- `pseudo` : colonne `varchar`, taille 24.
+- `score` : colonne `integer`.
 - Un index clé décroissant sur `score`.
 
-Dans la page **API Keys** du projet, créer une clé limitée aux scopes `rows.read` et `rows.write`. Dans les variables d'environnement du projet Vercel, définir :
+Créer une clé API limitée aux scopes `rows.read` et `rows.write` dans le projet Appwrite. Dans les variables d'environnement du projet Vercel, définir :
 
 - `APPWRITE_API_KEY` : la clé API secrète, uniquement côté serveur.
 
