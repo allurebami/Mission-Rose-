@@ -128,6 +128,7 @@ const copy = {
     rankOther: () => "Ton score ne figure pas encore dans le Top 5 mondial. Rejoue pour améliorer ton classement.",
     leaderboardLoading: "Chargement du classement mondial…", leaderboardUnavailable: "Classement mondial indisponible pour le moment. Ton score reste conservé sur cet appareil.",
     leaderboardEmpty: "Aucun score mondial pour le moment. Sois la première à jouer !",
+    completedGamesCount: (count) => `${formatNumber(count)} parties terminées au total`, completedGamesLoading: "Chargement du nombre de parties…", completedGamesUnavailable: "Le nombre total de parties est temporairement indisponible.",
     points: "pts", levelComplete: "Niveau terminé", cameraError: "La caméra n'est pas disponible. Tu peux quand même télécharger le badge sans photo.",
     shareText: (score) => `Je viens de terminer Mission Rose, soutenu par ellegagne.com. Mon score : ${score} points. Et toi, peux-tu entrer dans le Top 5 ?`,
     badgeMessage: "Je soutiens Octobre Rose", badgeSentence: "Elle gagne quand elle sait. Elle gagne quand elle se protège.",
@@ -166,6 +167,7 @@ const copy = {
     rankOther: () => "Your score is not in the global Top 5 yet. Play again to improve your ranking.",
     leaderboardLoading: "Loading the global leaderboard…", leaderboardUnavailable: "The global leaderboard is unavailable right now. Your score is still saved on this device.",
     leaderboardEmpty: "No global scores yet. Be the first to play!",
+    completedGamesCount: (count) => `${formatNumber(count)} completed games in total`, completedGamesLoading: "Loading game count…", completedGamesUnavailable: "The total number of games is temporarily unavailable.",
     points: "pts", levelComplete: "Level complete", cameraError: "The camera is unavailable. You can still download your badge without a photo.",
     shareText: (score) => `I just completed Mission Rose, supported by ellegagne.com. My score: ${score} points. Can you make the Top 5?`,
     badgeMessage: "I support Breast Cancer Awareness", badgeSentence: "She wins when she knows. She wins when she protects herself.",
@@ -197,7 +199,7 @@ const copy = {
     answerBad: (explanation) => `Respuesta incorrecta: esta palabra puede retrasar la acción. ${explanation}`,
     summary: (name, score) => `${name}, tu puntuación es de ${score} puntos. Convertiste palabras que frenan en palabras que salvan.`,
     rankTop: (rank) => `Estás en el Top 5 mundial, en la posición ${rank}.`, rankOther: () => "Tu puntuación aún no está en el Top 5 mundial. Vuelve a jugar para mejorar tu posición.",
-    leaderboardLoading: "Cargando el ranking mundial…", leaderboardUnavailable: "El ranking mundial no está disponible ahora. Tu puntuación sigue guardada en este dispositivo.", leaderboardEmpty: "Aún no hay puntuaciones mundiales. ¡Sé la primera en jugar!",
+    leaderboardLoading: "Cargando el ranking mundial…", leaderboardUnavailable: "El ranking mundial no está disponible ahora. Tu puntuación sigue guardada en este dispositivo.", leaderboardEmpty: "Aún no hay puntuaciones mundiales. ¡Sé la primera en jugar!", completedGamesCount: (count) => `${formatNumber(count)} partidas completadas en total`, completedGamesLoading: "Cargando el total de partidas…", completedGamesUnavailable: "El total de partidas no está disponible temporalmente.",
     points: "pts", levelComplete: "Nivel terminado", cameraError: "La cámara no está disponible. Puedes descargar la insignia sin foto.",
     shareText: (score) => `Acabo de terminar Mission Rose, con el apoyo de ellegagne.com. Mi puntuación: ${score} puntos. ¿Puedes entrar en el Top 5?`,
     badgeMessage: "Apoyo la prevención del cáncer de mama", badgeSentence: "Ella gana cuando sabe. Ella gana cuando se cuida.",
@@ -229,7 +231,7 @@ const copy = {
     answerBad: (explanation) => `Resposta incorreta: esta palavra pode atrasar a ação. ${explanation}`,
     summary: (name, score) => `${name}, sua pontuação é de ${score} pontos. Você transformou palavras que bloqueiam em palavras que salvam.`,
     rankTop: (rank) => `Você está no Top 5 mundial, na posição ${rank}.`, rankOther: () => "Sua pontuação ainda não está no Top 5 mundial. Jogue novamente para melhorar sua posição.",
-    leaderboardLoading: "Carregando o ranking mundial…", leaderboardUnavailable: "O ranking mundial está indisponível. Sua pontuação continua salva neste dispositivo.", leaderboardEmpty: "Ainda não há pontuações mundiais. Seja a primeira pessoa a jogar!",
+    leaderboardLoading: "Carregando o ranking mundial…", leaderboardUnavailable: "O ranking mundial está indisponível. Sua pontuação continua salva neste dispositivo.", leaderboardEmpty: "Ainda não há pontuações mundiais. Seja a primeira pessoa a jogar!", completedGamesCount: (count) => `${formatNumber(count)} partidas concluídas no total`, completedGamesLoading: "Carregando o total de partidas…", completedGamesUnavailable: "O total de partidas está temporariamente indisponível.",
     points: "pts", levelComplete: "Nível concluído", cameraError: "A câmera não está disponível. Você ainda pode baixar o emblema sem foto.",
     shareText: (score) => `Acabei de concluir o Mission Rose, apoiado por ellegagne.com. Minha pontuação: ${score} pontos. Você consegue entrar no Top 5?`,
     badgeMessage: "Apoio a conscientização sobre o câncer de mama", badgeSentence: "Ela vence quando sabe. Ela vence quando se cuida.",
@@ -261,7 +263,7 @@ const copy = {
     answerBad: (explanation) => `Nicht ganz: Dieses Wort kann zum Aufschieben führen. ${explanation}`,
     summary: (name, score) => `${name}, du hast ${score} Punkte erreicht. Du hast bremsende Worte in stärkende Worte verwandelt.`,
     rankTop: (rank) => `Du bist auf Platz ${rank} in den globalen Top 5.`, rankOther: () => "Deine Punktzahl ist noch nicht in den globalen Top 5. Spiele erneut, um deinen Rang zu verbessern.",
-    leaderboardLoading: "Globale Rangliste wird geladen…", leaderboardUnavailable: "Die globale Rangliste ist gerade nicht verfügbar. Deine Punktzahl bleibt auf diesem Gerät gespeichert.", leaderboardEmpty: "Noch keine globalen Punktzahlen. Sei die erste Person, die spielt!",
+    leaderboardLoading: "Globale Rangliste wird geladen…", leaderboardUnavailable: "Die globale Rangliste ist gerade nicht verfügbar. Deine Punktzahl bleibt auf diesem Gerät gespeichert.", leaderboardEmpty: "Noch keine globalen Punktzahlen. Sei die erste Person, die spielt!", completedGamesCount: (count) => `${formatNumber(count)} abgeschlossene Spiele insgesamt`, completedGamesLoading: "Spielanzahl wird geladen…", completedGamesUnavailable: "Die Gesamtzahl der Spiele ist vorübergehend nicht verfügbar.",
     points: "Pkt.", levelComplete: "Level abgeschlossen", cameraError: "Die Kamera ist nicht verfügbar. Du kannst dein Abzeichen auch ohne Foto herunterladen.",
     shareText: (score) => `Ich habe gerade Mission Rose abgeschlossen, unterstützt von ellegagne.com. Meine Punktzahl: ${score}. Schaffst du es in die Top 5?`,
     badgeMessage: "Ich unterstütze die Brustkrebs-Aufklärung", badgeSentence: "Sie gewinnt, wenn sie Bescheid weiß und auf sich achtet.",
@@ -293,7 +295,7 @@ const copy = {
     answerBad: (explanation) => `回答不正确：这类说法可能延误行动。${explanation}`,
     summary: (name, score) => `${name}，你的分数是 ${score} 分。你把阻碍行动的话语变成了守护生命的话语。`,
     rankTop: (rank) => `你进入了全球前五名，目前排名第 ${rank}。`, rankOther: () => "你的分数暂未进入全球前五名。再玩一次，争取提升排名。",
-    leaderboardLoading: "正在加载全球排行榜…", leaderboardUnavailable: "全球排行榜暂时无法使用。你的分数仍保存在此设备上。", leaderboardEmpty: "目前还没有全球分数。来成为第一个玩家吧！",
+    leaderboardLoading: "正在加载全球排行榜…", leaderboardUnavailable: "全球排行榜暂时无法使用。你的分数仍保存在此设备上。", leaderboardEmpty: "目前还没有全球分数。来成为第一个玩家吧！", completedGamesCount: (count) => `已完成 ${formatNumber(count)} 局`, completedGamesLoading: "正在加载游戏总数…", completedGamesUnavailable: "暂时无法获取游戏总数。",
     points: "分", levelComplete: "关卡完成", cameraError: "相机无法使用。你仍可下载不含照片的徽章。",
     shareText: (score) => `我刚刚完成了由 ellegagne.com 支持的 Mission Rose，获得 ${score} 分。你能进入前五名吗？`,
     badgeMessage: "我支持乳腺健康宣传", badgeSentence: "了解健康知识，及时行动，守护自己。",
@@ -325,7 +327,7 @@ const copy = {
     answerBad: (explanation) => `إجابة غير صحيحة: قد تؤخر هذه العبارة طلب المساعدة. ${explanation}`,
     summary: (name, score) => `${name}، نتيجتك ${score} نقطة. حوّلتِ الكلمات التي تعيقك إلى كلمات تدعم الحياة.`,
     rankTop: (rank) => `أنتِ ضمن أفضل خمسة عالمياً، في المركز ${rank}.`, rankOther: () => "نتيجتك ليست ضمن أفضل خمسة عالمياً بعد. أعيدي اللعب لتحسين ترتيبك.",
-    leaderboardLoading: "جارٍ تحميل الترتيب العالمي…", leaderboardUnavailable: "الترتيب العالمي غير متاح حالياً. ما زالت نتيجتك محفوظة على هذا الجهاز.", leaderboardEmpty: "لا توجد نتائج عالمية بعد. كوني أول من يلعب!",
+    leaderboardLoading: "جارٍ تحميل الترتيب العالمي…", leaderboardUnavailable: "الترتيب العالمي غير متاح حالياً. ما زالت نتيجتك محفوظة على هذا الجهاز.", leaderboardEmpty: "لا توجد نتائج عالمية بعد. كوني أول من يلعب!", completedGamesCount: (count) => `إجمالي الألعاب المكتملة: ${formatNumber(count)}`, completedGamesLoading: "جارٍ تحميل عدد الألعاب…", completedGamesUnavailable: "عدد الألعاب غير متاح مؤقتاً.",
     points: "نقطة", levelComplete: "اكتمل المستوى", cameraError: "الكاميرا غير متاحة. يمكنك تنزيل الشارة دون صورة.",
     shareText: (score) => `أنهيت للتو Mission Rose بدعم من ellegagne.com. نتيجتي: ${score} نقطة. هل يمكنك دخول أفضل خمسة؟`,
     badgeMessage: "أدعم التوعية بسرطان الثدي", badgeSentence: "تنتصر المرأة حين تعرف وحين تعتني بصحتها.",
@@ -357,7 +359,7 @@ const copy = {
     answerBad: (explanation) => `Jibu lisilo sahihi: kauli hii inaweza kuchelewesha hatua. ${explanation}`,
     summary: (name, score) => `${name}, umepata alama ${score}. Umebadilisha maneno yanayokwamisha kuwa maneno yanayookoa.`,
     rankTop: (rank) => `Uko nafasi ya ${rank} kati ya washindi 5 bora duniani.`, rankOther: () => "Alama zako bado hazijaingia kwenye 5 bora duniani. Cheza tena ili kuboresha nafasi yako.",
-    leaderboardLoading: "Inapakia orodha ya washindi duniani…", leaderboardUnavailable: "Orodha ya washindi duniani haipatikani kwa sasa. Alama zako bado zimehifadhiwa kwenye kifaa hiki.", leaderboardEmpty: "Bado hakuna alama za kimataifa. Kuwa wa kwanza kucheza!",
+    leaderboardLoading: "Inapakia orodha ya washindi duniani…", leaderboardUnavailable: "Orodha ya washindi duniani haipatikani kwa sasa. Alama zako bado zimehifadhiwa kwenye kifaa hiki.", leaderboardEmpty: "Bado hakuna alama za kimataifa. Kuwa wa kwanza kucheza!", completedGamesCount: (count) => `Jumla ya michezo iliyokamilika: ${formatNumber(count)}`, completedGamesLoading: "Inapakia idadi ya michezo…", completedGamesUnavailable: "Jumla ya michezo haipatikani kwa sasa.",
     points: "alama", levelComplete: "Kiwango kimekamilika", cameraError: "Kamera haipatikani. Bado unaweza kupakua beji bila picha.",
     shareText: (score) => `Nimemaliza Mission Rose inayoungwa mkono na ellegagne.com. Alama zangu: ${score}. Je, unaweza kuingia kwenye 5 bora?`,
     badgeMessage: "Ninaunga mkono uhamasishaji wa afya ya matiti", badgeSentence: "Anashinda anapojua na kuchukua hatua ya kujilinda.",
@@ -477,6 +479,7 @@ const state = {
   savedScoreId: null,
   globalScoreId: null,
   globalLeaders: [],
+  totalCompletedGames: null,
 };
 
 const screens = {
@@ -499,6 +502,7 @@ const els = {
   score: document.getElementById("score"),
   progress: document.getElementById("progress-bar"),
   summary: document.getElementById("result-summary"),
+  completedGamesCount: document.getElementById("completed-games-count"),
   leaderboard: document.getElementById("leaderboard"),
   rankMessage: document.getElementById("rank-message"),
   homeLeaderboard: document.getElementById("home-leaderboard"),
@@ -840,6 +844,7 @@ async function loadHomeLeaderboard() {
     const response = await fetch("/api/leaderboard", { headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error("Classement mondial indisponible");
     const result = await response.json();
+    state.totalCompletedGames = result.totalCompletedGames;
     renderHomeLeaderboard(result.leaders || [], "loaded");
   } catch (error) {
     console.error("Mission Rose home leaderboard could not be loaded:", error.message);
@@ -849,6 +854,13 @@ async function loadHomeLeaderboard() {
 
 function renderResult(leaders = state.globalLeaders, status = "loaded") {
   els.summary.textContent = text("summary")(state.player, formatNumber(state.score));
+  if (status === "loading") {
+    els.completedGamesCount.textContent = text("completedGamesLoading");
+  } else if (status === "error" || !Number.isSafeInteger(state.totalCompletedGames)) {
+    els.completedGamesCount.textContent = text("completedGamesUnavailable");
+  } else {
+    els.completedGamesCount.textContent = text("completedGamesCount")(state.totalCompletedGames);
+  }
 
   renderLeaderboardList(els.leaderboard, leaders);
 
@@ -886,6 +898,7 @@ async function submitGlobalScore() {
     if (state.savedScoreId !== submittedRunId) return;
     state.globalScoreId = result.id;
     state.globalLeaders = result.leaders || [];
+    state.totalCompletedGames = result.totalCompletedGames;
     renderHomeLeaderboard(state.globalLeaders, "loaded");
 
     if (state.score !== submittedScore) {
@@ -914,6 +927,7 @@ async function updateGlobalScore() {
     const result = await response.json();
     if (state.savedScoreId !== updatedRunId) return;
     state.globalLeaders = result.leaders || [];
+    state.totalCompletedGames = result.totalCompletedGames;
     renderHomeLeaderboard(state.globalLeaders, "loaded");
     renderResult(state.globalLeaders, "loaded");
   } catch (error) {
