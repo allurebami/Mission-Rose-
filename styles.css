@@ -205,6 +205,40 @@ button:disabled {
   background: #e8fff5;
 }
 
+/* Home screen: make the solidarity action the primary call to action. */
+.home-donation-cta {
+  width: 100%;
+  min-height: 68px;
+  margin-top: 22px;
+  padding: 12px 22px;
+  color: #fff;
+  font-size: clamp(1rem, 2.8vw, 1.18rem);
+  line-height: 1.25;
+  background: linear-gradient(120deg, #ed4f89, #a5144f);
+  box-shadow: 0 10px 24px rgba(165, 20, 79, 0.28);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.home-donation-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(165, 20, 79, 0.36);
+}
+
+.home-donation-cta:focus-visible,
+.home-play-cta:focus-visible {
+  outline: 3px solid var(--green-600);
+  outline-offset: 3px;
+}
+
+.home-play-cta {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 10px;
+  color: var(--rose-700);
+  background: #fff;
+  border: 1px solid rgba(165, 20, 79, 0.3);
+}
+
 .text-link {
   color: var(--green-700);
   font-weight: 800;
