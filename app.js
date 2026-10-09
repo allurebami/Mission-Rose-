@@ -43,9 +43,17 @@ const levels = [
 
 const difficultyConfig = {
   easy: { label: "Facile", multiplier: 1, rounds: 4 },
-  medium: { label: "Moyen", multiplier: 1.5, rounds: 5 },
-  hard: { label: "Dur", multiplier: 2, rounds: 6 },
+  medium: { label: "Moyen", multiplier: 1.5, rounds: 4 },
+  hard: { label: "Dur", multiplier: 2, rounds: 4 },
 };
+
+const levelScoring = [
+  { correct: 250, incorrect: 120, completion: 400, perfect: 100 },
+  { correct: 275, incorrect: 125, completion: 450, perfect: 125 },
+  { correct: 300, incorrect: 130, completion: 500, perfect: 150 },
+  { correct: 325, incorrect: 135, completion: 550, perfect: 175 },
+  { correct: 350, incorrect: 140, completion: 600, perfect: 200 },
+];
 
 const explanations = {
   "Parole": "Parler permet de demander de l'aide au bon moment.",
@@ -617,7 +625,8 @@ function selectChoice(button, choice) {
   state.selected = true;
   const type = choice.type;
   const config = currentConfig();
-  const points = type === "good" ? 250 : -120;
+  const scoring = levelScoring[state.levelIndex];
+  const points = type === "good" ? scoring.correct : -scoring.incorrect;
   if (type === "bad") state.mistakesInLevel += 1;
   state.score = Math.max(0, state.score + Math.round(points * config.multiplier));
 
@@ -631,7 +640,7 @@ function selectChoice(button, choice) {
   playAnswerSound(type);
   triggerAnswerEffect(type, Math.round(points * config.multiplier));
   els.feedback.textContent = type === "good"
-    ? text("answerGood")(formatNumber(Math.round(250 * config.multiplier)), choice.explanation)
+    ? text("answerGood")(formatNumber(Math.round(scoring.correct * config.multiplier)), choice.explanation)
     : text("answerBad")(choice.explanation);
   els.next.disabled = false;
 }
@@ -787,10 +796,11 @@ function nextRound() {
   state.roundIndex += 1;
 
   if (state.roundIndex >= config.rounds) {
-    state.score += Math.round(500 * config.multiplier);
+    const scoring = levelScoring[state.levelIndex];
+    state.score += Math.round(scoring.completion * config.multiplier);
     let levelMessage = currentLevel().message;
     if (state.mistakesInLevel === 0) {
-      const perfectBonus = Math.round(200 * config.multiplier);
+      const perfectBonus = Math.round(scoring.perfect * config.multiplier);
       state.score += perfectBonus;
       levelMessage += text("perfectLevelBonus")(formatNumber(perfectBonus));
     }
