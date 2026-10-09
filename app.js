@@ -102,6 +102,12 @@ const copy = {
     playerLabel: "Ton nom ou pseudo", playerPlaceholder: "Ex : Grâce M.",
     difficultyLabel: "Difficulté", easy: "Facile", medium: "Moyen", hard: "Dur",
     start: "Commencer le jeu", homeDonate: "Faire un don pour soutenir 5 femmes", shareGame: "Partager sur WhatsApp",
+    bonusTitle: "Actions bonus", dailyBonusDescription: "Réclame 50 points une fois par jour. Ils seront ajoutés à ta prochaine partie.",
+    claimDaily: "Réclamer +50 points", dailyAlreadyClaimed: "Bonus quotidien déjà réclamé aujourd’hui.", dailyQueued: "Bonus de 50 points réclamé. Il sera ajouté à ta prochaine partie.",
+    referralTitle: "Parrainage", referralDescription: "Termine d’abord une partie pour activer ton lien. Tu gagnes 250 points quand un nouveau joueur termine sa première partie ; il reçoit 100 points.",
+    referralShare: "Partager mon lien de parrainage", referralShareText: (url) => `Joue à Mission Rose et apprends les mots qui peuvent aider. Utilise mon lien : ${url}`,
+    referralBonusAdded: "Bonus de parrainage ajouté : +100 points pour toi et +250 points pour ton parrain.",
+    perfectLevelBonus: (points) => ` Niveau réussi sans faute : bonus de +${points} points.`,
     score: "Score", next: "Continuer", resultEyebrow: "Résultat final",
     resultTitle: "Bravo, tu as terminé Mission Rose.", badge: "Badge",
     badgeTitle: "Je soutiens Octobre Rose", filterTitle: "Ton filtre Mission Rose",
@@ -141,6 +147,12 @@ const copy = {
     playerLabel: "Your name or nickname", playerPlaceholder: "E.g. Grace M.",
     difficultyLabel: "Difficulty", easy: "Easy", medium: "Medium", hard: "Hard",
     start: "Start the game", homeDonate: "Donate to support 5 women", shareGame: "Share on WhatsApp",
+    bonusTitle: "Bonus actions", dailyBonusDescription: "Claim 50 points once a day. They will be added to your next game.",
+    claimDaily: "Claim +50 points", dailyAlreadyClaimed: "Today’s daily bonus has already been claimed.", dailyQueued: "50 point bonus claimed. It will be added to your next game.",
+    referralTitle: "Referral", referralDescription: "Finish a game to unlock your link. Earn 250 points when a new player finishes their first game; they get 100 points.",
+    referralShare: "Share my referral link", referralShareText: (url) => `Play Mission Rose and learn words that can help. Use my link: ${url}`,
+    referralBonusAdded: "Referral bonus added: +100 points for you and +250 points for your referrer.",
+    perfectLevelBonus: (points) => ` Level cleared without mistakes: +${points} bonus points.`,
     score: "Score", next: "Continue", resultEyebrow: "Final result",
     resultTitle: "Well done! You completed Mission Rose.", badge: "Badge",
     badgeTitle: "I support Breast Cancer Awareness Month", filterTitle: "Your Mission Rose filter",
@@ -440,7 +452,9 @@ function applyLanguage() {
     "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
     "hero-description": "heroDescription", "difficulty-label": "difficultyLabel",
     "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
-    "start-button": "start", "home-donate-button": "homeDonate", "home-share-label": "shareGame", "home-leaderboard-title": "leaderboard", "score-label": "score",
+    "start-button": "start", "home-donate-button": "homeDonate", "home-share-label": "shareGame", "home-leaderboard-title": "leaderboard", "score-label": "score", "bonus-title": "bonusTitle",
+    "daily-bonus-description": "dailyBonusDescription", "claim-daily-button": "claimDaily",
+    "referral-title": "referralTitle", "referral-description": "referralDescription", "referral-share-button": "referralShare",
     "next-btn": "next", "result-eyebrow": "resultEyebrow", "result-title": "resultTitle",
     "badge-label": "badge", "badge-title": "badgeTitle", "filter-title": "filterTitle",
     "camera-btn": "camera", "capture-btn": "capture", "download-photo": "download",
@@ -467,6 +481,8 @@ const state = {
   difficulty: "easy",
   levelIndex: 0,
   roundIndex: 0,
+  mistakesInLevel: 0,
+  referralBonusClaimed: false,
   score: 0,
   selected: false,
   stream: null,
@@ -489,6 +505,9 @@ const screens = {
 
 const els = {
   form: document.getElementById("player-form"),
+  claimDaily: document.getElementById("claim-daily-button"),
+  dailyBonusStatus: document.getElementById("daily-bonus-status"),
+  referralShare: document.getElementById("referral-share-button"),
   difficulty: document.getElementById("difficulty"),
   levelTitle: document.getElementById("level-title"),
   levelTheme: document.getElementById("level-theme"),
@@ -545,7 +564,9 @@ function startGame(event) {
   state.difficulty = els.difficulty.value;
   state.levelIndex = 0;
   state.roundIndex = 0;
-  state.score = state.pendingDonationPoints;
+  state.mistakesInLevel = 0;
+  state.referralBonusClaimed = false;
+  state.score = state.pendingDonationPoints + consumePendingDailyBonus();
   state.pendingDonationPoints = 0;
   state.selected = false;
   state.gameStarted = true;
@@ -597,6 +618,7 @@ function selectChoice(button, choice) {
   const type = choice.type;
   const config = currentConfig();
   const points = type === "good" ? 250 : -120;
+  if (type === "bad") state.mistakesInLevel += 1;
   state.score = Math.max(0, state.score + Math.round(points * config.multiplier));
 
   [...els.choices.children].forEach((child) => {
@@ -766,7 +788,15 @@ function nextRound() {
 
   if (state.roundIndex >= config.rounds) {
     state.score += Math.round(500 * config.multiplier);
-    showLevelMessage(currentLevel().message, () => {
+    let levelMessage = currentLevel().message;
+    if (state.mistakesInLevel === 0) {
+      const perfectBonus = Math.round(200 * config.multiplier);
+      state.score += perfectBonus;
+      levelMessage += text("perfectLevelBonus")(formatNumber(perfectBonus));
+    }
+    els.score.textContent = formatNumber(state.score);
+    showLevelMessage(levelMessage, () => {
+      state.mistakesInLevel = 0;
       state.levelIndex += 1;
       state.roundIndex = 0;
 
@@ -799,10 +829,76 @@ function finishGame() {
   state.gameFinished = true;
   els.progress.style.width = "100%";
   saveScore();
+  localStorage.setItem("missionRoseHasCompletedGame", "1");
+  initializeReferralActions();
   renderResult([], "loading");
   drawBadge();
   showScreen("result");
   submitGlobalScore();
+}
+
+const DAILY_BONUS_POINTS = 50;
+
+function localDateKey() {
+  const now = new Date();
+  return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+}
+
+function dailyClaimKey(playerId = getAnonymousPlayerId()) {
+  return `missionRoseDailyClaim:${playerId}`;
+}
+
+function dailyPendingKey(playerId = getAnonymousPlayerId()) {
+  return `missionRoseDailyPending:${playerId}`;
+}
+
+function consumePendingDailyBonus() {
+  const key = dailyPendingKey();
+  const points = Number(localStorage.getItem(key) || 0);
+  localStorage.removeItem(key);
+  return Number.isSafeInteger(points) && points > 0 ? points : 0;
+}
+
+function renderDailyBonusState() {
+  if (!els.claimDaily || !els.dailyBonusStatus) return;
+  const claimedToday = localStorage.getItem(dailyClaimKey()) === localDateKey();
+  const pending = Number(localStorage.getItem(dailyPendingKey()) || 0);
+  els.claimDaily.disabled = claimedToday;
+  els.dailyBonusStatus.textContent = pending > 0
+    ? text("dailyQueued")
+    : claimedToday ? text("dailyAlreadyClaimed") : "";
+}
+
+function claimDailyBonus() {
+  const key = dailyClaimKey();
+  if (localStorage.getItem(key) === localDateKey()) return;
+  localStorage.setItem(key, localDateKey());
+  const pending = Number(localStorage.getItem(dailyPendingKey()) || 0);
+  localStorage.setItem(dailyPendingKey(), String(pending + DAILY_BONUS_POINTS));
+  renderDailyBonusState();
+}
+
+function initializeReferralActions() {
+  const playerId = getAnonymousPlayerId();
+  const incoming = new URLSearchParams(window.location.search).get("ref") || "";
+  if (/^p_[a-f0-9]{32}$/.test(incoming) && incoming !== playerId &&
+      !localStorage.getItem("missionRoseReferralSource") &&
+      localStorage.getItem("missionRoseHasCompletedGame") !== "1") {
+    localStorage.setItem("missionRoseReferralSource", incoming);
+  }
+
+  if (localStorage.getItem("missionRoseHasCompletedGame") !== "1") {
+    els.referralShare.removeAttribute("href");
+    els.referralShare.setAttribute("aria-disabled", "true");
+    return;
+  }
+
+  const shareUrl = new URL(window.location.href);
+  shareUrl.search = "";
+  shareUrl.hash = "";
+  shareUrl.searchParams.set("ref", playerId);
+  els.referralShare.href = `https://wa.me/?text=${encodeURIComponent(text("referralShareText")(shareUrl.toString()))}`;
+  els.referralShare.setAttribute("aria-disabled", "false");
 }
 
 function getAnonymousPlayerId() {
@@ -929,6 +1025,7 @@ async function submitGlobalScore() {
     state.globalScoreId = result.id;
     state.globalLeaders = result.leaders || [];
     state.totalUniquePlayers = result.totalUniquePlayers;
+    await completeReferralReward(submittedRunId);
     renderCompletedGamesCount("loaded");
     renderHomeLeaderboard(state.globalLeaders, "loaded");
 
@@ -937,11 +1034,44 @@ async function submitGlobalScore() {
     } else {
       renderResult(state.globalLeaders, "loaded");
     }
+    if (state.referralBonusClaimed) els.rankMessage.textContent = text("referralBonusAdded");
   } catch (error) {
     console.error("Mission Rose global score could not be saved:", error.message);
     if (state.savedScoreId !== submittedRunId) return;
     renderResult([], "error");
     renderHomeLeaderboard([], "error");
+  }
+}
+
+async function completeReferralReward(runId) {
+  const referrerId = localStorage.getItem("missionRoseReferralSource") || "";
+  const playerId = getAnonymousPlayerId();
+  if (!/^p_[a-f0-9]{32}$/.test(referrerId) || referrerId === playerId) return;
+
+  try {
+    const response = await fetch("/api/referrals", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ playerId, referrerId }),
+    });
+    if (!response.ok) return;
+    const result = await response.json();
+    if (state.savedScoreId !== runId || !result.processed) return;
+
+    localStorage.removeItem("missionRoseReferralSource");
+    if (result.inviteeBonus) {
+      state.score = result.inviteeScore;
+      state.referralBonusClaimed = true;
+      const saved = JSON.parse(localStorage.getItem("missionRoseLeaders") || "[]");
+      const entry = saved.find((item) => item.id === runId);
+      if (entry) {
+        entry.score = state.score;
+        localStorage.setItem("missionRoseLeaders", JSON.stringify(saved));
+      }
+      state.globalLeaders = result.leaders || state.globalLeaders;
+    }
+  } catch (error) {
+    console.warn("Mission Rose referral reward could not be processed:", error.message);
   }
 }
 
@@ -1226,6 +1356,7 @@ document.addEventListener("click", (event) => {
 }, true);
 
 els.form.addEventListener("submit", startGame);
+els.claimDaily.addEventListener("click", claimDailyBonus);
 els.next.addEventListener("click", nextRound);
 els.restart.addEventListener("click", restart);
 els.cameraBtn.addEventListener("click", enableCamera);
@@ -1251,5 +1382,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
+initializeReferralActions();
+renderDailyBonusState();
 loadHomeLeaderboard();
 drawBadge();

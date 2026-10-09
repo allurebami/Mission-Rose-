@@ -625,3 +625,35 @@ button:disabled {
     opacity: 0.34;
   }
 }
+
+
+.bonus-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.bonus-panel h3,
+.bonus-panel h4,
+.bonus-panel p {
+  margin: 0;
+}
+
+.bonus-panel h4 {
+  margin-top: 8px;
+  color: #a5144f;
+}
+
+.bonus-panel button,
+.referral-share-button {
+  width: 100%;
+}
+
+.bonus-status {
+  min-height: 1.3em;
+  color: #a5144f;
+}
+
+.referral-share-button[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+}

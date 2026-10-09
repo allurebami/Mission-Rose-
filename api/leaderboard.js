@@ -28,6 +28,7 @@ function rowsUrl(config) {
 async function readLeaderboard(config) {
   const topUrl = new URL(rowsUrl(config));
   topUrl.searchParams.append("queries[]", JSON.stringify({ method: "orderDesc", attribute: "score" }));
+  topUrl.searchParams.append("queries[]", JSON.stringify({ method: "startsWith", attribute: "$id", values: ["p_"] }));
   topUrl.searchParams.append("queries[]", JSON.stringify({ method: "limit", values: [5] }));
 
   const playersUrl = new URL(rowsUrl(config));
