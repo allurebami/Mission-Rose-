@@ -116,6 +116,8 @@ const copy = {
     referralShare: "Partager mon lien de parrainage", referralShareText: (url) => `Joue à Mission Rose et apprends les mots qui peuvent aider. Utilise mon lien : ${url}`,
     referralBonusAdded: "Bonus de parrainage ajouté : +100 points pour toi et +250 points pour ton parrain.",
     perfectLevelBonus: (points) => ` Niveau réussi sans faute : bonus de +${points} points.`,
+    levelUpOffer: (title, points) => ` Passe au niveau ${title} pour tenter de gagner jusqu’à ${points} points supplémentaires.`,
+    levelUpAction: "Évoluer au niveau suivant", stopGame: "Arrêter et enregistrer mon score", finishLevel: "Terminer et afficher mon score",
     score: "Score", next: "Continuer", resultEyebrow: "Résultat final",
     resultTitle: "Bravo, tu as terminé Mission Rose.", badge: "Badge",
     badgeTitle: "Je soutiens Octobre Rose", filterTitle: "Ton filtre Mission Rose",
@@ -161,6 +163,8 @@ const copy = {
     referralShare: "Share my referral link", referralShareText: (url) => `Play Mission Rose and learn words that can help. Use my link: ${url}`,
     referralBonusAdded: "Referral bonus added: +100 points for you and +250 points for your referrer.",
     perfectLevelBonus: (points) => ` Level cleared without mistakes: +${points} bonus points.`,
+    levelUpOffer: (title, points) => ` Move on to ${title} for a chance to earn up to ${points} more points.`,
+    levelUpAction: "Move to the next level", stopGame: "Stop and save my score", finishLevel: "Finish and show my score",
     score: "Score", next: "Continue", resultEyebrow: "Final result",
     resultTitle: "Well done! You completed Mission Rose.", badge: "Badge",
     badgeTitle: "I support Breast Cancer Awareness Month", filterTitle: "Your Mission Rose filter",
@@ -541,6 +545,7 @@ const els = {
   levelMessageModal: document.getElementById("level-message-modal"),
   levelMessageText: document.getElementById("level-message-text"),
   levelMessageBtn: document.getElementById("level-message-btn"),
+  levelMessageStop: document.getElementById("level-message-stop"),
   camera: document.getElementById("camera"),
   canvas: document.getElementById("photo-canvas"),
   cameraBtn: document.getElementById("camera-btn"),
@@ -805,36 +810,53 @@ function nextRound() {
       levelMessage += text("perfectLevelBonus")(formatNumber(perfectBonus));
     }
     els.score.textContent = formatNumber(state.score);
-    showLevelMessage(levelMessage, () => {
-      state.mistakesInLevel = 0;
-      state.levelIndex += 1;
-      state.roundIndex = 0;
-
-      if (state.levelIndex >= levels.length) {
-        finishGame();
-        return;
-      }
-
-      renderRound();
-    });
+    const isFinalLevel = state.levelIndex >= levels.length - 1;
+    if (isFinalLevel) {
+      showLevelMessage(levelMessage, () => finishGame(), { primaryLabel: text("finishLevel") });
+    } else {
+      const nextIndex = state.levelIndex + 1;
+      const nextLevel = language === "en" ? englishLevels[nextIndex] : otherLevels[language]?.[nextIndex] || levels[nextIndex];
+      const nextScoring = levelScoring[nextIndex];
+      const possiblePoints = Math.round((config.rounds * nextScoring.correct + nextScoring.completion + nextScoring.perfect) * config.multiplier);
+      levelMessage += text("levelUpOffer")(nextLevel.title, formatNumber(possiblePoints));
+      showLevelMessage(levelMessage, () => {
+        state.mistakesInLevel = 0;
+        state.levelIndex = nextIndex;
+        state.roundIndex = 0;
+        renderRound();
+      }, {
+        primaryLabel: text("levelUpAction"),
+        secondaryLabel: text("stopGame"),
+        onStop: () => finishGame(false),
+      });
+    }
     return;
   }
 
   renderRound();
 }
 
-function showLevelMessage(message, onContinue) {
+function showLevelMessage(message, onContinue, options = {}) {
   els.levelMessageText.textContent = message;
-  els.levelMessageModal.hidden = false;
+  els.levelMessageBtn.textContent = options.primaryLabel || text("next");
   els.levelMessageBtn.onclick = () => {
     els.levelMessageModal.hidden = true;
     onContinue();
   };
+  els.levelMessageStop.hidden = !options.onStop;
+  if (options.onStop) {
+    els.levelMessageStop.textContent = options.secondaryLabel || text("stopGame");
+    els.levelMessageStop.onclick = () => {
+      els.levelMessageModal.hidden = true;
+      options.onStop();
+    };
+  }
+  els.levelMessageModal.hidden = false;
 }
 
-function finishGame() {
+function finishGame(completed = true) {
   const config = currentConfig();
-  state.score += Math.round(500 * config.multiplier);
+  if (completed) state.score += Math.round(500 * config.multiplier);
   state.gameStarted = false;
   state.gameFinished = true;
   els.progress.style.width = "100%";
