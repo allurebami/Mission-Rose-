@@ -116,6 +116,7 @@ const copy = {
     referralShare: "Partager mon lien de parrainage", referralShareText: (url) => `Joue à Mission Rose et apprends les mots qui peuvent aider. Utilise mon lien : ${url}`,
     referralBonusAdded: "Bonus de parrainage ajouté : +100 points pour toi et +250 points pour ton parrain.",
     perfectLevelBonus: (points) => ` Niveau réussi sans faute : bonus de +${points} points.`,
+    continueDifficultyOffer: (title) => ` Ton score sera ajouté au cumul. Continuer avec la difficulté ${title} ?`,
     levelUpOffer: (title, points) => ` Passe au niveau ${title} pour tenter de gagner jusqu’à ${points} points supplémentaires.`,
     levelUpAction: "Évoluer au niveau suivant", stopGame: "Arrêter et enregistrer mon score", finishLevel: "Terminer et afficher mon score",
     score: "Score", next: "Continuer", resultEyebrow: "Résultat final",
@@ -159,6 +160,7 @@ const copy = {
     referralShare: "Share my referral link", referralShareText: (url) => `Play Mission Rose and learn words that can help. Use my link: ${url}`,
     referralBonusAdded: "Referral bonus added: +100 points for you and +250 points for your referrer.",
     perfectLevelBonus: (points) => ` Level cleared without mistakes: +${points} bonus points.`,
+    continueDifficultyOffer: (title) => ` Your score will be added to the total. Continue with ${title} difficulty?`,
     levelUpOffer: (title, points) => ` Move on to ${title} for a chance to earn up to ${points} more points.`,
     levelUpAction: "Move to the next level", stopGame: "Stop and save my score", finishLevel: "Finish and show my score",
     score: "Score", next: "Continue", resultEyebrow: "Final result",
@@ -800,7 +802,27 @@ function nextRound() {
     els.score.textContent = formatNumber(state.score);
     const isFinalLevel = state.levelIndex >= levels.length - 1;
     if (isFinalLevel) {
-      showLevelMessage(levelMessage, () => finishGame(), { primaryLabel: text("finishLevel") });
+      state.score += Math.round(500 * config.multiplier);
+      els.score.textContent = formatNumber(state.score);
+      const difficultyOrder = ["easy", "medium", "hard"];
+      const nextDifficulty = difficultyOrder[difficultyOrder.indexOf(state.difficulty) + 1];
+
+      if (nextDifficulty) {
+        levelMessage += text("continueDifficultyOffer")(text(nextDifficulty));
+        showLevelMessage(levelMessage, () => {
+          state.difficulty = nextDifficulty;
+          state.levelIndex = 0;
+          state.roundIndex = 0;
+          state.mistakesInLevel = 0;
+          renderRound();
+        }, {
+          primaryLabel: text("levelUpAction"),
+          secondaryLabel: text("finishLevel"),
+          onStop: () => finishGame(false),
+        });
+      } else {
+        showLevelMessage(levelMessage, () => finishGame(false), { primaryLabel: text("finishLevel") });
+      }
     } else {
       const nextIndex = state.levelIndex + 1;
       const nextLevel = language === "en" ? englishLevels[nextIndex] : otherLevels[language]?.[nextIndex] || levels[nextIndex];
