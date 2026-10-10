@@ -657,3 +657,18 @@ button:disabled {
   opacity: 0.55;
   pointer-events: none;
 }
+
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 600;
+}
+.consent-row input {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+#encouragement-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
