@@ -131,6 +131,7 @@ const copy = {
     transparency: "Transparence : un résumé des fonds collectés et de leur répartition devra être publié à la fin de la campagne.",
     widgetLabel: (name) => `Finalise ton don ${name} avec Chariow.`,
     donationBonusAdded: (points) => `+${points} points ajoutés à ton score pour ce clic, même sans finaliser le don.`,
+    donationBonusAlreadyClaimed: "Le bonus de cette catégorie a déjà été ajouté pour cette partie.",
     donationBonusQueued: (points) => `+${points} points enregistrés pour ta prochaine partie, même sans finaliser le don.`,
     answerGood: (points, explanation) => `Bonne réponse : +${points} points. ${explanation}`,
     answerBad: (explanation) => `Mauvaise réponse : ce mot bloque l'action. ${explanation}`,
@@ -173,6 +174,7 @@ const copy = {
     transparency: "Transparency: a summary of the funds collected and how they are distributed will be published at the end of the campaign.",
     widgetLabel: (name) => `Complete your ${name} contribution with Chariow.`,
     donationBonusAdded: (points) => `+${points} points added to your score for this click, even if you don't complete the donation.`,
+    donationBonusAlreadyClaimed: "This category bonus has already been added for this game.",
     donationBonusQueued: (points) => `+${points} points saved for your next game, even if you don't complete the donation.`,
     answerGood: (points, explanation) => `Correct answer: +${points} points. ${explanation}`,
     answerBad: (explanation) => `Not quite: this word can delay action. ${explanation}`,
@@ -205,6 +207,7 @@ const copy = {
     transparency: "Transparencia: al final de la campaña se publicará un resumen de los fondos recaudados y su distribución.",
     widgetLabel: (name) => `Completa tu aportación ${name} con Chariow.`,
     donationBonusAdded: (points) => `+${points} puntos añadidos por este clic, aunque no completes la donación.`,
+    donationBonusAlreadyClaimed: "El bono de esta categoría ya se añadió en esta partida.",
     donationBonusQueued: (points) => `+${points} puntos guardados para tu próxima partida, aunque no completes la donación.`,
     answerGood: (points, explanation) => `Respuesta correcta: +${points} puntos. ${explanation}`,
     answerBad: (explanation) => `Respuesta incorrecta: esta palabra puede retrasar la acción. ${explanation}`,
@@ -234,6 +237,7 @@ const copy = {
     transparency: "Transparência: um resumo dos valores arrecadados e da sua distribuição será publicado ao final da campanha.",
     widgetLabel: (name) => `Finalize sua contribuição ${name} com Chariow.`,
     donationBonusAdded: (points) => `+${points} pontos adicionados por este clique, mesmo sem concluir a doação.`,
+    donationBonusAlreadyClaimed: "O bônus desta categoria já foi adicionado nesta partida.",
     donationBonusQueued: (points) => `+${points} pontos reservados para sua próxima partida, mesmo sem concluir a doação.`,
     answerGood: (points, explanation) => `Resposta correta: +${points} pontos. ${explanation}`,
     answerBad: (explanation) => `Resposta incorreta: esta palavra pode atrasar a ação. ${explanation}`,
@@ -263,6 +267,7 @@ const copy = {
     transparency: "Transparenz: Eine Übersicht der gesammelten Mittel und ihrer Verteilung wird am Ende der Kampagne veröffentlicht.",
     widgetLabel: (name) => `Schließe deine ${name}-Unterstützung mit Chariow ab.`,
     donationBonusAdded: (points) => `+${points} Punkte für diesen Klick hinzugefügt, auch ohne abgeschlossene Spende.`,
+    donationBonusAlreadyClaimed: "Der Bonus dieser Kategorie wurde in diesem Spiel bereits hinzugefügt.",
     donationBonusQueued: (points) => `+${points} Punkte für dein nächstes Spiel vorgemerkt, auch ohne abgeschlossene Spende.`,
     answerGood: (points, explanation) => `Richtige Antwort: +${points} Punkte. ${explanation}`,
     answerBad: (explanation) => `Nicht ganz: Dieses Wort kann zum Aufschieben führen. ${explanation}`,
@@ -292,6 +297,7 @@ const copy = {
     transparency: "透明说明：活动结束后将公布筹集资金及其分配情况。",
     widgetLabel: (name) => `通过 Chariow 完成 ${name} 支持。`,
     donationBonusAdded: (points) => `本次点击已加 ${points} 分，即使没有完成捐赠也有效。`,
+    donationBonusAlreadyClaimed: "本局已获得此类别的奖励。",
     donationBonusQueued: (points) => `已为你的下一局记下 ${points} 分，即使没有完成捐赠也有效。`,
     answerGood: (points, explanation) => `回答正确：+${points} 分。${explanation}`,
     answerBad: (explanation) => `回答不正确：这类说法可能延误行动。${explanation}`,
@@ -321,6 +327,7 @@ const copy = {
     transparency: "الشفافية: سيُنشر في نهاية الحملة ملخص للأموال المجموعة وكيفية توزيعها.",
     widgetLabel: (name) => `أكملي مساهمة ${name} عبر Chariow.`,
     donationBonusAdded: (points) => `أُضيفت ${points} نقطة مقابل هذه النقرة، حتى دون إتمام التبرع.`,
+    donationBonusAlreadyClaimed: "تمت إضافة مكافأة هذه الفئة بالفعل في هذه الجولة.",
     donationBonusQueued: (points) => `سُجلت ${points} نقطة للجولة القادمة، حتى دون إتمام التبرع.`,
     answerGood: (points, explanation) => `إجابة صحيحة: +${points} نقطة. ${explanation}`,
     answerBad: (explanation) => `إجابة غير صحيحة: قد تؤخر هذه العبارة طلب المساعدة. ${explanation}`,
@@ -350,6 +357,7 @@ const copy = {
     transparency: "Uwazi: muhtasari wa fedha zilizokusanywa na matumizi yake utachapishwa kampeni itakapokamilika.",
     widgetLabel: (name) => `Kamilisha mchango wako wa ${name} kupitia Chariow.`,
     donationBonusAdded: (points) => `+${points} alama zimeongezwa kwa kubofya huku, hata bila kukamilisha mchango.`,
+    donationBonusAlreadyClaimed: "Bonasi ya aina hii imeongezwa katika mchezo huu.",
     donationBonusQueued: (points) => `+${points} alama zimehifadhiwa kwa mchezo wako ujao, hata bila kukamilisha mchango.`,
     answerGood: (points, explanation) => `Jibu sahihi: +${points} alama. ${explanation}`,
     answerBad: (explanation) => `Jibu lisilo sahihi: kauli hii inaweza kuchelewesha hatua. ${explanation}`,
@@ -475,6 +483,7 @@ const state = {
   photoUrl: "",
   audioContext: null,
   pendingDonationPoints: 0,
+  donationBonusesClaimed: [],
   gameStarted: false,
   gameFinished: false,
   savedScoreId: null,
@@ -1314,6 +1323,11 @@ function awardDonationClick(category) {
   const points = chariowProducts[category]?.points || 0;
   if (!points) return;
   const notice = document.getElementById("donation-bonus-note");
+  if (state.donationBonusesClaimed.includes(category)) {
+    notice.textContent = text("donationBonusAlreadyClaimed");
+    return;
+  }
+  state.donationBonusesClaimed.push(category);
 
   if (!state.gameStarted && !state.gameFinished) {
     state.pendingDonationPoints += points;
@@ -1351,6 +1365,7 @@ function closeDonation() {
 
 function restart() {
   state.player = "";
+  state.donationBonusesClaimed = [];
   state.gameStarted = false;
   state.gameFinished = false;
   state.savedScoreId = null;
