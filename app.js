@@ -426,6 +426,421 @@ const englishLevels = [
   { title: "Level 5: Take action", theme: "Taking the next step", instruction: "Choose words that empower and help protect life.", good: ["Life", "Health", "Action", "Screening"], bad: ["Alone", "Delay", "Discouragement", "Silence"], message: "She wins when she knows. She wins when she speaks up. She wins when she protects herself.", goodExplanations: ["Life is worth protecting through timely care.", "Health deserves attention, even when we feel afraid.", "Taking action early can change what happens next.", "Screening can help identify a problem early."], badExplanations: ["No one should face this fear alone.", "Delays can matter when an unusual sign appears.", "Discouragement can make it harder to act.", "Silence can prevent someone from getting support."] },
 ];
 
+const difficultyScenarioLevels = {
+  "fr": {
+    "medium": [
+      {
+        "title": "Niveau 1 : Écouter sans juger",
+        "theme": "Accueillir la parole",
+        "instruction": "Une proche te confie une inquiétude. Choisis une réponse qui l’écoute et respecte ce qu’elle ressent.",
+        "good": [
+          "Je t’écoute",
+          "Je te crois",
+          "Je suis avec toi",
+          "Parle à ton rythme"
+        ],
+        "bad": [
+          "Tu exagères",
+          "Ce n’est rien",
+          "Tu dois te taire",
+          "Je vais en parler"
+        ],
+        "message": "Une écoute attentive peut aider une femme à se sentir soutenue.",
+        "goodExplanation": "Écouter avec respect aide à créer un espace de confiance.",
+        "badExplanation": "Minimiser ou partager sa parole sans accord peut la blesser."
+      },
+      {
+        "title": "Niveau 2 : Accompagner sans imposer",
+        "theme": "Soutenir ses choix",
+        "instruction": "Une femme cherche la prochaine étape qui lui convient. Choisis les mots qui l’accompagnent sans décider à sa place.",
+        "good": [
+          "Que souhaites-tu faire ?",
+          "Je peux venir avec toi",
+          "Prenons le temps",
+          "Tu peux choisir"
+        ],
+        "bad": [
+          "Je décide pour toi",
+          "Tu dois m’obéir",
+          "Fais-le tout de suite",
+          "Tu n’as pas le choix"
+        ],
+        "message": "Le soutien respecte le rythme et les décisions de la personne concernée.",
+        "goodExplanation": "Proposer de l’aide tout en laissant le choix respecte son autonomie.",
+        "badExplanation": "Imposer une décision peut renforcer la peur et le sentiment d’isolement."
+      },
+      {
+        "title": "Niveau 3 : Vérifier avant de partager",
+        "theme": "Choisir une information fiable",
+        "instruction": "Tu reçois un conseil de santé sur les réseaux sociaux. Choisis le réflexe le plus prudent.",
+        "good": [
+          "Vérifier la source",
+          "Chercher un avis fiable",
+          "Poser une question",
+          "Ne pas relayer le doute"
+        ],
+        "bad": [
+          "Partager sans vérifier",
+          "Promettre un remède",
+          "Croire une rumeur",
+          "Décourager une consultation"
+        ],
+        "message": "Prendre le temps de vérifier protège contre les rumeurs et les fausses promesses.",
+        "goodExplanation": "Vérifier l’information évite de transmettre un conseil trompeur.",
+        "badExplanation": "Une rumeur ou une promesse non vérifiée peut détourner d’une aide adaptée."
+      },
+      {
+        "title": "Niveau 4 : Protéger sa confidence",
+        "theme": "Respecter son intimité",
+        "instruction": "Une proche t’a confié une situation personnelle. Choisis la réaction qui protège sa confiance.",
+        "good": [
+          "Garder sa confidence",
+          "Demander son accord",
+          "Respecter son intimité",
+          "La laisser raconter"
+        ],
+        "bad": [
+          "Publier son histoire",
+          "Envoyer sa photo",
+          "En parler à tout le monde",
+          "La forcer à expliquer"
+        ],
+        "message": "La solidarité passe aussi par le respect de la vie privée.",
+        "goodExplanation": "Demander l’accord de la personne protège sa dignité et sa confiance.",
+        "badExplanation": "Diffuser une histoire personnelle sans autorisation peut lui nuire."
+      },
+      {
+        "title": "Niveau 5 : Apporter une aide concrète",
+        "theme": "Agir avec elle",
+        "instruction": "Une amie a besoin de soutien. Choisis une action utile qui tient compte de ses besoins.",
+        "good": [
+          "Prendre de ses nouvelles",
+          "Proposer un trajet",
+          "L’accompagner si elle veut",
+          "Demander ce qui l’aiderait"
+        ],
+        "bad": [
+          "L’abandonner",
+          "Parler à sa place",
+          "L’obliger à accepter",
+          "Faire des promesses impossibles"
+        ],
+        "message": "Un geste concret et respectueux peut rendre le soutien plus présent.",
+        "goodExplanation": "Une aide choisie avec la personne est plus utile et respectueuse.",
+        "badExplanation": "Aider sans écouter ses besoins peut ajouter de la pression."
+      }
+    ],
+    "hard": [
+      {
+        "title": "Niveau 1 : Accueillir une confidence",
+        "theme": "Répondre avec empathie",
+        "instruction": "Une femme te confie une inquiétude et te demande de ne pas la répéter. Choisis la réponse la plus respectueuse.",
+        "good": [
+          "Merci de me faire confiance",
+          "Je garderai ta confidence",
+          "Que puis-je faire pour toi ?",
+          "Tu gardes le choix"
+        ],
+        "bad": [
+          "Je vais prévenir tout le monde",
+          "Tu dramatises",
+          "Je vais décider",
+          "Je vais publier pour t’aider"
+        ],
+        "message": "Une confidence appelle d’abord l’écoute, la discrétion et le respect du choix.",
+        "goodExplanation": "L’écoute et le respect de la confidentialité renforcent la confiance.",
+        "badExplanation": "Exposer ou minimiser une confidence peut briser la confiance."
+      },
+      {
+        "title": "Niveau 2 : Répondre à une rumeur",
+        "theme": "Ne pas relayer de fausse promesse",
+        "instruction": "Dans un groupe, quelqu’un partage un prétendu remède miracle. Choisis une réaction responsable.",
+        "good": [
+          "Ne pas le relayer",
+          "Vérifier la source",
+          "Rappeler qu’une rumeur n’est pas une preuve",
+          "Orienter vers une information fiable"
+        ],
+        "bad": [
+          "Le partager à tous",
+          "Garantir qu’il guérit",
+          "Se moquer de la personne",
+          "Dire d’éviter tout professionnel"
+        ],
+        "message": "Face à une affirmation de santé, prudence et vérification sont essentielles.",
+        "goodExplanation": "Ne pas relayer une affirmation non vérifiée limite la désinformation.",
+        "badExplanation": "Présenter une rumeur comme une certitude peut mettre les autres en difficulté."
+      },
+      {
+        "title": "Niveau 3 : Soutenir sans pression",
+        "theme": "Respecter son rythme",
+        "instruction": "Une amie hésite à parler de sa situation. Choisis une réponse qui reste présente sans la forcer.",
+        "good": [
+          "Je suis là quand tu veux",
+          "Tu peux choisir à qui parler",
+          "Je peux t’écouter",
+          "Prends le temps qu’il te faut"
+        ],
+        "bad": [
+          "Raconte-moi tout maintenant",
+          "Je vais parler à ta place",
+          "Tu n’as pas le droit d’hésiter",
+          "Je vais te forcer à agir"
+        ],
+        "message": "Rester disponible sans pression aide à préserver le lien de confiance.",
+        "goodExplanation": "Laisser la personne choisir son rythme respecte ses besoins.",
+        "badExplanation": "La pression peut l’empêcher de demander de l’aide plus tard."
+      },
+      {
+        "title": "Niveau 4 : Protéger sa dignité",
+        "theme": "Demander avant d’agir",
+        "instruction": "Tu veux mobiliser d’autres personnes pour soutenir une femme. Choisis la démarche qui respecte son intimité.",
+        "good": [
+          "Lui demander son accord",
+          "Partager seulement ce qu’elle accepte",
+          "La laisser décider qui prévenir",
+          "Préserver ses informations personnelles"
+        ],
+        "bad": [
+          "Publier son nom",
+          "Diffuser son histoire",
+          "Partager sa photo sans accord",
+          "Décider qui doit être informé"
+        ],
+        "message": "La solidarité doit protéger la dignité et le consentement de la personne.",
+        "goodExplanation": "Demander son accord lui permet de garder le contrôle sur son histoire.",
+        "badExplanation": "Diffuser ses informations sans son accord porte atteinte à sa vie privée."
+      },
+      {
+        "title": "Niveau 5 : Construire un soutien durable",
+        "theme": "Passer de l’intention à l’action",
+        "instruction": "Tu veux continuer à soutenir une proche après une première conversation. Choisis une démarche utile et réaliste.",
+        "good": [
+          "Lui demander comment elle va",
+          "Proposer une aide précise",
+          "Respecter sa réponse",
+          "Tenir les engagements pris"
+        ],
+        "bad": [
+          "Promettre ce que tu ne peux pas faire",
+          "Disparaître après l’échange",
+          "Prendre toutes les décisions",
+          "Lui reprocher ses choix"
+        ],
+        "message": "Un soutien durable repose sur l’écoute, des gestes réalistes et le respect.",
+        "goodExplanation": "Une aide concrète et tenue dans le temps nourrit la confiance.",
+        "badExplanation": "Les promesses irréalistes ou le jugement fragilisent le soutien."
+      }
+    ]
+  },
+  "en": {
+    "medium": [
+      {
+        "title": "Level 1: Listen without judgment",
+        "theme": "Make space for her voice",
+        "instruction": "A friend shares a worry with you. Choose a response that listens and respects how she feels.",
+        "good": [
+          "I’m listening",
+          "I believe you",
+          "I’m here with you",
+          "Take your time"
+        ],
+        "bad": [
+          "You’re exaggerating",
+          "It’s nothing",
+          "Keep quiet",
+          "I’ll tell everyone"
+        ],
+        "message": "Careful listening can help someone feel supported.",
+        "goodExplanation": "Listening with respect helps create trust.",
+        "badExplanation": "Dismissing or sharing her words without consent can hurt her."
+      },
+      {
+        "title": "Level 2: Support without taking over",
+        "theme": "Respect her choices",
+        "instruction": "Someone is deciding what to do next. Choose words that support her without deciding for her.",
+        "good": [
+          "What would you like to do?",
+          "I can come with you",
+          "We can take our time",
+          "You can choose"
+        ],
+        "bad": [
+          "I’ll decide for you",
+          "You must obey me",
+          "Do it right now",
+          "You have no choice"
+        ],
+        "message": "Support respects a person’s pace and decisions.",
+        "goodExplanation": "Offering help while leaving the choice to her respects her autonomy.",
+        "badExplanation": "Imposing a decision can increase fear and isolation."
+      },
+      {
+        "title": "Level 3: Check before sharing",
+        "theme": "Choose reliable information",
+        "instruction": "You see a health claim on social media. Choose the most careful response.",
+        "good": [
+          "Check the source",
+          "Find reliable guidance",
+          "Ask a question",
+          "Don’t share unverified claims"
+        ],
+        "bad": [
+          "Share it without checking",
+          "Promise a cure",
+          "Believe a rumor",
+          "Discourage seeking advice"
+        ],
+        "message": "Checking first helps prevent rumors and false promises from spreading.",
+        "goodExplanation": "Verifying information helps prevent sharing misleading advice.",
+        "badExplanation": "Rumors and unverified promises can distract from appropriate support."
+      },
+      {
+        "title": "Level 4: Protect her confidence",
+        "theme": "Respect her privacy",
+        "instruction": "A friend has shared something personal. Choose the response that protects her trust.",
+        "good": [
+          "Keep her confidence",
+          "Ask for permission",
+          "Respect her privacy",
+          "Let her tell her story"
+        ],
+        "bad": [
+          "Post her story",
+          "Share her photo",
+          "Tell everyone",
+          "Force her to explain"
+        ],
+        "message": "Solidarity also means respecting someone’s privacy.",
+        "goodExplanation": "Asking permission protects her dignity and trust.",
+        "badExplanation": "Sharing someone’s personal story without consent can harm them."
+      },
+      {
+        "title": "Level 5: Offer practical help",
+        "theme": "Take action together",
+        "instruction": "A friend needs support. Choose a useful action that takes her needs into account.",
+        "good": [
+          "Check in with her",
+          "Offer a ride",
+          "Go with her if she wants",
+          "Ask what would help"
+        ],
+        "bad": [
+          "Leave her alone",
+          "Speak for her",
+          "Make her accept",
+          "Make promises you can’t keep"
+        ],
+        "message": "A practical, respectful gesture can make support tangible.",
+        "goodExplanation": "Help chosen together is more useful and respectful.",
+        "badExplanation": "Acting without listening can add pressure."
+      }
+    ],
+    "hard": [
+      {
+        "title": "Level 1: Respond to a confidence",
+        "theme": "Answer with empathy",
+        "instruction": "A woman shares a worry and asks you to keep it private. Choose the most respectful response.",
+        "good": [
+          "Thank you for trusting me",
+          "I’ll keep this private",
+          "How can I support you?",
+          "You remain in control"
+        ],
+        "bad": [
+          "I’ll tell everyone",
+          "You’re overreacting",
+          "I’ll make the decision",
+          "I’ll post it to help"
+        ],
+        "message": "A confidence calls for listening, discretion, and respect for choice.",
+        "goodExplanation": "Listening and respecting privacy build trust.",
+        "badExplanation": "Exposing or dismissing a confidence can break trust."
+      },
+      {
+        "title": "Level 2: Respond to a rumor",
+        "theme": "Don’t spread false promises",
+        "instruction": "Someone shares a supposed miracle cure in a group chat. Choose a responsible response.",
+        "good": [
+          "Don’t forward it",
+          "Check the source",
+          "A rumor is not proof",
+          "Point to reliable information"
+        ],
+        "bad": [
+          "Send it to everyone",
+          "Guarantee it works",
+          "Mock the person",
+          "Tell people to avoid professionals"
+        ],
+        "message": "Health claims call for care and verification.",
+        "goodExplanation": "Not sharing unverified claims helps limit misinformation.",
+        "badExplanation": "Treating a rumor as fact can put others at risk."
+      },
+      {
+        "title": "Level 3: Support without pressure",
+        "theme": "Respect her pace",
+        "instruction": "A friend is not ready to talk. Choose a response that stays supportive without forcing her.",
+        "good": [
+          "I’m here when you’re ready",
+          "You choose who to tell",
+          "I can listen",
+          "Take the time you need"
+        ],
+        "bad": [
+          "Tell me everything now",
+          "I’ll speak for you",
+          "You can’t hesitate",
+          "I’ll force you to act"
+        ],
+        "message": "Being available without pressure helps protect trust.",
+        "goodExplanation": "Letting someone choose their pace respects their needs.",
+        "badExplanation": "Pressure can make it harder to ask for help later."
+      },
+      {
+        "title": "Level 4: Protect her dignity",
+        "theme": "Ask before acting",
+        "instruction": "You want to bring others in to support someone. Choose the approach that respects her privacy.",
+        "good": [
+          "Ask for her consent",
+          "Share only what she agrees to",
+          "Let her choose who to tell",
+          "Protect her personal details"
+        ],
+        "bad": [
+          "Post her name",
+          "Share her story",
+          "Use her photo without consent",
+          "Decide who should know"
+        ],
+        "message": "Solidarity should protect dignity and consent.",
+        "goodExplanation": "Asking first lets her stay in control of her story.",
+        "badExplanation": "Sharing details without consent violates her privacy."
+      },
+      {
+        "title": "Level 5: Build lasting support",
+        "theme": "Turn care into action",
+        "instruction": "You want to keep supporting a friend after your first conversation. Choose a useful, realistic step.",
+        "good": [
+          "Check in with her",
+          "Offer specific help",
+          "Respect her answer",
+          "Keep the commitments you make"
+        ],
+        "bad": [
+          "Promise what you can’t do",
+          "Disappear after the talk",
+          "Make every decision",
+          "Blame her choices"
+        ],
+        "message": "Lasting support is built on listening, realistic help, and respect.",
+        "goodExplanation": "Practical help followed through builds trust.",
+        "badExplanation": "Unrealistic promises and judgment weaken support."
+      }
+    ]
+  }
+};
+
 function text(key) {
   return copy[language][key] ?? copy.fr[key];
 }
@@ -553,6 +968,8 @@ function currentConfig() {
 }
 
 function currentLevel() {
+  const scenarioLevels = difficultyScenarioLevels[language]?.[state.difficulty];
+  if (scenarioLevels) return scenarioLevels[state.levelIndex];
   if (language === "en") return englishLevels[state.levelIndex];
   return otherLevels[language]?.[state.levelIndex] || levels[state.levelIndex];
 }
@@ -588,8 +1005,24 @@ function renderRound() {
   const goodWord = level.good[wordIndex];
   const badWord = level.bad[wordIndex];
   const choices = shuffle([
-    { text: goodWord, type: "good", explanation: language === "en" ? level.goodExplanations[wordIndex] : language === "fr" ? explanations[goodWord] : level.goodExplanation },
-    { text: badWord, type: "bad", explanation: language === "en" ? level.badExplanations[wordIndex] : language === "fr" ? explanations[badWord] : level.badExplanation },
+    {
+      text: goodWord,
+      type: "good",
+      explanation: language === "en"
+        ? level.goodExplanations?.[wordIndex] || level.goodExplanation
+        : language === "fr"
+          ? explanations[goodWord] || level.goodExplanation
+          : level.goodExplanation,
+    },
+    {
+      text: badWord,
+      type: "bad",
+      explanation: language === "en"
+        ? level.badExplanations?.[wordIndex] || level.badExplanation
+        : language === "fr"
+          ? explanations[badWord] || level.badExplanation
+          : level.badExplanation,
+    },
   ]);
 
   els.levelTitle.textContent = level.title;
