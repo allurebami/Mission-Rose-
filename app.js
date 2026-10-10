@@ -107,7 +107,7 @@ const copy = {
     homeEyebrow: "Octobre Rose", sponsor: "Soutenu par ellegagne.com",
     heroTitle: "Transforme les mots qui bloquent en mots qui sauvent.",
     heroDescription: "Choisis les bons mots, évite les phrases dangereuses, réponds aux questions et tente d'entrer dans le Top 5.",
-    playerLabel: "Ton nom ou pseudo", playerPlaceholder: "Ex : Grâce M.",
+    playerLabel: "Ton pseudo", playerPlaceholder: "Ex. : RoseSourire", pseudoHint: "Choisis le pseudo qui apparaîtra dans le classement. Pas besoin d’indiquer ton vrai nom.",
     difficultyLabel: "Difficulté", easy: "Facile", medium: "Moyen", hard: "Dur",
     start: "Commencer le jeu", homeDonate: "Faire un don pour soutenir 5 femmes", shareGame: "Partager sur WhatsApp",
     bonusTitle: "Actions bonus", dailyBonusDescription: "Réclame 50 points une fois par jour. Ils seront ajoutés à ta prochaine partie.",
@@ -154,7 +154,7 @@ const copy = {
     homeEyebrow: "Breast Cancer Awareness Month", sponsor: "Supported by ellegagne.com",
     heroTitle: "Turn words that hold us back into words that save lives.",
     heroDescription: "Choose helpful words, avoid harmful phrases, answer the questions and try to make the Top 5.",
-    playerLabel: "Your name or nickname", playerPlaceholder: "E.g. Grace M.",
+    playerLabel: "Your nickname", playerPlaceholder: "E.g. RoseSmile", pseudoHint: "Choose the nickname shown on the leaderboard. You don’t need to enter your real name.",
     difficultyLabel: "Difficulty", easy: "Easy", medium: "Medium", hard: "Hard",
     start: "Start the game", homeDonate: "Donate to support 5 women", shareGame: "Share on WhatsApp",
     bonusTitle: "Bonus actions", dailyBonusDescription: "Claim 50 points once a day. They will be added to your next game.",
@@ -201,7 +201,7 @@ const copy = {
     homeEyebrow: "Octubre Rosa", sponsor: "Con el apoyo de ellegagne.com",
     heroTitle: "Convierte las palabras que frenan en palabras que salvan.",
     heroDescription: "Elige palabras útiles, evita frases dañinas, responde las preguntas e intenta entrar en el Top 5.",
-    playerLabel: "Tu nombre o apodo", playerPlaceholder: "Ej.: Grace M.", difficultyLabel: "Dificultad",
+    playerLabel: "Tu apodo", playerPlaceholder: "Ej.: RosaSonriente", pseudoHint: "Elige el apodo que aparecerá en la clasificación. No hace falta indicar tu nombre real.", difficultyLabel: "Dificultad",
     easy: "Fácil", medium: "Media", hard: "Difícil", start: "Empezar el juego",
     homeDonate: "Dona para apoyar a 5 mujeres", shareGame: "Compartir por WhatsApp", score: "Puntuación", next: "Continuar",
     resultEyebrow: "Resultado final", resultTitle: "¡Enhorabuena! Has terminado Mission Rose.", badge: "Insignia",
@@ -233,7 +233,7 @@ const copy = {
     homeEyebrow: "Outubro Rosa", sponsor: "Apoiado por ellegagne.com",
     heroTitle: "Transforme palavras que bloqueiam em palavras que salvam.",
     heroDescription: "Escolha palavras que ajudam, evite frases prejudiciais, responda às perguntas e tente entrar no Top 5.",
-    playerLabel: "Seu nome ou apelido", playerPlaceholder: "Ex.: Grace M.", difficultyLabel: "Dificuldade",
+    playerLabel: "Seu apelido", playerPlaceholder: "Ex.: RosaSorriso", pseudoHint: "Escolha o apelido que aparecerá no ranking. Não precisa informar seu nome verdadeiro.", difficultyLabel: "Dificuldade",
     easy: "Fácil", medium: "Média", hard: "Difícil", start: "Começar o jogo",
     homeDonate: "Doe para apoiar 5 mulheres", shareGame: "Compartilhar no WhatsApp", score: "Pontuação", next: "Continuar",
     resultEyebrow: "Resultado final", resultTitle: "Parabéns! Você concluiu o Mission Rose.", badge: "Emblema",
@@ -265,7 +265,7 @@ const copy = {
     homeEyebrow: "Brustkrebsmonat", sponsor: "Unterstützt von ellegagne.com",
     heroTitle: "Mach aus Worten, die bremsen, Worte, die Leben retten.",
     heroDescription: "Wähle hilfreiche Worte, vermeide schädliche Aussagen, beantworte die Fragen und schaffe es vielleicht in die Top 5.",
-    playerLabel: "Dein Name oder Spitzname", playerPlaceholder: "Z. B. Grace M.", difficultyLabel: "Schwierigkeit",
+    playerLabel: "Dein Spitzname", playerPlaceholder: "Z. B. RosenLächeln", pseudoHint: "Wähle den Namen für die Rangliste. Deinen echten Namen musst du nicht angeben.", difficultyLabel: "Schwierigkeit",
     easy: "Einfach", medium: "Mittel", hard: "Schwer", start: "Spiel starten",
     homeDonate: "Spende und unterstütze 5 Frauen", shareGame: "Auf WhatsApp teilen", score: "Punktzahl", next: "Weiter",
     resultEyebrow: "Endergebnis", resultTitle: "Glückwunsch! Du hast Mission Rose abgeschlossen.", badge: "Abzeichen",
@@ -297,7 +297,7 @@ const copy = {
     homeEyebrow: "粉红十月", sponsor: "由 ellegagne.com 支持",
     heroTitle: "把阻碍行动的话语，变成守护生命的话语。",
     heroDescription: "选择有帮助的话语，避开有害表达，回答问题，争取进入前五名。",
-    playerLabel: "姓名或昵称", playerPlaceholder: "例如：Grace M.", difficultyLabel: "难度",
+    playerLabel: "昵称", playerPlaceholder: "例如：玫瑰微笑", pseudoHint: "选择一个用于排行榜的昵称，无需填写真实姓名。", difficultyLabel: "难度",
     easy: "简单", medium: "中等", hard: "困难", start: "开始游戏",
     homeDonate: "捐赠并帮助五位女性", shareGame: "通过 WhatsApp 分享", score: "分数", next: "继续",
     resultEyebrow: "最终结果", resultTitle: "恭喜你完成了 Mission Rose。", badge: "徽章",
@@ -329,7 +329,7 @@ const copy = {
     homeEyebrow: "أكتوبر الوردي", sponsor: "بدعم من ellegagne.com",
     heroTitle: "حوّلي الكلمات التي تعيقك إلى كلمات تنقذ الحياة.",
     heroDescription: "اختاري الكلمات المفيدة، وتجنبي العبارات الضارة، وأجيبي عن الأسئلة لمحاولة دخول أفضل خمسة.",
-    playerLabel: "اسمك أو لقبك", playerPlaceholder: "مثال: Grace M.", difficultyLabel: "مستوى الصعوبة",
+    playerLabel: "لقبك", playerPlaceholder: "مثال: ابتسامة الورد", pseudoHint: "اختر لقباً يظهر في الترتيب. لا حاجة إلى كتابة اسمك الحقيقي.", difficultyLabel: "مستوى الصعوبة",
     easy: "سهل", medium: "متوسط", hard: "صعب", start: "ابدئي اللعبة",
     homeDonate: "تبرعي لدعم خمس نساء", shareGame: "مشاركة عبر واتساب", score: "النقاط", next: "متابعة",
     resultEyebrow: "النتيجة النهائية", resultTitle: "أحسنتِ! لقد أكملتِ Mission Rose.", badge: "شارة",
@@ -361,7 +361,7 @@ const copy = {
     homeEyebrow: "Oktoba ya Uhamasishaji", sponsor: "Inaungwa mkono na ellegagne.com",
     heroTitle: "Badilisha maneno yanayokwamisha kuwa maneno yanayookoa maisha.",
     heroDescription: "Chagua maneno yenye msaada, epuka kauli hatari, jibu maswali na ujaribu kuingia kwenye nafasi tano za juu.",
-    playerLabel: "Jina lako au lakabu", playerPlaceholder: "Mfano: Grace M.", difficultyLabel: "Kiwango cha ugumu",
+    playerLabel: "Jina lako la utani", playerPlaceholder: "Mfano: TabasamuLaWaridi", pseudoHint: "Chagua jina litakaloonekana kwenye orodha. Huhitaji kuweka jina lako halisi.", difficultyLabel: "Kiwango cha ugumu",
     easy: "Rahisi", medium: "Wastani", hard: "Ngumu", start: "Anza mchezo",
     homeDonate: "Changia kusaidia wanawake 5", shareGame: "Shiriki kupitia WhatsApp", score: "Alama", next: "Endelea",
     resultEyebrow: "Matokeo ya mwisho", resultTitle: "Hongera! Umemaliza Mission Rose.", badge: "Beji",
@@ -462,6 +462,7 @@ function applyLanguage() {
   document.getElementById("twitter-description").content = description;
   const nodes = {
     "home-eyebrow": "homeEyebrow", "sponsor-label": "sponsor", "hero-title": "heroTitle",
+    "player-label": "playerLabel", "pseudo-hint": "pseudoHint",
     "hero-description": "heroDescription", "difficulty-label": "difficultyLabel",
     "difficulty-easy": "easy", "difficulty-medium": "medium", "difficulty-hard": "hard",
     "start-button": "start", "home-donate-button": "homeDonate", "home-share-label": "shareGame", "home-leaderboard-title": "leaderboard", "score-label": "score", "bonus-title": "bonusTitle",
@@ -480,6 +481,7 @@ function applyLanguage() {
     const node = document.getElementById(id);
     if (node) node.textContent = text(key);
   });
+  document.getElementById("player-name").placeholder = text("playerPlaceholder");
   document.getElementById("filter-description").innerHTML = text("filterDescription");
   document.getElementById("level-progress-wrap").setAttribute("aria-label", text("levelProgressAria"));
   document.getElementById("close-donation").setAttribute("aria-label", text("close"));
@@ -521,6 +523,7 @@ const els = {
   dailyBonusStatus: document.getElementById("daily-bonus-status"),
   referralShare: document.getElementById("referral-share-button"),
   difficulty: document.getElementById("difficulty"),
+  playerName: document.getElementById("player-name"),
   levelTitle: document.getElementById("level-title"),
   levelTheme: document.getElementById("level-theme"),
   levelInstruction: document.getElementById("level-instruction"),
@@ -573,7 +576,11 @@ function currentLevel() {
 
 function startGame(event) {
   event.preventDefault();
-  state.player = `Rose-${getAnonymousPlayerId().slice(-6).toUpperCase()}`;
+  state.player = els.playerName.value.trim().replace(/\s+/g, " ");
+  if (!state.player || state.player.length > 24 || /[\u0000-\u001f\u007f]/.test(state.player)) {
+    els.playerName.focus();
+    return;
+  }
   state.difficulty = els.difficulty.value;
   state.levelIndex = 0;
   state.roundIndex = 0;
