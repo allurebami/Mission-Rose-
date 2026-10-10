@@ -818,10 +818,10 @@ function nextRound() {
         }, {
           primaryLabel: text("levelUpAction"),
           secondaryLabel: text("finishLevel"),
-          onStop: () => finishGame(false),
+          onStop: () => finishGame(),
         });
       } else {
-        showLevelMessage(levelMessage, () => finishGame(false), { primaryLabel: text("finishLevel") });
+        showLevelMessage(levelMessage, () => finishGame(), { primaryLabel: text("finishLevel") });
       }
     } else {
       const nextIndex = state.levelIndex + 1;
@@ -837,7 +837,7 @@ function nextRound() {
       }, {
         primaryLabel: text("levelUpAction"),
         secondaryLabel: text("stopGame"),
-        onStop: () => finishGame(false),
+        onStop: () => finishGame(),
       });
     }
     return;
@@ -864,9 +864,7 @@ function showLevelMessage(message, onContinue, options = {}) {
   els.levelMessageModal.hidden = false;
 }
 
-function finishGame(completed = true) {
-  const config = currentConfig();
-  if (completed) state.score += Math.round(500 * config.multiplier);
+function finishGame() {
   state.gameStarted = false;
   state.gameFinished = true;
   els.progress.style.width = "100%";
