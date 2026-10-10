@@ -1425,3 +1425,5 @@ initializeReferralActions();
 renderDailyBonusState();
 loadHomeLeaderboard();
 drawBadge();
+
+document.getElementById("encouragement-message").addEventListener("input", (event) => { document.getElementById("encouragement-count").textContent = String(event.target.value.length); });

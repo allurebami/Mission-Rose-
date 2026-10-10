@@ -157,15 +157,10 @@
 
         <div class="panel" id="encouragement-panel">
           <h3>Envoyer un message d’encouragement</h3>
-          <p>Choisis un message de soutien. Il sera publié sur la Page Facebook Mission Rose avec ton pseudo, le lien du jeu et les hashtags.</p>
+          <p>Écris un message bienveillant de 10 à 280 caractères. Il sera publié sur la Page Facebook Mission Rose avec ton pseudo, le lien du jeu et les hashtags. Les liens, coordonnées et contenus hors sujet ou nuisibles seront bloqués.</p>
           <label for="encouragement-message">Ton message</label>
-          <select id="encouragement-message">
-            <option value="Tu es forte, tu n’es pas seule. Nous sommes à tes côtés.">Tu es forte, tu n’es pas seule. Nous sommes à tes côtés.</option>
-            <option value="À toutes les femmes : votre courage nous inspire. Prenez soin de vous.">À toutes les femmes : votre courage nous inspire. Prenez soin de vous.</option>
-            <option value="Ensemble, faisons grandir l’écoute, le dépistage et le soutien.">Ensemble, faisons grandir l’écoute, le dépistage et le soutien.</option>
-            <option value="Tu mérites d’être écoutée, accompagnée et soutenue.">Tu mérites d’être écoutée, accompagnée et soutenue.</option>
-            <option value="Chaque geste de prévention compte. Courage et solidarité à toutes.">Chaque geste de prévention compte. Courage et solidarité à toutes.</option>
-          </select>
+          <textarea id="encouragement-message" rows="4" maxlength="280" minlength="10" placeholder="Écris ton message d’encouragement…" required></textarea>
+          <p><small><span id="encouragement-count">0</span>/280 caractères</small></p>
           <label class="consent-row"><input id="encouragement-consent" type="checkbox"> J’accepte que ce message et mon pseudo soient publiés sur la Page Facebook Mission Rose.</label>
           <button id="encouragement-submit" class="primary" type="button">Publier mon message de soutien</button>
           <p id="encouragement-status" class="feedback" role="status" aria-live="polite"></p>
