@@ -1,5 +1,4 @@
 :root {
-  --rose-50: #fff1f5;
   --rose-100: #ffe3ec;
   --rose-500: #e83e7c;
   --rose-700: #a5144f;
@@ -7,7 +6,6 @@
   --green-700: #057050;
   --ink: #24131a;
   --muted: #71515f;
-  --card: #ffffff;
   --line: rgba(165, 20, 79, 0.16);
   --shadow: 0 18px 50px rgba(100, 18, 53, 0.14);
 }
