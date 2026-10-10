@@ -663,8 +663,33 @@ button:disabled {
   font-weight: 600;
 }
 .consent-row input {
-  flex: 0 0 auto;
-  margin-top: 4px;
+  flex: 0 0 20px;
+  width: 20px;
+  min-height: 20px;
+  padding: 0;
+  margin: 4px 0 0;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.consent-row {
+  min-width: 0;
+}
+
+#encouragement-panel {
+  overflow: hidden;
 }
 #encouragement-submit:disabled {
   opacity: 0.6;
