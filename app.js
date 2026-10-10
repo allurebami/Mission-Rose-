@@ -1426,4 +1426,63 @@ renderDailyBonusState();
 loadHomeLeaderboard();
 drawBadge();
 
-document.getElementById("encouragement-message").addEventListener("input", (event) => { document.getElementById("encouragement-count").textContent = String(event.target.value.length); });
+
+const encouragementMessage = document.getElementById("encouragement-message");
+const encouragementCount = document.getElementById("encouragement-count");
+const encouragementSubmit = document.getElementById("encouragement-submit");
+const encouragementConsent = document.getElementById("encouragement-consent");
+const encouragementStatus = document.getElementById("encouragement-status");
+
+encouragementMessage.addEventListener("input", () => {
+  encouragementCount.textContent = String(encouragementMessage.value.length);
+});
+
+fetch("/api/facebook-support")
+  .then((response) => response.json())
+  .then((result) => {
+    if (!result.configured) {
+      encouragementSubmit.disabled = true;
+      encouragementStatus.textContent = "La publication automatique sera disponible après la connexion de la Page Facebook.";
+    }
+  })
+  .catch(() => {
+    encouragementSubmit.disabled = true;
+    encouragementStatus.textContent = "Service de publication momentanément indisponible.";
+  });
+
+encouragementSubmit.addEventListener("click", async () => {
+  const message = encouragementMessage.value.trim();
+  if (!state.player) {
+    encouragementStatus.textContent = "Ton pseudo est nécessaire pour signer le message.";
+    return;
+  }
+  if (!message || message.length < 10 || message.length > 280) {
+    encouragementStatus.textContent = "Écris un message de 10 à 280 caractères.";
+    return;
+  }
+  if (!encouragementConsent.checked) {
+    encouragementStatus.textContent = "Confirme d’abord ton accord pour la publication publique.";
+    return;
+  }
+
+  encouragementSubmit.disabled = true;
+  encouragementStatus.textContent = "Publication en cours…";
+  try {
+    const response = await fetch("/api/facebook-support", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, pseudo: state.player, consent: true }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "La publication a échoué.");
+    encouragementStatus.textContent = "Ton message a été publié. Merci pour ton soutien !";
+    encouragementConsent.checked = false;
+    encouragementMessage.value = "";
+    encouragementCount.textContent = "0";
+  } catch (error) {
+    encouragementStatus.textContent = error.message || "Impossible de publier pour le moment.";
+  } finally {
+    encouragementSubmit.disabled = false;
+  }
+});
+
