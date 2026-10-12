@@ -1,50 +1,58 @@
-# Mission Rose V1
+# Mission Rose
 
 Mini-jeu web Octobre Rose soutenu par ellegagne.com.
 
 ## Fonctionnalités
 
-- 5 niveaux de sensibilisation et 3 difficultés.
-- Score avec multiplicateur selon la difficulté.
-- Classement mondial Top 5 via Appwrite (pseudo et score uniquement).
-- Photo finale avec badge et score.
-- Partage WhatsApp.
-- Bouton de don pour soutenir 5 femmes dans le besoin.
+- 5 niveaux et 3 difficultés, avec un contenu distinct par difficulté.
+- Cumul des difficultés : maximum de **43 880 points de jeu** pour une partie parfaite complète.
+- Réponses et progression validées par le serveur, avec effets visuels et sonores.
+- Classement mondial Top 5 contenant uniquement des parties vérifiées.
+- Identité anonyme protégée par un cookie HttpOnly, sans inscription ni code à saisir.
+- Photo finale, partage WhatsApp et dons Chariow.
 
-## Configuration du classement Appwrite
+## Sécurité du classement (version 2)
 
-Le navigateur envoie les scores à `/api/leaderboard`. La clé Appwrite reste uniquement dans les variables d'environnement serveur de Vercel.
+Le navigateur demande une partie à `POST /api/game`, puis envoie uniquement des actions (`answer`, `next`, `bonus`, `finish`) avec un jeton chiffré. Il ne déclare jamais les points à enregistrer. Le serveur fournit les choix, contrôle leur identifiant, calcule les points et vérifie la progression.
 
-La base **Mission Rose Classement** de type TablesDB et son ID `6ac7f21e0034b245f8d7` sont créés dans le projet `6ac7bb78000880bd15bf` (endpoint `https://fra.cloud.appwrite.io/v1`).
+Les jetons AES-256-GCM sont liés au joueur, expirent après deux heures et protègent l’état de la partie. Chaque transition utilise une ligne Appwrite créée avec un identifiant unique : une réponse différente ou une action concurrente sur la même étape est rejetée. Une requête identique après une perte de connexion peut être rejouée sans ajouter de points.
 
-La table **Scores Mission Rose** est créée avec l'ID `6ac7f26c002d71db0449`. Elle contient les colonnes suivantes :
+`GET /api/leaderboard` lit seulement des résultats signés côté serveur. Les anciennes écritures `POST` et `PATCH` sont fermées. `POST /api/referrals` est retiré ; les récompenses de parrainage sont liées à une partie vérifiée. Les signatures du classement sont vérifiées à chaque lecture, y compris après une éventuelle modification directe de la base ou via une ancienne version du site.
 
-- `pseudo` : colonne `varchar`, taille 24.
-- `score` : colonne `integer`.
-- Un index clé décroissant sur `score`.
+Les anciennes lignes `p_` restent en base comme historique, mais ne sont plus admises dans le classement vérifié. Les joueurs doivent terminer une nouvelle partie pour apparaître dans le Top 5. Aucune ancienne ligne n’est supprimée.
 
-Créer une clé API limitée aux scopes `rows.read` et `rows.write` dans le projet Appwrite. Dans les variables d'environnement du projet Vercel, définir :
+Les bonus sont bornés côté serveur :
 
-- `APPWRITE_API_KEY` : la clé API secrète, uniquement côté serveur.
+- Bonus quotidien : 50 points, une fois par jour (Africa/Douala) et par identité anonyme.
+- Catégories de soutien : 50, 100, 200 et 300 points, une fois par catégorie et par partie ; le bonus récompense le clic, sans certifier un paiement.
+- Parrainage : un invité reçoit 100 points après au moins une difficulté complète ; son parrain reçoit 250 points. Un invité ne peut récompenser qu’un parrain une fois. Le bonus cumulé d’un parrain dans le classement est limité à 20 invitations (5 000 points).
+- Maximum du classement, tous bonus autorisés inclus : **49 680 points**. Un score de 999 999 ne peut pas être enregistré par la nouvelle API.
 
-L'endpoint, l'ID projet, l'ID de la base et l'ID de la table sont préconfigurés par défaut dans la fonction serveur. Ils peuvent être remplacés avec `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, `APPWRITE_DATABASE_ID` et `APPWRITE_TABLE_ID`.
+Les démarrages sont limités par identité et par IP. Cette validation empêche de fabriquer des points ; elle ne prouve pas qu’un humain, plutôt qu’un programme, a choisi les réponses, ni qu’une personne possède un seul appareil.
 
-Ne jamais placer `APPWRITE_API_KEY` dans `app.js`, `index.html` ou une variable publique `VITE_*`.
+## Configuration Appwrite / Vercel
 
-## Lancer le jeu
+La configuration utilise la table Appwrite existante avec uniquement `pseudo` (varchar 24) et `score` (integer). Aucun changement de schéma ni nouvelle variable n’est nécessaire.
 
-Ouvrir `index.html` dans un navigateur moderne.
+- Endpoint : `https://fra.cloud.appwrite.io/v1`
+- Projet : `6ac7bb78000880bd15bf`
+- Base TablesDB : `6ac7f21e0034b245f8d7`
+- Table : `6ac7f26c002d71db0449`
+- Variable serveur obligatoire : `APPWRITE_API_KEY` (scopes `rows.read`, `rows.write`).
+- Surcharges facultatives : `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, `APPWRITE_DATABASE_ID`, `APPWRITE_TABLE_ID`.
 
-Pour tester le site statique localement :
+La clé reste exclusivement côté serveur. Les clés de chiffrement et de signature sont dérivées de cette clé avec des domaines distincts. Sa rotation invalide les sessions et les signatures déjà émises ; une rotation nécessite une migration contrôlée du classement.
+
+Les préfixes internes séparent les résultats, preuves, propriétaires, transitions, limites et récompenses. Les lignes ont des permissions vides ; les permissions publiques de la table doivent également interdire la création, la modification et la suppression. Les limites IP sont hachées et aucune IP brute n’est stockée dans la table.
+
+`lib/game-data.js` contient les questions, traductions et barèmes faisant autorité. Le navigateur ne télécharge que la question courante. Une connexion est nécessaire pour valider les réponses et afficher le classement.
+
+## Vérification
 
 ```bash
-python3 -m http.server 8000
+node --test tests/security.test.js
+node --check app.js
+node --check api/game.js
 ```
 
-Puis ouvrir `http://localhost:8000`. Le classement mondial nécessite la fonction serveur déployée sur Vercel et sa configuration Appwrite.
-
-## Autres évolutions envisagées
-
-- Ajouter un prestataire de paiement pour suivre les dons.
-- Créer une page d'administration pour valider les bénéficiaires et publier le résumé de transparence.
-- Ajouter les logos officiels des partenaires et un domaine dédié.
+Les tests couvrent les écritures falsifiées, l’usurpation d’identité, les jetons modifiés/expirés, les réponses concurrentes, les pertes de connexion, les limites de bonus, les parrainages, la signature des résultats et le cumul exact des trois difficultés.
